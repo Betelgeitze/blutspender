@@ -275,24 +275,6 @@ class ManageDB:
             return False, []
 
 
-
-    # def update_user_opened_to_add_postcode(self, account_id, open, **kwargs):
-    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-    #     if open:
-    #         user.opened_to_add_postcode = self.date_manager.get_min_from_now(kwargs.get("minutes"))
-    #     else:
-    #         user.opened_to_add_postcode = self.date_manager.get_now()[0]
-    #
-    #     self.write_into_db(user)
-
-    # def update_opened_feedback(self, account_id, open, **kwargs):  # TODO: Refactor all Database updates
-    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-    #     if open:
-    #         user.opened_to_add_feedback = self.date_manager.get_min_from_now(kwargs.get("minutes"))
-    #     else:
-    #         user.opened_to_add_feedback = self.date_manager.get_now()[0]
-    #     self.write_into_db(user)
-
     def update_user(self, account_id, open, timer, **kwargs):
         user = self.get_user(account_id)
         if open:
@@ -309,25 +291,6 @@ class ManageDB:
             return True
         else:
             return False
-
-
-
-    # def check_if_user_add_to_postode_is_opened(self, account_id):
-    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-    #     now = self.date_manager.get_now()[1]
-    #     if user.opened_to_add_postcode is not None and user.opened_to_add_postcode > now:
-    #         return True
-    #     else:
-    #         return False
-    #
-    # def check_if_feedback_opened(self, account_id):
-    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-    #     now = self.date_manager.get_now()[1]
-    #     if user.opened_to_add_feedback is not None and user.opened_to_add_feedback > now:
-    #         return True
-    #     else:
-    #         return False
-
 
 
     def delete_user_postal_code(self, account_id, command):
