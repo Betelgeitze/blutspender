@@ -32,7 +32,7 @@ class ManageDB:
         class Termine(Base):
             __tablename__ = "termine"
             id = Column(Integer, primary_key=True)
-            postal_code = Column(String(32), nullable=False)
+            postcode = Column(String(32), nullable=False)
             city = Column(String(255), nullable=False)
             building = Column(String(255), nullable=False)
             street = Column(String(255), nullable=False)
@@ -56,11 +56,11 @@ class ManageDB:
         class Postcodes(Base):
             __tablename__ = "postcodes"
             id = Column(Integer, primary_key=True)
-            postal_code = Column(String(32), nullable=False)
+            postcode = Column(String(32), nullable=False)
             latitude = Column(Float, nullable=False)
             longitude = Column(Float, nullable=False)
 
-            __table_args__ = (UniqueConstraint("postal_code", name="uq_postal_code"),)
+            __table_args__ = (UniqueConstraint("postcode", name="uq_postcode"),)
 
         class Users(Base):
             __tablename__ = "users"
@@ -84,12 +84,12 @@ class ManageDB:
             __tablename__ = "userpostcodes"
             id = Column(Integer, primary_key=True)
             user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
-            postal_code = Column(String(32), nullable=False)
+            postcode = Column(String(32), nullable=False)
             date_time = Column(TIMESTAMP, nullable=False)
 
             parent = relationship("Users", back_populates="postcodes_children")
 
-            __table_args__ = (UniqueConstraint("user_id", "postal_code", name="uq_user_id_and_postal_code"),)
+            __table_args__ = (UniqueConstraint("user_id", "postcode", name="uq_user_id_and_postcode"),)
 
         class Feedback(Base):
             __tablename__ = "feedback"
@@ -128,10 +128,10 @@ class ManageDB:
 
 # Inserting in Database
 
-    def insert_termin(self, postal_code, full_address_list, times, normalized_date, full_link):
+    def insert_termin(self, postcode, full_address_list, times, normalized_date, full_link):
         # Inserting data in termine table
         new_termin = self.Termine(
-            postal_code=postal_code[0],
+            postcode=postcode[0],
             city=full_address_list[0],
             building=full_address_list[1],
             street=full_address_list[2],
@@ -147,15 +147,15 @@ class ManageDB:
 
         self.write_into_db(new_termin)
 
-    def insert_termin_postcodes(self, postal_code):
-        lat, lon = self.postcode_ranges.get_lat_and_lon(postal_code[0])
+    def insert_termin_postcodes(self, postcode):
+        lat, lon = self.postcode_ranges.get_lat_and_lon(postcode=postcode[0])
         # Inserting data in postcodes table
-        new_postal_code = self.Postcodes(
-            postal_code=postal_code[0],
+        new_postcode = self.Postcodes(
+            postcode=postcode[0],
             latitude=lat,
             longitude=lon
         )
-        self.write_into_db(new_postal_code)
+        self.write_into_db(new_postcode)
 
     def insert_users(self, user_data):
         new_user = self.Users(
@@ -174,14 +174,14 @@ class ManageDB:
     def insert_user_postcodes(self, account_id, text):
         user = self.get_user(account_id)
 
-        new_user_postal_code = self.UserPostcodes(
+        new_user_postcode = self.UserPostcodes(
             parent=user,
             user_id=account_id,
-            postal_code=text,
+            postcode=text,
             date_time=self.date_manager.get_now()[0]
         )
 
-        self.write_into_db(new_user_postal_code)
+        self.write_into_db(new_user_postcode)
 
     def insert_feedback(self, account_id, text):
         user = self.get_user(account_id)
@@ -207,9 +207,9 @@ class ManageDB:
 
 # Scheduling: Checking available Termine
 
-    def get_postalcodes_nearby(self, max_distance, postal_code, min_lat, max_lat, min_lon, max_lon):
+    def get_postcodes_nearby(self, max_distance, postcode, min_lat, max_lat, min_lon, max_lon):
         available_termine = []
-        postal_codes_nearby = []
+        postcodes_nearby = []
 
         postcodes_data = self.session.query(self.Postcodes).filter(and_(
             self.Postcodes.latitude < max_lat,
@@ -217,15 +217,15 @@ class ManageDB:
             self.Postcodes.longitude < max_lon,
             self.Postcodes.longitude > min_lon)).all()
 
-        termin_postal_codes = [item.postal_code for item in postcodes_data]
+        termin_postcodes = [item.postcode for item in postcodes_data]
 
-        for postcode in termin_postal_codes:
-            distance = self.postcode_ranges.check_distance(postal_code, postcode)
+        for termin_postcode in termin_postcodes:
+            distance = self.postcode_ranges.check_distance(postcode, termin_postcode)
             if distance <= max_distance:
-                postal_codes_nearby.append(postcode)
+                postcodes_nearby.append(termin_postcode)
 
         available_termin_data = self.session.query(self.Termine).filter(
-            self.Termine.postal_code.in_(postal_codes_nearby)).all()
+            self.Termine.postcode.in_(postcodes_nearby)).all()
 
         for row in available_termin_data:
             times_data = self.session.query(self.Times).filter(self.Times.termin_id == row.id).all()
@@ -250,13 +250,13 @@ class ManageDB:
         users = self.session.query(self.Users).all()
         for user in users:
             postcode_data = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
-            user_postcodes = [item.postal_code for item in postcode_data]
-            for postal_code in user_postcodes:
-                lat, lon = self.postcode_ranges.get_lat_and_lon(postal_code=postal_code)
+            user_postcodes = [item.postcode for item in postcode_data]
+            for postcode in user_postcodes:
+                lat, lon = self.postcode_ranges.get_lat_and_lon(postcode=postcode)
                 min_lat, max_lat, min_lon, max_lon = self.postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE,
                                                                                            lat, lon)
-                available_termine = self.get_postalcodes_nearby(MAX_DISTANCE, postal_code, min_lat, max_lat, min_lon,
-                                                                max_lon)
+                available_termine = self.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon,
+                                                              max_lon)
                 if len(available_termine) > 0:
                     available_termin_data.append(available_termine)
 
@@ -276,8 +276,8 @@ class ManageDB:
         user = self.get_user(account_id)
         postcode_data = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
         if postcode_data:
-            user_postal_codes = [row.postal_code for row in postcode_data]
-            return True, user_postal_codes
+            user_postcodes = [row.postcode for row in postcode_data]
+            return True, user_postcodes
         else:
             return False, []
 
@@ -301,16 +301,16 @@ class ManageDB:
 
 # User delete postcodes
 
-    def delete_user_postal_code(self, account_id, command):
+    def delete_user_postcode(self, account_id, command):
         user = self.get_user(account_id)
         postcode_row = 0
         if command.lower() == "all":
             self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).delete()
         else:
             postcode_row = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).filter(
-                self.UserPostcodes.postal_code == command).first()
+                self.UserPostcodes.postcode == command).first()
             self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).filter(
-                self.UserPostcodes.postal_code == command).delete()
+                self.UserPostcodes.postcode == command).delete()
 
         self.session.commit()
         self.session.close()

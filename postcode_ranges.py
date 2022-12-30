@@ -17,13 +17,13 @@ class PostcodeRanges:
 
         return min_lat, max_lat, min_lon, max_lon
 
-    def get_lat_and_lon(self, postal_code):
+    def get_lat_and_lon(self, postcode):
         country = pgeocode.Nominatim("de")
-        lat = country.query_postal_code(postal_code)["latitude"]
-        lon = country.query_postal_code(postal_code)["longitude"]
+        lat = country.query_postal_code(postcode)["latitude"]
+        lon = country.query_postal_code(postcode)["longitude"]
         return lat, lon
 
-    def check_distance(self, user_postal_code, termin_postal_code):
+    def check_distance(self, user_postcode, termin_postcode):
         country = pgeocode.GeoDistance("de")
-        distance = country.query_postal_code(user_postal_code, termin_postal_code)
+        distance = country.query_postal_code(user_postcode, termin_postcode)
         return distance
