@@ -70,8 +70,8 @@ class Parser:
                 link = card.find(class_="call-to-action").find(name="a").get("href")
                 full_link = f"https://www.drk-blutspende.de{link}"
 
-                self.manage_db.insert_termin_data_in_db(postal_code, full_address_list, times, normalized_date, full_link)
-                self.manage_db.insert_postal_codes_in_db(postal_code)
+                self.manage_db.insert_termin(postal_code, full_address_list, times, normalized_date, full_link)
+                self.manage_db.insert_termin_postcodes(postal_code)
 
             next_page = False
         print(f"Number of checked pages: {counter}")

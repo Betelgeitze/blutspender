@@ -69,9 +69,9 @@ class ManageDB:
             first_name = Column(String(255))
             last_name = Column(String(255))
             language_code = Column(String(32))
-            selected_language = Column(String(32))  # TODO: Add:  nullable=False
-            opened_to_add_postcode = Column(TIMESTAMP)
-            opened_to_add_feedback = Column(TIMESTAMP)
+            selected_language = Column(String(32), nullable=False)
+            postcode_timer = Column(TIMESTAMP)
+            feedback_timer = Column(TIMESTAMP)
             start_reminding = Column(Date)
 
             postcodes_children = relationship("UserPostcodes", cascade="all,delete", back_populates="parent")
@@ -93,14 +93,14 @@ class ManageDB:
         class Feedback(Base):
             __tablename__ = "feedback"
             id = Column(Integer, primary_key=True)
-            user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+            user_id = Column(Integer, ForeignKey("users.id"))
             text = Column(String())
 
             parent = relationship("Users", back_populates="feedback_children")
 
         return Base, engine, Termine, Times, Postcodes, Users, UserPostcodes, Feedback
 
-    def create_dbs(self):
+    def create_tables(self):
         self.Base.metadata.create_all(self.engine)
 
     def write_into_db(self, data):
@@ -116,7 +116,10 @@ class ManageDB:
         finally:
             self.session.close()
 
-    def insert_termin_data_in_db(self, postal_code, full_address_list, times, normalized_date, full_link):
+    def get_user(self, account_id):
+        return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+
+    def insert_termin(self, postal_code, full_address_list, times, normalized_date, full_link):
         # Inserting data in termine table
         new_termin = self.Termine(
             postal_code=postal_code[0],
@@ -135,7 +138,7 @@ class ManageDB:
 
         self.write_into_db(new_termin)
 
-    def insert_postal_codes_in_db(self, postal_code):
+    def insert_termin_postcodes(self, postal_code):
         lat, lon = self.postcode_ranges.get_lat_and_lon(postal_code[0])
         # Inserting data in postcodes table
         new_postal_code = self.Postcodes(
@@ -145,19 +148,21 @@ class ManageDB:
         )
         self.write_into_db(new_postal_code)
 
-    def insert_users_in_db(self, user_data):
+    def insert_users(self, user_data):
         new_user = self.Users(
             account_id=user_data["from"]["id"],
             chat_id=user_data["chat"]["id"],
             first_name=user_data["from"]["first_name"],
             last_name=user_data["from"]["last_name"],
             language_code=user_data["from"]["language_code"],
+            postcode_timer=self.date_manager.get_now()[0], #############
+            feedback_timer=self.date_manager.get_now()[0],
             selected_language="de"
         )
 
         self.write_into_db(new_user)
 
-    def insert_user_postal_codes_in_db(self, user_data):
+    def insert_user_postcodes(self, user_data):
         user = self.session.query(self.Users).filter_by(account_id=user_data["from"]["id"]).first()
 
         new_user_postal_code = self.UserPostcodes(
@@ -182,14 +187,14 @@ class ManageDB:
 
         self.write_into_db(new_feedback)
 
-    def delete_outdated_data_in_db(self):
+    def delete_outdated_data(self):
         today = self.date_manager.get_today()
 
         self.session.query(self.Termine).filter(self.Termine.date < today).delete()
         self.session.commit()
         self.session.close()
 
-    def delete_tables_in_db(self, tables):
+    def delete_tables(self, tables):
         for table in tables:
             self.engine.execute(f"DROP TABLE IF EXISTS {table} CASCADE;")
 
@@ -256,6 +261,10 @@ class ManageDB:
                 found_termine.append(found_termin)
         return found_termine
 
+
+
+
+
     def check_if_user_postal_code_exists(self, account_id):
         user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
         postcode_data = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
@@ -265,22 +274,61 @@ class ManageDB:
         else:
             return False, []
 
-    def update_user_opened_to_add_postcode(self, account_id, open, **kwargs):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-        if open:
-            user.opened_to_add_postcode = self.date_manager.get_min_from_now(kwargs.get("minutes"))
-        else:
-            user.opened_to_add_postcode = self.date_manager.get_now()[0]
 
+
+    # def update_user_opened_to_add_postcode(self, account_id, open, **kwargs):
+    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+    #     if open:
+    #         user.opened_to_add_postcode = self.date_manager.get_min_from_now(kwargs.get("minutes"))
+    #     else:
+    #         user.opened_to_add_postcode = self.date_manager.get_now()[0]
+    #
+    #     self.write_into_db(user)
+
+    # def update_opened_feedback(self, account_id, open, **kwargs):  # TODO: Refactor all Database updates
+    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+    #     if open:
+    #         user.opened_to_add_feedback = self.date_manager.get_min_from_now(kwargs.get("minutes"))
+    #     else:
+    #         user.opened_to_add_feedback = self.date_manager.get_now()[0]
+    #     self.write_into_db(user)
+
+    def update_user(self, account_id, open, timer, **kwargs):
+        user = self.get_user(account_id)
+        if open:
+            setattr(user, timer, self.date_manager.get_min_from_now(kwargs.get("minutes")))
+        else:
+            setattr(user, timer, self.date_manager.get_now()[0])
         self.write_into_db(user)
 
-    def check_if_user_add_to_postode_is_opened(self, account_id):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-        now = self.date_manager.get_now()[1]
-        if user.opened_to_add_postcode is not None and user.opened_to_add_postcode > now:
+
+    def check_timers(self, account_id, timer):
+        user = self.get_user(account_id)
+        now = self.date_manager.get_now()[1] #TODO: Double check the necessity of 2 returns
+        if getattr(user, timer) > now:
             return True
         else:
             return False
+
+
+
+    # def check_if_user_add_to_postode_is_opened(self, account_id):
+    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+    #     now = self.date_manager.get_now()[1]
+    #     if user.opened_to_add_postcode is not None and user.opened_to_add_postcode > now:
+    #         return True
+    #     else:
+    #         return False
+    #
+    # def check_if_feedback_opened(self, account_id):
+    #     user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+    #     now = self.date_manager.get_now()[1]
+    #     if user.opened_to_add_feedback is not None and user.opened_to_add_feedback > now:
+    #         return True
+    #     else:
+    #         return False
+
+
 
     def delete_user_postal_code(self, account_id, command):
         user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
@@ -306,18 +354,6 @@ class ManageDB:
         user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
         return user.selected_language
 
-    def update_opened_feedback(self, account_id, open, **kwargs):  # TODO: Refactor all Database updates
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-        if open:
-            user.opened_to_add_feedback = self.date_manager.get_min_from_now(kwargs.get("minutes"))
-        else:
-            user.opened_to_add_feedback = self.date_manager.get_now()[0]
-        self.write_into_db(user)
 
-    def check_if_feedback_opened(self, account_id):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-        now = self.date_manager.get_now()[1]
-        if user.opened_to_add_feedback is not None and user.opened_to_add_feedback > now:
-            return True
-        else:
-            return False
+
+
