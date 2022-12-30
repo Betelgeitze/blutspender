@@ -123,30 +123,29 @@ def create_stop_reminder_reason_keyboard(language):
 
 
 def add_in_db_and_reply(message, language):
-    postal_code = message.text.strip()
+    postcode = message.text.strip()
+    account_id = message.from_user.id
+    chat_id = message.chat.id
     # TODO: Refactor databases
     # TODO: Add a stop sending button which brings you to button: how long not remind
 
-
-    if postal_code.isdigit() and len(postal_code) == 5:
-        data = message.json
-        print(message)
-        manage_db.update_user(message.from_user.id, False, "postcode_timer")
-        manage_db.insert_user_postcodes(data)
-        available_termine = get_termine(message.text)
+    if postcode.isdigit() and len(postcode) == 5:
+        manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
+        manage_db.insert_user_postcodes(account_id=account_id, text=postcode)
+        available_termine = get_termine(postcode)
         if len(available_termine) == 0:
-            bot.send_message(message.chat.id, rps[language]["no_termine"])
+            bot.send_message(chat_id, rps[language]["no_termine"])
         else:
             for termin in available_termine:
                 termin_str = dic_to_string(termin)
-                bot.send_message(message.chat.id, rps[language]["available_termine"])
-                bot.send_message(message.chat.id, termin_str)
+                bot.send_message(chat_id, rps[language]["available_termine"])
+                bot.send_message(chat_id, termin_str)
     else:
-        bot.send_message(message.chat.id, rps[language]["wrong_postcode"])
+        bot.send_message(chat_id, rps[language]["wrong_postcode"])
 
 
 def change_language(callback_query, language):
-    postcode_exists = manage_db.check_if_user_postal_code_exists(callback_query.from_user.id)[0]
+    postcode_exists = manage_db.get_user_postcodes(callback_query.from_user.id)[0]
     if not postcode_exists:
         bot.reply_to(callback_query.message, rps[language]["welcome_msg"])
     else:
@@ -156,9 +155,11 @@ def change_language(callback_query, language):
 @bot.message_handler(commands=['start', 'help'])
 def welcome_message(message):
     if not message.from_user.is_bot:
+        account_id = message.from_user.id
+
         manage_db.insert_users(message.json)
-        postcode_exists = manage_db.check_if_user_postal_code_exists(message.from_user.id)[0]
-        language = manage_db.check_language(message.from_user.id)
+        postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
+        language = manage_db.get_language(account_id=account_id)
         main_keyboard = create_main_keyboard(language)
         language_keyboard = create_language_keyboard()
 
@@ -171,19 +172,22 @@ def welcome_message(message):
 @bot.message_handler()
 def send_postal_code(message):
     if not message.from_user.is_bot:
-        add_another_postcode = manage_db.check_timers(message.from_user.id, "postcode_timer")
-        add_feedback = manage_db.check_timers(message.from_user.id, "feedback_timer")
-        postcode_exists = manage_db.check_if_user_postal_code_exists(message.from_user.id)[0]
-        language = manage_db.check_language(message.from_user.id)
+        account_id = message.from_user.id
+        chat_id = message.chat.id
         text = message.text
 
+        add_another_postcode = manage_db.check_timers(account_id=account_id, timer="postcode_timer")
+        add_feedback = manage_db.check_timers(account_id=account_id, timer="feedback_timer")
+        postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
+        language = manage_db.get_language(account_id=account_id)
+
         if "delete:" in text.lower():
-            manage_db.update_user(message.from_user.id, False, "postcode_timer")
+            manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
             command = text.split(":")
             command = [c.strip() for c in command][1]
             if len(command) > 1:
-                postcode_row = manage_db.delete_user_postal_code(message.from_user.id, command)
-                postcode_exists = manage_db.check_if_user_postal_code_exists(message.from_user.id)[0]
+                postcode_row = manage_db.delete_user_postal_code(account_id=account_id, command=command)
+                postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
                 if postcode_row is None:
                     bot.reply_to(message, rps[language]["postcode_not_exist"].format(command))
                 else:
@@ -198,13 +202,13 @@ def send_postal_code(message):
         elif add_another_postcode:
             add_in_db_and_reply(message, language)
         elif add_feedback:
-            manage_db.insert_feedback(message.json)
-            manage_db.update_user(message.from_user.id, False, "feedback_timer")
+            manage_db.insert_feedback(account_id=account_id, text=text)
+            manage_db.update_timers(account_id=account_id, open=False, timer="feedback_timer")
             bot.reply_to(message, rps[language]["feedback_thanks"])
             welcome_message(message)
 
         elif postcode_exists:
-            bot.send_message(message.chat.id, rps[language]["no_action_required"])
+            bot.send_message(chat_id, rps[language]["no_action_required"])
         else:
             add_in_db_and_reply(message, language)
 
@@ -215,16 +219,16 @@ def handle_callback_query(callback_query):
     account_id = callback_query.from_user.id
     chat_id = callback_query.message.chat.id
 
-    manage_db.update_user(account_id, False, "postcode_timer")
+    manage_db.update_timers(account_id, False, "postcode_timer")
 
     if not callback_query.from_user.is_bot:
-        language = manage_db.check_language(account_id)
+        language = manage_db.get_language(account_id)
 
         if data == 'english_btn_clicked':
-            manage_db.select_language(account_id, "en")
+            manage_db.update_language(account_id, "en")
             change_language(callback_query, "en")
         elif data == 'deutsch_btn_clicked':
-            manage_db.select_language(account_id, "de")
+            manage_db.update_language(account_id, "de")
             change_language(callback_query, "de")
 
         elif data == 'change_language_btn_clicked':
@@ -232,10 +236,10 @@ def handle_callback_query(callback_query):
             bot.reply_to(callback_query.message, rps["select_language"], reply_markup=language_keyboard)
 
         elif data == 'add_btn_clicked':
-            manage_db.update_user(account_id, True, "postcode_timer", minutes=ADD_MIN)
+            manage_db.update_timers(account_id, True, "postcode_timer", minutes=ADD_MIN)
             bot.send_message(chat_id, rps[language]["write_postcode"])
         elif data == 'show_btn_clicked':  # TODO: Check if makes more sense to change to elif
-            user_postal_codes = manage_db.check_if_user_postal_code_exists(account_id)[1]
+            user_postal_codes = manage_db.get_user_postcodes(account_id)[1]
             user_postal_codes_str = "\n".join(user_postal_codes)
             bot.send_message(chat_id, rps[language]["available_postcodes"] + user_postal_codes_str)
         elif data == 'delete_btn_clicked':
@@ -243,7 +247,7 @@ def handle_callback_query(callback_query):
 
         elif data == 'feedback_btn_clicked':
             bot.reply_to(callback_query.message, rps[language]["write_feedback"])
-            manage_db.update_user(account_id, True, "feedback_timer", minutes=FEEDBACK_MIN)
+            manage_db.update_timers(account_id, True, "feedback_timer", minutes=FEEDBACK_MIN)
 
         elif data == "reminder_btn_clicked":
             stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language)

@@ -4,7 +4,6 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship, sessionmaker
 import os
-import json
 from postcode_ranges import PostcodeRanges
 from date_manager import DateManager
 
@@ -19,6 +18,8 @@ class ManageDB:
 
         Session = sessionmaker(self.engine)
         self.session = Session()
+
+# Managing tables
 
     def create_db_structure(self):
         engine = create_engine(f'postgresql://'
@@ -103,6 +104,12 @@ class ManageDB:
     def create_tables(self):
         self.Base.metadata.create_all(self.engine)
 
+    def delete_tables(self, tables):
+        for table in tables:
+            self.engine.execute(f"DROP TABLE IF EXISTS {table} CASCADE;")
+
+# Support functions
+
     def write_into_db(self, data):
         # Catching dublicates
         try:
@@ -118,6 +125,8 @@ class ManageDB:
 
     def get_user(self, account_id):
         return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+
+# Inserting in Database
 
     def insert_termin(self, postal_code, full_address_list, times, normalized_date, full_link):
         # Inserting data in termine table
@@ -155,37 +164,38 @@ class ManageDB:
             first_name=user_data["from"]["first_name"],
             last_name=user_data["from"]["last_name"],
             language_code=user_data["from"]["language_code"],
-            postcode_timer=self.date_manager.get_now()[0], #############
+            postcode_timer=self.date_manager.get_now()[0],
             feedback_timer=self.date_manager.get_now()[0],
             selected_language="de"
         )
 
         self.write_into_db(new_user)
 
-    def insert_user_postcodes(self, user_data):
-        user = self.session.query(self.Users).filter_by(account_id=user_data["from"]["id"]).first()
+    def insert_user_postcodes(self, account_id, text):
+        user = self.get_user(account_id)
 
         new_user_postal_code = self.UserPostcodes(
             parent=user,
-            user_id=user_data["from"]["id"],
-            postal_code=user_data["text"],
+            user_id=account_id,
+            postal_code=text,
             date_time=self.date_manager.get_now()[0]
         )
 
         self.write_into_db(new_user_postal_code)
 
-    def insert_feedback(self, user_data):
-        user = self.session.query(self.Users).filter_by(account_id=user_data["from"]["id"]).first()
+    def insert_feedback(self, account_id, text):
+        user = self.get_user(account_id)
 
         new_feedback = self.Feedback(
             parent=user,
-            # TODO: Make all of these congruent. Not account_id/message.send_from.if/etc
-            user_id=user_data["from"]["id"],
-            text=user_data["text"]
+            user_id=account_id,
+            text=text
 
         )
 
         self.write_into_db(new_feedback)
+
+# Deleting from Database
 
     def delete_outdated_data(self):
         today = self.date_manager.get_today()
@@ -194,9 +204,8 @@ class ManageDB:
         self.session.commit()
         self.session.close()
 
-    def delete_tables(self, tables):
-        for table in tables:
-            self.engine.execute(f"DROP TABLE IF EXISTS {table} CASCADE;")
+
+# Scheduling: Checking available Termine
 
     def get_postalcodes_nearby(self, max_distance, postal_code, min_lat, max_lat, min_lon, max_lon):
         available_termine = []
@@ -261,12 +270,10 @@ class ManageDB:
                 found_termine.append(found_termin)
         return found_termine
 
+# Checking Postcodes
 
-
-
-
-    def check_if_user_postal_code_exists(self, account_id):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+    def get_user_postcodes(self, account_id):
+        user = self.get_user(account_id)
         postcode_data = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
         if postcode_data:
             user_postal_codes = [row.postal_code for row in postcode_data]
@@ -274,8 +281,9 @@ class ManageDB:
         else:
             return False, []
 
+# Writing extra data: Working with Timers
 
-    def update_user(self, account_id, open, timer, **kwargs):
+    def update_timers(self, account_id, open, timer, **kwargs):
         user = self.get_user(account_id)
         if open:
             setattr(user, timer, self.date_manager.get_min_from_now(kwargs.get("minutes")))
@@ -283,18 +291,18 @@ class ManageDB:
             setattr(user, timer, self.date_manager.get_now()[0])
         self.write_into_db(user)
 
-
     def check_timers(self, account_id, timer):
         user = self.get_user(account_id)
-        now = self.date_manager.get_now()[1] #TODO: Double check the necessity of 2 returns
+        now = self.date_manager.get_now()[1]  # TODO: Double check the necessity of 2 returns
         if getattr(user, timer) > now:
             return True
         else:
             return False
 
+# User delete postcodes
 
     def delete_user_postal_code(self, account_id, command):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+        user = self.get_user(account_id)
         postcode_row = 0
         if command.lower() == "all":
             self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).delete()
@@ -308,15 +316,13 @@ class ManageDB:
         self.session.close()
         return postcode_row
 
-    def select_language(self, account_id, language):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+# Languages
+
+    def update_language(self, account_id, language):
+        user = self.get_user(account_id)
         user.selected_language = language
         self.write_into_db(user)
 
-    def check_language(self, account_id):
-        user = self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+    def get_language(self, account_id):
+        user = self.get_user(account_id)
         return user.selected_language
-
-
-
-
