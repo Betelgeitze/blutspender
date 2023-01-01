@@ -265,13 +265,11 @@ def handle_callback_query(callback_query):
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps["select_language"],
                                   reply_markup=language_keyboard)
-            # bot.reply_to(callback_query.message, rps["select_language"], reply_markup=language_keyboard)
 
         elif data == 'add_btn_clicked':
             manage_db.update_timers(account_id=account_id, open=True, timer="postcode_timer", minutes=ADD_MIN)
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps[language]["write_postcode"])
-            # bot.send_message(chat_id, rps[language]["write_postcode"])
         elif data == 'show_btn_clicked':
             user_postcodes = manage_db.get_user_postcodes(account_id=account_id)[1]
             user_postcodes_str = "\n".join(user_postcodes)
@@ -282,7 +280,6 @@ def handle_callback_query(callback_query):
         elif data == 'feedback_btn_clicked':
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps[language]["write_feedback"])
-            # bot.reply_to(callback_query.message, rps[language]["write_feedback"])
             manage_db.update_timers(account_id=account_id, open=True, timer="feedback_timer", minutes=FEEDBACK_MIN)
 
         elif data == "reminder_btn_clicked":
@@ -290,8 +287,6 @@ def handle_callback_query(callback_query):
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps[language]["stop_reminder_reason"],
                                   reply_markup=stop_reminder_reason_keyboard)
-            # bot.reply_to(callback_query.message, rps[language]["stop_reminder_reason"],
-            #              reply_markup=stop_reminder_reason_keyboard)
 
         elif data == "donated_btn_clicked":
             manage_db.addup_donations(account_id=account_id)
@@ -299,8 +294,6 @@ def handle_callback_query(callback_query):
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps[language]["reminder_length"],
                                   reply_markup=stop_reminder_length_keyboard)
-            # bot.reply_to(callback_query.message, rps[language]["reminder_length"],
-            #              reply_markup=stop_reminder_length_keyboard)
         elif data == "often_btn_clicked":
             text = "ADMIN: Too often"
             manage_db.insert_feedback(account_id=account_id, text=text)
@@ -308,8 +301,6 @@ def handle_callback_query(callback_query):
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps[language]["reminder_length"],
                                   reply_markup=stop_reminder_length_keyboard)
-            # bot.reply_to(callback_query.message, rps[language]["reminder_length"],
-            #              reply_markup=stop_reminder_length_keyboard)
         elif data == "else_btn_clicked":
             text = "ADMIN: Else"
             manage_db.insert_feedback(account_id=account_id, text=text)
@@ -317,9 +308,6 @@ def handle_callback_query(callback_query):
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                   text=rps[language]["else_stop_feedback"] + rps[language]["reminder_length"],
                                   reply_markup=stop_reminder_length_keyboard)
-            # bot.reply_to(callback_query.message,
-            #              rps[language]["else_stop_feedback"] + rps[language]["reminder_length"],
-            #              reply_markup=stop_reminder_length_keyboard)
 
         elif data == "remind_one_week_btn_clicked":
             manage_db.remind_in(account_id=account_id, days=7)
