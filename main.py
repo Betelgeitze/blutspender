@@ -147,16 +147,18 @@ def add_in_db_and_reply(message, language):
     postcode = message.text.strip()
     account_id = message.from_user.id
     chat_id = message.chat.id
-    # TODO: Add a stop sending button which brings you to button: how long not remind
+    # TODO: Refactor reponses.py
     # TODO: Change the text of no_termine, etc. to 'You will not be reminded of Termine till dd.mm.yyyy, to change that, go to..."
     # TODO: Scheduler should not remind every day if there is an available termin
+
 
     if postcode.isdigit() and len(postcode) == 5:
         manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
         manage_db.insert_user_postcodes(account_id=account_id, text=postcode)
         available_termine = get_termine(postcode=postcode)
         if len(available_termine) == 0:
-            bot.send_message(chat_id, rps[language]["no_termine"])
+            bot.send_message(chat_id,
+                             rps[language]["no_termine"])
         else:
             for termin in available_termine:
                 termin_str = dic_to_string(termin)
@@ -169,9 +171,15 @@ def add_in_db_and_reply(message, language):
 def change_language(callback_query, language):
     postcode_exists = manage_db.get_user_postcodes(callback_query.from_user.id)[0]
     if not postcode_exists:
-        bot.reply_to(callback_query.message, rps[language]["welcome_msg"])
+        bot.reply_to(callback_query.message,
+                     rps[language]["welcome_msg"] + rps[language]["write_postcode"])
     else:
         bot.reply_to(callback_query.message, rps[language]["language_changed"])
+
+
+def remind_time(account_id, chat_id, language):
+    remind_date = manage_db.want_remind(account_id=account_id)[1]
+    bot.send_message(chat_id=chat_id, text=rps[language]["reminder_success"].format(remind_date))
 
 
 # BOT RUNNING
@@ -185,14 +193,23 @@ def welcome_message(message):
         manage_db.insert_users(user_data=user_data)
         postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
 
-        remind = manage_db.want_remind(account_id=account_id)
+        remind, remind_date = manage_db.want_remind(account_id=account_id)
 
         language = manage_db.get_language(account_id=account_id)
         main_keyboard = create_main_keyboard(language=language, remind=remind)
         language_keyboard = create_language_keyboard()
 
         if postcode_exists:
-            bot.reply_to(message, rps[language]["start_again_info"], reply_markup=main_keyboard)
+            if remind:
+                bot.reply_to(message,
+                             rps[language]["welcome_msg"] + rps[language]["no_action_required"] +
+                             rps[language]["add_example"],
+                             reply_markup=main_keyboard)
+            else:
+                bot.reply_to(message,
+                             rps[language]["welcome_msg"] + rps[language]["no_action_required"] +
+                             rps[language]["not_reminding"].format(remind_date),
+                             reply_markup=main_keyboard)
         else:
             bot.reply_to(message, rps["select_language"], reply_markup=language_keyboard)
 
@@ -207,6 +224,7 @@ def send_postcode(message):
         add_another_postcode = manage_db.check_timers(account_id=account_id, timer="postcode_timer")
         add_feedback = manage_db.check_timers(account_id=account_id, timer="feedback_timer")
         postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
+        remind, remind_date = manage_db.want_remind(account_id=account_id)
         language = manage_db.get_language(account_id=account_id)
 
         if "delete:" in text.lower():
@@ -236,7 +254,14 @@ def send_postcode(message):
             welcome_message(message)
 
         elif postcode_exists:
-            bot.send_message(chat_id, rps[language]["no_action_required"])
+            if remind:
+                bot.send_message(chat_id,
+                             rps[language]["no_action_required"] + rps[language]["no_action_info"])
+            else:
+                bot.send_message(chat_id,
+                                 rps[language]["no_action_required"] +
+                                 rps[language]["not_reminding"] +
+                                 rps[language]["not_reminding"])
         else:
             add_in_db_and_reply(message, language)
 
@@ -311,33 +336,24 @@ def handle_callback_query(callback_query):
 
         elif data == "remind_one_week_btn_clicked":
             manage_db.remind_in(account_id=account_id, days=7)
-            main_keyboard = create_main_keyboard(language=language, remind=False)
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["reminder_success"],
-                                  reply_markup=main_keyboard)
+            remind_time(account_id=account_id, chat_id=chat_id, language=language)
 
         elif data == "remind_two_months_btn_clicked":
             manage_db.remind_in(account_id=account_id, days=56)
-            main_keyboard = create_main_keyboard(language=language, remind=False)
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["reminder_success"],
-                                  reply_markup=main_keyboard)
+            remind_time(account_id=account_id, chat_id=chat_id, language=language)
 
         elif data == "remind_six_months_btn_clicked":
             manage_db.remind_in(account_id=account_id, days=168)
-            main_keyboard = create_main_keyboard(language=language, remind=False)
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["reminder_success"],
-                                  reply_markup=main_keyboard)
+            remind_time(account_id=account_id, chat_id=chat_id, language=language)
 
         elif data == "remind_again_btn_clicked":
             manage_db.remind_in(account_id=account_id, days=0)
-            remind = manage_db.want_remind(account_id=account_id)
+            remind = manage_db.want_remind(account_id=account_id)[0]
             main_keyboard = create_main_keyboard(language=language, remind=remind)
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["start_again_info"],
+                                  text=rps[language]["welcome_msg"] + rps[language]["no_action_required"] +
+                                       rps[language]["add_example"],
                                   reply_markup=main_keyboard)
-
 
 
 # LOOPING

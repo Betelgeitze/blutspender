@@ -33,3 +33,7 @@ class DateManager:
         days_from_now = today + timedelta(days=days)
         days_from_now = days_from_now.strftime("%Y-%m-%d")
         return days_from_now
+
+    def format_date(self, date):
+        date = date.strftime("%d.%m.%Y")
+        return date

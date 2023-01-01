@@ -1,6 +1,6 @@
 responses = {
     "de": {
-        "welcome_msg": "Hallo, dieses Bot wird dir alle Blutspendetermine in deiner Nähe schicken.\n\nBitte schreibe deine Postleitzahl:",
+        "welcome_msg": "Hallo, dieses Bot wird dir alle Blutspendetermine in deiner Nähe schicken.\n\n",
         "del_example": "Wenn du deine Postleitzahl löschen willst, schreibe es in diesem Format:\n\n"
                        "delete: xxxxx\n\n"
                        "Zum Beispiel:\n"
@@ -9,8 +9,8 @@ responses = {
                        "delete: all",
         "available_postcodes": "Deine Postleitzahlen:\n",
         "write_postcode": "Bitte schreibe deine Postleitzahl:",
-        "no_action_required": "Du hast schon deine Postleitzahl eingegeben, du musst nichts mehr tun. "
-                              "Ich informiere dich sobald ein Termin in deiner Nähe stattfinden wird. Danke!\n\n"
+        "no_action_required": "Du hast schon deine Postleitzahl eingegeben, du musst nichts mehr tun. ",
+        "no_action_info": "\nIch informiere dich sobald ein Termin in deiner Nähe stattfinden wird. Danke!\n\n"
                               "Wenn du deine Daten ergänzen oder löschen willst, schreibe /start",
         "failed_del": "Wenn du deine Postleitzahl löschen willst, schreibe es in diesem Format:\n\n"
                       "delete: xxxxx\n\n"
@@ -21,12 +21,9 @@ responses = {
         "del_success": "Erfolg! {} ist gelöscht",
         "postcode_not_exist": "{} existiert nicht.\n\n"
                               "Klicke auf 'Zeige alle meine Postleitzahlen' Knopf in /start um deine Postleitzahlen zu sehen",
-        "start_again_info": "Hallo, dieses Bot wird dir alle Blutspendetermine in deiner Nähe schicken.\n\n"
-                            "Du hast schon deine Postleitzahl eingegeben, du musst nichts mehr tun. "
-                            "Ich informiere dich sobald ein Termin in deiner Nähe stattfinden wird. Danke!\n\n"
-                            "Du kannst noch eine Postleitzahl eingeben, zum Beispiel, wenn du in der Nähe von "
-                            "Arbeit/Studium/usw. spenden könntest.\n"
-                            "Dafür nutze den Knopf unten",
+        "add_example": "Du kannst noch eine Postleitzahl eingeben, zum Beispiel, wenn du in der Nähe von "
+                        "Arbeit/Studium/usw. spenden könntest.\n"
+                        "Dafür nutze den Knopf unten",
         "wrong_postcode": "Diese Postleitzahl wurde nicht gefunden. Bitte versuche es erneut\n\n"
                           "Die Postzahl muss genau 5 Ziffern enthalten",
         "available_termine": "Danke, hier sind alle Termine in deiner Nähe für die Woche. "
@@ -39,7 +36,9 @@ responses = {
         "stop_reminder_reason": "Wähle bitte aus, warum du die Errinnerungen aufhören möchtest:",
         "else_stop_feedback": "\n\nIch freue mich wenn du mir dein Feedback geben könntest. Dafür klicke 'Feedback' Knopf in /start",
         "reminder_length": "Wann soll ich dich an die Blutspendetermine erinnern?",
-        "reminder_success": "Danke, ich werde mit dem Erinnern beginnen: ",
+        "reminder_success": "Danke, ich werde mit dem Erinnern am {} errinnern.\n\nSchreib /start ",
+        "not_reminding": "\n\nWie du gebeten hast, werde ich nicht an die Blutspendetermine bis {} erinnern. "
+                         "Um das zu ändern, verwende bitte die Schaltfläche unten.",
 
         "feedback_thanks": "Danke für dein Feedback!",
         "write_feedback": "Bitte gib uns dein Feedback:",
@@ -59,8 +58,7 @@ responses = {
 
     },
     "en": {
-        "welcome_msg": "Hi, this bot will send you all the blood donation appointments near your location.\n\n"
-                       "Please write your postal code:",
+        "welcome_msg": "Hi, this bot will send you all the blood donation appointments near your location.\n\n",
         "del_example": "If you want to delete your zip code, write it in this format:\n\n"
                        "delete: xxxxx\n\n"
                        "For example:\n"
@@ -69,8 +67,8 @@ responses = {
                        "delete: all",
         "available_postcodes": "Your zip codes:\n",
         "write_postcode": "Please write your zip code:",
-        "no_action_required": "You already entered your zip code, you don't need to do anything. "
-                              "I will inform you as soon as there will be an appointment near you. Thank you!\n\n"
+        "no_action_required": "You already entered your zip code, you don't need to do anything. ",
+        "no_action_info": "\nI will inform you as soon as there will be an appointment near you. Thank you!\n\n"
                               "If you want to add or delete your data, write /start",
         "failed_del": "If you want to delete your zip code, write it in this format:\n\n"
                       "delete: xxxxx\n\n"
@@ -81,11 +79,8 @@ responses = {
         "del_success": "Success! {} is deleted",
         "postcode_not_exist": "{} does not exist."
                               "Click on 'Show all my zip codes' button in /start to see your zip codes",
-        "start_again_info": "Hello, this bot will send you all the blood donation dates near you.\n\n"
-                            "You've already entered your zip code, you don't need to do anything. "
-                            "I will inform you as soon as there will be an appointment near you.\nThank you!\n\n"
-                            "You can still enter a zip code, for example, if you can donate near your "
-                            "work/university/etc. you could donate.\n"
+        "add_example": "You can still enter a zip code, for example, if you could donate near your "
+                            "work/university/etc.\n"
                             "For this, use the button below",
         "wrong_postcode": "This zip code was not found. Please try again."
                           "The postcode must contain exactly 5 digits",
@@ -99,7 +94,9 @@ responses = {
         "stop_reminder_reason": "Please select why you want to stop getting reminders:",
         "else_stop_feedback": "\n\nI would be happy if you could give me your feedback. For that click 'Feedback' button in /start",
         "reminder_length": "When should I start remind you about blood donation appointments?",
-        "reminder_success": "Thanks, I will start reminding on: ",
+        "reminder_success": "Thanks, I will start reminding on: {}. \n\nWrite /start",
+        "not_reminding": "\n\nAs you asked, I will not to remind you about blood donation appointments till {}. "
+                         "To change that, use the interface below.",
 
         "feedback_thanks": "Thanks for your feedback!",
         "write_feedback": "Please give your feedback:",

@@ -345,10 +345,11 @@ class ManageDB:
     def want_remind(self, account_id):
         user = self.get_user(account_id)
         today = self.date_manager.get_today()
+        formatted_reminder_start = self.date_manager.format_date(user.start_reminding)
         if today < user.start_reminding:
-            return False
+            return False, formatted_reminder_start
         else:
-            return True
+            return True, formatted_reminder_start
 
 
 
