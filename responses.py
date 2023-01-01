@@ -24,7 +24,7 @@ responses = {
         "start_again_info": "Hallo, dieses Bot wird dir alle Blutspendetermine in deiner Nähe schicken.\n\n"
                             "Du hast schon deine Postleitzahl eingegeben, du musst nichts mehr tun. "
                             "Ich informiere dich sobald ein Termin in deiner Nähe stattfinden wird. Danke!\n\n"
-                            "Du kannst noch eine Postleitzahl eingeben, zum Beispiel, wenn du in der Nähe von deiner "
+                            "Du kannst noch eine Postleitzahl eingeben, zum Beispiel, wenn du in der Nähe von "
                             "Arbeit/Studium/usw. spenden könntest.\n"
                             "Dafür nutze den Knopf unten",
         "wrong_postcode": "Diese Postleitzahl wurde nicht gefunden. Bitte versuche es erneut\n\n"
@@ -37,6 +37,9 @@ responses = {
         "language_changed": "Deine Sprache ist gewechselt.\n\n"
                             "Wenn du deine Daten ergänzen oder löschen willst, schreibe /start",
         "stop_reminder_reason": "Wähle bitte aus, warum du die Errinnerungen aufhören möchtest:",
+        "else_stop_feedback": "\n\nIch freue mich wenn du mir dein Feedback geben könntest. Dafür klicke 'Feedback' Knopf in /start",
+        "reminder_length": "Wann soll ich dich an die Blutspendetermine erinnern?",
+        "reminder_success": "Danke, ich werde mit dem Erinnern beginnen: ",
 
         "feedback_thanks": "Danke für dein Feedback!",
         "write_feedback": "Bitte gib uns dein Feedback:",
@@ -48,7 +51,11 @@ responses = {
         "reminder": "Aufhören zu errinern",
         "donated_stop_reminder": "Ich hab Blut gespendet",
         "often_stop_reminder": "Ich bekomme zu viele Nachrichten von dir",
-        "else_stop_reminder": "Anderer Grund"
+        "else_stop_reminder": "Anderer Grund",
+        "remind_again": "Starten wieder zu erinnern",
+        "remind_one_week": "Erinnern in 1 Woche",
+        "remind_two_months": "Erinnern in 2 Monaten",
+        "remind_six_months": "Erinnern in 6 Monaten"
 
     },
     "en": {
@@ -77,8 +84,8 @@ responses = {
         "start_again_info": "Hello, this bot will send you all the blood donation dates near you.\n\n"
                             "You've already entered your zip code, you don't need to do anything. "
                             "I will inform you as soon as there will be an appointment near you.\nThank you!\n\n"
-                            "You can still enter a zip code, for example, if you live near your "
-                            "work/study/etc. you could donate.\n"
+                            "You can still enter a zip code, for example, if you can donate near your "
+                            "work/university/etc. you could donate.\n"
                             "For this, use the button below",
         "wrong_postcode": "This zip code was not found. Please try again."
                           "The postcode must contain exactly 5 digits",
@@ -90,6 +97,9 @@ responses = {
         "language_changed": "Language changed.\n\n"
                             "If you want to add or delete your data, write /start",
         "stop_reminder_reason": "Please select why you want to stop getting reminders:",
+        "else_stop_feedback": "\n\nI would be happy if you could give me your feedback. For that click 'Feedback' button in /start",
+        "reminder_length": "When should I start remind you about blood donation appointments?",
+        "reminder_success": "Thanks, I will start reminding on: ",
 
         "feedback_thanks": "Thanks for your feedback!",
         "write_feedback": "Please give your feedback:",
@@ -102,6 +112,10 @@ responses = {
         "donated_stop_reminder": "I donated blood",
         "often_stop_reminder": "I get too many messages from you",
         "else_stop_reminder": "Other reason",
+        "remind_again": "Start reminding again",
+        "remind_one_week": "Remind in 1 week",
+        "remind_two_months": "Remind in 2 months",
+        "remind_six_months": "Remind in 6 months"
 
     },
     "select_language": "Wähle deine Sprache aus\n\n"

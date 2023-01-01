@@ -24,9 +24,6 @@ manage_db = ManageDB()
 bot = telebot.TeleBot(API_KEY)
 
 
-
-
-
 # SUPPORT FUNCTIONS:
 def dic_to_string(termin):
     termin_str = str()
@@ -69,6 +66,7 @@ def schedule_checker():
     while True:
         scheduler.start()
 
+
 # TO DELETE
 
 # manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
@@ -76,25 +74,30 @@ def schedule_checker():
 # print("test")
 
 
+# Keyboards
 
-# BOT RUNNING
-
-def create_main_keyboard(language):
+def create_main_keyboard(language, remind):
     main_keyboard = InlineKeyboardMarkup()
 
     add_postcode_btn = InlineKeyboardButton(text=rps[language]["keyboard_add"], callback_data="add_btn_clicked")
     show_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_show"], callback_data="show_btn_clicked")
     delete_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_del"],
-                                                   callback_data="delete_btn_clicked")
+                                                callback_data="delete_btn_clicked")
     change_language_btn = InlineKeyboardButton(text=rps[language]["change_language"],
                                                callback_data="change_language_btn_clicked")
     feedback_btn = InlineKeyboardButton(text=rps[language]["feedback"], callback_data="feedback_btn_clicked")
-    stop_reminder = InlineKeyboardButton(text=rps[language]["reminder"], callback_data="reminder_btn_clicked")
+    if remind:
+        reminder = InlineKeyboardButton(text=rps[language]["reminder"], callback_data="reminder_btn_clicked")
+    else:
+        reminder = InlineKeyboardButton(text=rps[language]["remind_again"],
+                                        callback_data="remind_again_btn_clicked")
 
-    main_keyboard.row(add_postcode_btn, show_postcodes_btn)
+    main_keyboard.row(add_postcode_btn)
+    main_keyboard.row(show_postcodes_btn)
     main_keyboard.row(delete_postcodes_btn)
-    main_keyboard.row(change_language_btn, feedback_btn)
-    main_keyboard.row(stop_reminder)
+    main_keyboard.row(change_language_btn)
+    main_keyboard.row(feedback_btn)
+    main_keyboard.row(reminder)
 
     return main_keyboard
 
@@ -116,18 +119,37 @@ def create_stop_reminder_reason_keyboard(language):
     else_stop_reminder = InlineKeyboardButton(text=rps[language]["else_stop_reminder"],
                                               callback_data="else_btn_clicked")
 
-    # TODO: Need to add these in the database
     stop_reminder_reason_keyboard.row(donated_stop_reminder)
     stop_reminder_reason_keyboard.row(often_stop_reminder)
     stop_reminder_reason_keyboard.row(else_stop_reminder)
     return stop_reminder_reason_keyboard
 
 
+def create_stop_reminder_length_keyboard(language):
+    stop_reminder_length_keyboard = InlineKeyboardMarkup()
+
+    remind_one_week = InlineKeyboardButton(text=rps[language]["remind_one_week"],
+                                           callback_data="remind_one_week_btn_clicked")
+    remind_two_months = InlineKeyboardButton(text=rps[language]["remind_two_months"],
+                                             callback_data="remind_two_months_btn_clicked")
+    remind_six_months = InlineKeyboardButton(text=rps[language]["remind_six_months"],
+                                             callback_data="remind_six_months_btn_clicked")
+    # stop_reminder_length_keyboard.row(remind_again)#TODO: Add it somewhere else
+    stop_reminder_length_keyboard.row(remind_one_week)
+    stop_reminder_length_keyboard.row(remind_two_months)
+    stop_reminder_length_keyboard.row(remind_six_months)
+    return stop_reminder_length_keyboard
+
+
+# Support functions
+
 def add_in_db_and_reply(message, language):
     postcode = message.text.strip()
     account_id = message.from_user.id
     chat_id = message.chat.id
     # TODO: Add a stop sending button which brings you to button: how long not remind
+    # TODO: Change the text of no_termine, etc. to 'You will not be reminded of Termine till dd.mm.yyyy, to change that, go to..."
+    # TODO: Scheduler should not remind every day if there is an available termin
 
     if postcode.isdigit() and len(postcode) == 5:
         manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
@@ -152,6 +174,8 @@ def change_language(callback_query, language):
         bot.reply_to(callback_query.message, rps[language]["language_changed"])
 
 
+# BOT RUNNING
+
 @bot.message_handler(commands=['start', 'help'])
 def welcome_message(message):
     if not message.from_user.is_bot:
@@ -160,8 +184,11 @@ def welcome_message(message):
 
         manage_db.insert_users(user_data=user_data)
         postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
+
+        remind = manage_db.want_remind(account_id=account_id)
+
         language = manage_db.get_language(account_id=account_id)
-        main_keyboard = create_main_keyboard(language=language)
+        main_keyboard = create_main_keyboard(language=language, remind=remind)
         language_keyboard = create_language_keyboard()
 
         if postcode_exists:
@@ -219,6 +246,7 @@ def handle_callback_query(callback_query):
     data = callback_query.data
     account_id = callback_query.from_user.id
     chat_id = callback_query.message.chat.id
+    message_id = callback_query.message.message_id
 
     manage_db.update_timers(account_id, False, "postcode_timer")
 
@@ -234,11 +262,16 @@ def handle_callback_query(callback_query):
 
         elif data == 'change_language_btn_clicked':
             language_keyboard = create_language_keyboard()
-            bot.reply_to(callback_query.message, rps["select_language"], reply_markup=language_keyboard)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps["select_language"],
+                                  reply_markup=language_keyboard)
+            # bot.reply_to(callback_query.message, rps["select_language"], reply_markup=language_keyboard)
 
         elif data == 'add_btn_clicked':
             manage_db.update_timers(account_id=account_id, open=True, timer="postcode_timer", minutes=ADD_MIN)
-            bot.send_message(chat_id, rps[language]["write_postcode"])
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["write_postcode"])
+            # bot.send_message(chat_id, rps[language]["write_postcode"])
         elif data == 'show_btn_clicked':
             user_postcodes = manage_db.get_user_postcodes(account_id=account_id)[1]
             user_postcodes_str = "\n".join(user_postcodes)
@@ -247,13 +280,75 @@ def handle_callback_query(callback_query):
             bot.reply_to(callback_query.message, rps[language]["del_example"])
 
         elif data == 'feedback_btn_clicked':
-            bot.reply_to(callback_query.message, rps[language]["write_feedback"])
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["write_feedback"])
+            # bot.reply_to(callback_query.message, rps[language]["write_feedback"])
             manage_db.update_timers(account_id=account_id, open=True, timer="feedback_timer", minutes=FEEDBACK_MIN)
 
         elif data == "reminder_btn_clicked":
             stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=language)
-            bot.reply_to(callback_query.message, rps[language]["stop_reminder_reason"],
-                         reply_markup=stop_reminder_reason_keyboard)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["stop_reminder_reason"],
+                                  reply_markup=stop_reminder_reason_keyboard)
+            # bot.reply_to(callback_query.message, rps[language]["stop_reminder_reason"],
+            #              reply_markup=stop_reminder_reason_keyboard)
+
+        elif data == "donated_btn_clicked":
+            manage_db.addup_donations(account_id=account_id)
+            stop_reminder_length_keyboard = create_stop_reminder_length_keyboard(language=language)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["reminder_length"],
+                                  reply_markup=stop_reminder_length_keyboard)
+            # bot.reply_to(callback_query.message, rps[language]["reminder_length"],
+            #              reply_markup=stop_reminder_length_keyboard)
+        elif data == "often_btn_clicked":
+            text = "ADMIN: Too often"
+            manage_db.insert_feedback(account_id=account_id, text=text)
+            stop_reminder_length_keyboard = create_stop_reminder_length_keyboard(language=language)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["reminder_length"],
+                                  reply_markup=stop_reminder_length_keyboard)
+            # bot.reply_to(callback_query.message, rps[language]["reminder_length"],
+            #              reply_markup=stop_reminder_length_keyboard)
+        elif data == "else_btn_clicked":
+            text = "ADMIN: Else"
+            manage_db.insert_feedback(account_id=account_id, text=text)
+            stop_reminder_length_keyboard = create_stop_reminder_length_keyboard(language=language)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["else_stop_feedback"] + rps[language]["reminder_length"],
+                                  reply_markup=stop_reminder_length_keyboard)
+            # bot.reply_to(callback_query.message,
+            #              rps[language]["else_stop_feedback"] + rps[language]["reminder_length"],
+            #              reply_markup=stop_reminder_length_keyboard)
+
+        elif data == "remind_one_week_btn_clicked":
+            manage_db.remind_in(account_id=account_id, days=7)
+            main_keyboard = create_main_keyboard(language=language, remind=False)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["reminder_success"],
+                                  reply_markup=main_keyboard)
+
+        elif data == "remind_two_months_btn_clicked":
+            manage_db.remind_in(account_id=account_id, days=56)
+            main_keyboard = create_main_keyboard(language=language, remind=False)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["reminder_success"],
+                                  reply_markup=main_keyboard)
+
+        elif data == "remind_six_months_btn_clicked":
+            manage_db.remind_in(account_id=account_id, days=168)
+            main_keyboard = create_main_keyboard(language=language, remind=False)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["reminder_success"],
+                                  reply_markup=main_keyboard)
+
+        elif data == "remind_again_btn_clicked":
+            manage_db.remind_in(account_id=account_id, days=0)
+            remind = manage_db.want_remind(account_id=account_id)
+            main_keyboard = create_main_keyboard(language=language, remind=remind)
+            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
+                                  text=rps[language]["start_again_info"],
+                                  reply_markup=main_keyboard)
 
 
 

@@ -73,7 +73,8 @@ class ManageDB:
             selected_language = Column(String(32), nullable=False)
             postcode_timer = Column(TIMESTAMP)
             feedback_timer = Column(TIMESTAMP)
-            start_reminding = Column(Date)
+            donations = Column(Integer)
+            start_reminding = Column(Date, nullable=False)
 
             postcodes_children = relationship("UserPostcodes", cascade="all,delete", back_populates="parent")
             feedback_children = relationship("Feedback", cascade="all,delete", back_populates="parent")
@@ -166,7 +167,9 @@ class ManageDB:
             language_code=user_data["from"]["language_code"],
             postcode_timer=self.date_manager.get_now()[0],
             feedback_timer=self.date_manager.get_now()[0],
-            selected_language="de"
+            donations=0,
+            selected_language="de",
+            start_reminding=self.date_manager.get_now()[0]
         )
 
         self.write_into_db(new_user)
@@ -326,3 +329,26 @@ class ManageDB:
     def get_language(self, account_id):
         user = self.get_user(account_id)
         return user.selected_language
+
+# Reminder Stops
+
+    def addup_donations(self, account_id):
+        user = self.get_user(account_id)
+        user.donations += 1
+        self.write_into_db(user)
+
+    def remind_in(self, account_id, days):
+        user = self.get_user(account_id)
+        user.start_reminding = self.date_manager.get_days_from_today(days=days)
+        self.write_into_db(user)
+
+    def want_remind(self, account_id):
+        user = self.get_user(account_id)
+        today = self.date_manager.get_today()
+        if today < user.start_reminding:
+            return False
+        else:
+            return True
+
+
+

@@ -1,4 +1,5 @@
 from datetime import datetime
+from datetime import date
 from datetime import timedelta
 
 class DateManager:
@@ -13,8 +14,7 @@ class DateManager:
         return offsetted_today, week_later
 
     def get_today(self):
-        today = datetime.today()
-        today = today.strftime("%Y-%m-%d")
+        today = date.today()
         return today
 
     def get_now(self):
@@ -27,3 +27,9 @@ class DateManager:
         offsetted_now = now + timedelta(minutes=min)
         offsetted_now = offsetted_now.strftime("%Y-%m-%d %H:%M:%S")
         return offsetted_now
+
+    def get_days_from_today(self, days):
+        today = datetime.today()
+        days_from_now = today + timedelta(days=days)
+        days_from_now = days_from_now.strftime("%Y-%m-%d")
+        return days_from_now
