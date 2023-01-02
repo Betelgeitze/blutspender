@@ -300,7 +300,7 @@ class ManageDB:
 
     def check_timers(self, account_id, timer):
         user = self.get_user(account_id)
-        now = self.date_manager.get_now()[1]  # TODO: Double check the necessity of 2 returns
+        now = self.date_manager.get_now()[1]
         if getattr(user, timer) > now:
             return True
         else:
