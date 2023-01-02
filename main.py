@@ -13,10 +13,13 @@ DELTA = 7
 START_DATE_OFFSET = 0
 # Sends the data 0, 3 and 7 days before
 INFORM_DAYS = [0, 3, 7]
+
 APPROXIMATE_MAX_DISTANCE = 20
 MAX_DISTANCE = 5
+
 ADD_MIN = 10
 FEEDBACK_MIN = 30
+
 API_KEY = os.environ["BOT_API_KEY"]
 
 parser = Parser(DELTA, START_DATE_OFFSET)
@@ -39,7 +42,7 @@ def dic_to_string(termin):
 def get_termine(postcode):
     lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
     min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
-    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon)
+    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon, INFORM_DAYS=None)
     return available_termine
 
 
@@ -67,9 +70,10 @@ def schedule_checker():
     while True:
         scheduler.start()
 
-
+# TODO: Delete and let parser loop go
 # TO DELETE
 
+send_termine()
 # manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
 # run_parser()
 # print("test")
@@ -171,6 +175,8 @@ def add_in_db_and_reply(message, language):
                                  rps[language]["add_or_del"])
                 bot.send_message(chat_id,
                                  termin_str)
+                bot.send_message(chat_id,
+                                 rps[language]["add_or_del"])
     else:
         bot.send_message(chat_id,
                          rps[language]["wrong_postcode"])
@@ -356,7 +362,8 @@ def handle_callback_query(callback_query):
             manage_db.insert_feedback(account_id=account_id, text=text)
             stop_reminder_length_keyboard = create_stop_reminder_length_keyboard(language=language)
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["else_stop_feedback"] + rps[language]["reminder_length"],
+                                  text=rps[language]["else_stop_feedback"] +
+                                       rps[language]["reminder_length"],
                                   reply_markup=stop_reminder_length_keyboard)
 
         elif data == "remind_one_week_btn_clicked":
@@ -376,7 +383,8 @@ def handle_callback_query(callback_query):
             remind = manage_db.want_remind(account_id=account_id)[0]
             main_keyboard = create_main_keyboard(language=language, remind=remind)
             bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["welcome_msg"] + rps[language]["no_action_required"] +
+                                  text=rps[language]["welcome_msg"] +
+                                       rps[language]["no_action_required"] +
                                        rps[language]["add_example"],
                                   reply_markup=main_keyboard)
 

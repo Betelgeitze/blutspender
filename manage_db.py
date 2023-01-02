@@ -235,7 +235,7 @@ class ManageDB:
             times_data = self.session.query(self.Times).filter(self.Times.termin_id == row.id).all()
             date_delta = self.date_manager.get_date_delta(row.date)
 
-            if date_delta in INFORM_DAYS:
+            if INFORM_DAYS is None or date_delta in INFORM_DAYS:
                 times = [item.time for item in times_data]
 
                 available_termin = {
