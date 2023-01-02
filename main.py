@@ -11,6 +11,8 @@ from responses import responses as rps
 
 DELTA = 7
 START_DATE_OFFSET = 0
+# Sends the data 0, 3 and 7 days before
+INFORM_DAYS = [0, 3, 7]
 APPROXIMATE_MAX_DISTANCE = 20
 MAX_DISTANCE = 5
 ADD_MIN = 10
@@ -44,7 +46,7 @@ def get_termine(postcode):
 # SCHEDULED FUNCTIONS
 def send_termine():
     users_with_available_termine = manage_db.check_available_termine(
-        APPROXIMATE_MAX_DISTANCE=APPROXIMATE_MAX_DISTANCE, MAX_DISTANCE=MAX_DISTANCE)
+        APPROXIMATE_MAX_DISTANCE=APPROXIMATE_MAX_DISTANCE, MAX_DISTANCE=MAX_DISTANCE, INFORM_DAYS=INFORM_DAYS)
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:
             termin_str = dic_to_string(termin=user["available_termine"])
@@ -55,7 +57,6 @@ def run_parser():
     manage_db.create_tables()
     parser.parse_pages()
     manage_db.delete_outdated_data()
-
 
 scheduler = BlockingScheduler(timezone="Europe/Berlin")
 scheduler.add_job(run_parser, "cron", hour=22)
@@ -152,7 +153,6 @@ def add_in_db_and_reply(message, language):
     postcode = message.text.strip()
     account_id = message.from_user.id
     chat_id = message.chat.id
-    # TODO: Scheduler should not remind every day if there is an available termin
 
     if postcode.isdigit() and len(postcode) == 5:
         manage_db.insert_user_postcodes(account_id=account_id, text=postcode)
@@ -160,12 +160,14 @@ def add_in_db_and_reply(message, language):
         if len(available_termine) == 0:
             bot.send_message(chat_id,
                              rps[language]["no_termine"] +
+                             rps[language]["no_action"] +
                              rps[language]["add_or_del"])
         else:
             for termin in available_termine:
                 termin_str = dic_to_string(termin)
                 bot.send_message(chat_id,
-                                 rps[language]["no_termine"] +
+                                 rps[language]["yes_termine"] +
+                                 rps[language]["no_action"] +
                                  rps[language]["add_or_del"])
                 bot.send_message(chat_id,
                                  termin_str)

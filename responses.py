@@ -22,8 +22,9 @@ responses = {
                             "Verwenden Sie dazu die Schaltfläche unten",
         "wrong_postcode": "Diese Postleitzahl wurde nicht gefunden. Please try again."
                           "Die Postleitzahl muss genau 5 Ziffern enthalten",
-        "no_termine": "Für diese Woche gibt es keine Termine in Ihrer Nähe. Ich gebe Ihnen Bescheid, wenn sich etwas ergibt."
-                      "Sie brauchen nichts weiter zu tun. Vielen Dank!",
+        "yes_termine": "Hier sind alle Termine für diese Woche. Ich gebe Ihnen Bescheid, wenn sich noch etwas ergibt.",
+        "no_termine": "Für diese Woche gibt es keine Termine in Ihrer Nähe. Ich sage Ihnen Bescheid, wenn sich etwas ergibt.\n\n",
+        "no_action":  "Sie brauchen nichts weiter zu tun. Danke!\n\n",
         "language_changed": "Sprache geändert.\n\n",
         "stop_reminder_reason": "Bitte wählen Sie aus, warum Sie keine Erinnerungen mehr erhalten möchten:",
         "else_stop_feedback": "Ich würde mich freuen, wenn Sie mir Ihr Feedback geben könnten. Klicken Sie dazu auf die Schaltfläche 'Feedback' in /start",
@@ -72,8 +73,9 @@ responses = {
                             "For this, use the button below",
         "wrong_postcode": "This zip code was not found. Please try again."
                           "The postcode must contain exactly 5 digits",
-        "no_termine": "There are no appointments near you for this week. I'll let you know if anything comes up."
-                      "You don't have to do anything else. Thank you!\n\n",
+        "yes_termine": "Here are all the appointments for this week. I'll let you know if anything else comes up.\n\n",
+        "no_termine": "There are no appointments near you for this week. I'll let you know if anything comes up.\n\n",
+        "no_action":  "You don't have to do anything else. Thank you!\n\n",
         "language_changed": "Language changed.\n\n",
         "stop_reminder_reason": "Please select why you want to stop getting reminders:",
         "else_stop_feedback": "I would be happy if you could give me your feedback. For that click 'Feedback' button in /start",

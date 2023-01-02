@@ -37,3 +37,8 @@ class DateManager:
     def format_date(self, date):
         date = date.strftime("%d.%m.%Y")
         return date
+
+    def get_date_delta(self, termin_date):
+        today = self.get_today()
+        difference = termin_date - today
+        return difference.days
