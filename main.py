@@ -79,15 +79,19 @@ def schedule_checker():
 def create_main_keyboard(language, remind):
     main_keyboard = InlineKeyboardMarkup()
 
-    add_postcode_btn = InlineKeyboardButton(text=rps[language]["keyboard_add"], callback_data="add_btn_clicked")
-    show_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_show"], callback_data="show_btn_clicked")
+    add_postcode_btn = InlineKeyboardButton(text=rps[language]["keyboard_add"],
+                                            callback_data="add_btn_clicked")
+    show_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_show"],
+                                              callback_data="show_btn_clicked")
     delete_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_del"],
                                                 callback_data="delete_btn_clicked")
     change_language_btn = InlineKeyboardButton(text=rps[language]["change_language"],
                                                callback_data="change_language_btn_clicked")
-    feedback_btn = InlineKeyboardButton(text=rps[language]["feedback"], callback_data="feedback_btn_clicked")
+    feedback_btn = InlineKeyboardButton(text=rps[language]["feedback"],
+                                        callback_data="feedback_btn_clicked")
     if remind:
-        reminder = InlineKeyboardButton(text=rps[language]["reminder"], callback_data="reminder_btn_clicked")
+        reminder = InlineKeyboardButton(text=rps[language]["reminder"],
+                                        callback_data="reminder_btn_clicked")
     else:
         reminder = InlineKeyboardButton(text=rps[language]["remind_again"],
                                         callback_data="remind_again_btn_clicked")
@@ -104,8 +108,10 @@ def create_main_keyboard(language, remind):
 
 def create_language_keyboard():
     language_keyboard = InlineKeyboardMarkup()
-    english_btn = InlineKeyboardButton(text="English", callback_data="english_btn_clicked")
-    deutsch_btn = InlineKeyboardButton(text="Deutsch", callback_data="deutsch_btn_clicked")
+    english_btn = InlineKeyboardButton(text="English",
+                                       callback_data="english_btn_clicked")
+    deutsch_btn = InlineKeyboardButton(text="Deutsch",
+                                       callback_data="deutsch_btn_clicked")
     language_keyboard.add(english_btn, deutsch_btn)
     return language_keyboard
 
@@ -134,7 +140,6 @@ def create_stop_reminder_length_keyboard(language):
                                              callback_data="remind_two_months_btn_clicked")
     remind_six_months = InlineKeyboardButton(text=rps[language]["remind_six_months"],
                                              callback_data="remind_six_months_btn_clicked")
-    # stop_reminder_length_keyboard.row(remind_again)#TODO: Add it somewhere else
     stop_reminder_length_keyboard.row(remind_one_week)
     stop_reminder_length_keyboard.row(remind_two_months)
     stop_reminder_length_keyboard.row(remind_six_months)
@@ -147,39 +152,44 @@ def add_in_db_and_reply(message, language):
     postcode = message.text.strip()
     account_id = message.from_user.id
     chat_id = message.chat.id
-    # TODO: Refactor reponses.py
-    # TODO: Change the text of no_termine, etc. to 'You will not be reminded of Termine till dd.mm.yyyy, to change that, go to..."
     # TODO: Scheduler should not remind every day if there is an available termin
 
-
     if postcode.isdigit() and len(postcode) == 5:
-        manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
         manage_db.insert_user_postcodes(account_id=account_id, text=postcode)
         available_termine = get_termine(postcode=postcode)
         if len(available_termine) == 0:
             bot.send_message(chat_id,
-                             rps[language]["no_termine"])
+                             rps[language]["no_termine"] +
+                             rps[language]["add_or_del"])
         else:
             for termin in available_termine:
                 termin_str = dic_to_string(termin)
-                bot.send_message(chat_id, rps[language]["available_termine"])
-                bot.send_message(chat_id, termin_str)
+                bot.send_message(chat_id,
+                                 rps[language]["no_termine"] +
+                                 rps[language]["add_or_del"])
+                bot.send_message(chat_id,
+                                 termin_str)
     else:
-        bot.send_message(chat_id, rps[language]["wrong_postcode"])
+        bot.send_message(chat_id,
+                         rps[language]["wrong_postcode"])
 
 
 def change_language(callback_query, language):
     postcode_exists = manage_db.get_user_postcodes(callback_query.from_user.id)[0]
     if not postcode_exists:
         bot.reply_to(callback_query.message,
-                     rps[language]["welcome_msg"] + rps[language]["write_postcode"])
+                     rps[language]["welcome_msg"] +
+                     rps[language]["write_postcode"])
     else:
-        bot.reply_to(callback_query.message, rps[language]["language_changed"])
+        bot.reply_to(callback_query.message,
+                     rps[language]["language_changed"] +
+                     rps[language]["add_or_del"])
 
 
 def remind_time(account_id, chat_id, language):
     remind_date = manage_db.want_remind(account_id=account_id)[1]
-    bot.send_message(chat_id=chat_id, text=rps[language]["reminder_success"].format(remind_date))
+    bot.send_message(chat_id,
+                     rps[language]["reminder_success"].format(remind_date))
 
 
 # BOT RUNNING
@@ -202,16 +212,20 @@ def welcome_message(message):
         if postcode_exists:
             if remind:
                 bot.reply_to(message,
-                             rps[language]["welcome_msg"] + rps[language]["no_action_required"] +
+                             rps[language]["welcome_msg"] +
+                             rps[language]["no_action_required"] +
                              rps[language]["add_example"],
                              reply_markup=main_keyboard)
             else:
                 bot.reply_to(message,
-                             rps[language]["welcome_msg"] + rps[language]["no_action_required"] +
+                             rps[language]["welcome_msg"] +
+                             rps[language]["no_action_required"] +
                              rps[language]["not_reminding"].format(remind_date),
                              reply_markup=main_keyboard)
         else:
-            bot.reply_to(message, rps["select_language"], reply_markup=language_keyboard)
+            bot.reply_to(message,
+                         rps["select_language"],
+                         reply_markup=language_keyboard)
 
 
 @bot.message_handler()
@@ -228,35 +242,41 @@ def send_postcode(message):
         language = manage_db.get_language(account_id=account_id)
 
         if "delete:" in text.lower():
-            manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
             command = text.split(":")
             command = [c.strip() for c in command][1]
             if len(command) > 1:
                 postcode_row = manage_db.delete_user_postcode(account_id=account_id, command=command)
                 postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
                 if postcode_row is None:
-                    bot.reply_to(message, rps[language]["postcode_not_exist"].format(command))
+                    bot.reply_to(message,
+                                 rps[language]["postcode_not_exist"].format(command))
                 else:
-                    bot.reply_to(message, rps[language]["del_success"].format(command))
+                    bot.reply_to(message,
+                                 rps[language]["del_success"].format(command))
                     if postcode_exists:
-                        bot.reply_to(message, rps[language]["add_or_del"])
+                        bot.reply_to(message,
+                                     rps[language]["add_or_del"])
                     else:
-                        bot.reply_to(message, rps[language]["reset"])
+                        bot.reply_to(message,
+                                     rps[language]["reset"])
                         welcome_message(message)
             else:
-                bot.reply_to(message, rps[language]["failed_del"])
+                bot.reply_to(message,
+                             rps[language]["failed_del"] +
+                             rps[language]["del_example"])
         elif add_another_postcode:
             add_in_db_and_reply(message, language)
         elif add_feedback:
             manage_db.insert_feedback(account_id=account_id, text=text)
-            manage_db.update_timers(account_id=account_id, open=False, timer="feedback_timer")
-            bot.reply_to(message, rps[language]["feedback_thanks"])
+            bot.reply_to(message,
+                         rps[language]["feedback_thanks"])
             welcome_message(message)
-
         elif postcode_exists:
             if remind:
                 bot.send_message(chat_id,
-                             rps[language]["no_action_required"] + rps[language]["no_action_info"])
+                             rps[language]["no_action_required"] +
+                             rps[language]["no_action_info"] +
+                             rps[language]["add_or_del"])
             else:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +
@@ -264,6 +284,9 @@ def send_postcode(message):
                                  rps[language]["not_reminding"])
         else:
             add_in_db_and_reply(message, language)
+
+        manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
+        manage_db.update_timers(account_id=account_id, open=False, timer="feedback_timer")
 
 
 @bot.callback_query_handler(func=lambda query: True)
