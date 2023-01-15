@@ -8,7 +8,9 @@ from parser import Parser
 from postcode_ranges import PostcodeRanges
 from manage_db import ManageDB
 from responses import responses as rps
+import math
 
+COUNTRY_CODE = "de"
 DELTA = 7
 START_DATE_OFFSET = 0
 # Sends the data 0, 3 and 7 days before
@@ -22,9 +24,9 @@ FEEDBACK_MIN = 30
 
 API_KEY = os.environ["BOT_API_KEY"]
 
-parser = Parser(DELTA, START_DATE_OFFSET)
-postcode_ranges = PostcodeRanges()
-manage_db = ManageDB()
+parser = Parser(DELTA, START_DATE_OFFSET, country_code=COUNTRY_CODE)
+postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
+manage_db = ManageDB(country_code=COUNTRY_CODE)
 
 bot = telebot.TeleBot(API_KEY)
 
@@ -42,7 +44,8 @@ def dic_to_string(termin):
 def get_termine(postcode):
     lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
     min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
-    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon, INFORM_DAYS=None)
+    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon,
+                                                       INFORM_DAYS=None)
     return available_termine
 
 
@@ -61,6 +64,7 @@ def run_parser():
     parser.parse_pages()
     manage_db.delete_outdated_data()
 
+
 scheduler = BlockingScheduler(timezone="Europe/Berlin")
 scheduler.add_job(run_parser, "cron", hour=22)
 scheduler.add_job(send_termine, "cron", hour=12)
@@ -70,14 +74,14 @@ def schedule_checker():
     while True:
         scheduler.start()
 
+
 # TODO: Delete and let parser loop go
 # TO DELETE
 
-send_termine()
 # manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
 # run_parser()
-# print("test")
-
+# send_termine()
+print("done")
 
 # Keyboards
 
@@ -158,7 +162,10 @@ def add_in_db_and_reply(message, language):
     account_id = message.from_user.id
     chat_id = message.chat.id
 
-    if postcode.isdigit() and len(postcode) == 5:
+    # Checking against pgeocode if a postcode exists in reality
+    lat = postcode_ranges.get_lat_and_lon(postcode)[0]
+
+    if not math.isnan(lat):
         manage_db.insert_user_postcodes(account_id=account_id, text=postcode)
         available_termine = get_termine(postcode=postcode)
         if len(available_termine) == 0:
@@ -171,8 +178,7 @@ def add_in_db_and_reply(message, language):
                 termin_str = dic_to_string(termin)
                 bot.send_message(chat_id,
                                  rps[language]["yes_termine"] +
-                                 rps[language]["no_action"] +
-                                 rps[language]["add_or_del"])
+                                 rps[language]["no_action"])
                 bot.send_message(chat_id,
                                  termin_str)
                 bot.send_message(chat_id,
@@ -282,9 +288,9 @@ def send_postcode(message):
         elif postcode_exists:
             if remind:
                 bot.send_message(chat_id,
-                             rps[language]["no_action_required"] +
-                             rps[language]["no_action_info"] +
-                             rps[language]["add_or_del"])
+                                 rps[language]["no_action_required"] +
+                                 rps[language]["no_action_info"] +
+                                 rps[language]["add_or_del"])
             else:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +

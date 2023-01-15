@@ -10,10 +10,10 @@ from date_manager import DateManager
 
 class ManageDB:
 
-    def __init__(self):
+    def __init__(self, country_code):
         self.Base, self.engine, self.Termine, self.Times, self.Postcodes, self.Users, self.UserPostcodes, self.Feedback = self.create_db_structure()
 
-        self.postcode_ranges = PostcodeRanges()
+        self.postcode_ranges = PostcodeRanges(country_code=country_code)
         self.date_manager = DateManager()
 
         Session = sessionmaker(self.engine)
@@ -106,8 +106,11 @@ class ManageDB:
         self.Base.metadata.create_all(self.engine)
 
     def delete_tables(self, tables):
+        print(1)
         for table in tables:
+            print(table)
             self.engine.execute(f"DROP TABLE IF EXISTS {table} CASCADE;")
+            print(3)
 
 # Support functions
 

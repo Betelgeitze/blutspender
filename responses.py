@@ -20,8 +20,7 @@ responses = {
         "add_example": "Sie können trotzdem eine Postleitzahl eingeben, zum Beispiel, wenn Sie in der Nähe Ihrer "
                             "Arbeit/Universität/etc.\n"
                             "Verwenden Sie dazu die Schaltfläche unten",
-        "wrong_postcode": "Diese Postleitzahl wurde nicht gefunden. Please try again."
-                          "Die Postleitzahl muss genau 5 Ziffern enthalten",
+        "wrong_postcode": "Diese Postleitzahl existiert nicht. Bitte versuchen sie erneut.",
         "yes_termine": "Hier sind alle Termine für diese Woche. Ich gebe Ihnen Bescheid, wenn sich noch etwas ergibt.",
         "no_termine": "Für diese Woche gibt es keine Termine in Ihrer Nähe. Ich sage Ihnen Bescheid, wenn sich etwas ergibt.\n\n",
         "no_action":  "Sie brauchen nichts weiter zu tun. Danke!\n\n",
@@ -71,8 +70,7 @@ responses = {
         "add_example": "You can still enter a zip code, for example, if you could donate near your "
                             "work/university/etc.\n"
                             "For this, use the button below",
-        "wrong_postcode": "This zip code was not found. Please try again."
-                          "The postcode must contain exactly 5 digits",
+        "wrong_postcode": "This zip code does not exist. Please try again.",
         "yes_termine": "Here are all the appointments for this week. I'll let you know if anything else comes up.\n\n",
         "no_termine": "There are no appointments near you for this week. I'll let you know if anything comes up.\n\n",
         "no_action":  "You don't have to do anything else. Thank you!\n\n",

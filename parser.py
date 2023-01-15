@@ -11,11 +11,12 @@ from date_manager import DateManager
 
 class Parser:
 
-    def __init__(self, delta, start_date_offset):
+    def __init__(self, delta, start_date_offset, country_code):
         self.start_date_offset = start_date_offset
         self.delta = delta
+        self.country_code = country_code
 
-        self.manage_db = ManageDB()
+        self.manage_db = ManageDB(country_code)
         self.date_manager = DateManager()
 
 
