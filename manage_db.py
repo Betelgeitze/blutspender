@@ -106,11 +106,8 @@ class ManageDB:
         self.Base.metadata.create_all(self.engine)
 
     def delete_tables(self, tables):
-        print(1)
         for table in tables:
-            print(table)
             self.engine.execute(f"DROP TABLE IF EXISTS {table} CASCADE;")
-            print(3)
 
 # Support functions
 
@@ -213,7 +210,7 @@ class ManageDB:
 
 # Scheduling: Checking available Termine
 
-    def get_postcodes_nearby(self, max_distance, postcode, min_lat, max_lat, min_lon, max_lon, INFORM_DAYS):
+    def get_postcodes_nearby(self, max_distance, postcode, min_lat, max_lat, min_lon, max_lon, inform_days):
         available_termine = []
         postcodes_nearby = []
 
@@ -238,7 +235,7 @@ class ManageDB:
             times_data = self.session.query(self.Times).filter(self.Times.termin_id == row.id).all()
             date_delta = self.date_manager.get_date_delta(row.date)
 
-            if INFORM_DAYS is None or date_delta in INFORM_DAYS:
+            if inform_days is None or date_delta in inform_days:
                 times = [item.time for item in times_data]
 
                 available_termin = {
@@ -254,7 +251,7 @@ class ManageDB:
 
         return available_termine
 
-    def check_available_termine(self, APPROXIMATE_MAX_DISTANCE, MAX_DISTANCE, INFORM_DAYS):
+    def check_available_termine(self, approximate_max_distance, max_distance, inform_days):
         found_termine = []
         available_termin_data = []
         users = self.session.query(self.Users).all()
@@ -263,10 +260,10 @@ class ManageDB:
             user_postcodes = [item.postcode for item in postcode_data]
             for postcode in user_postcodes:
                 lat, lon = self.postcode_ranges.get_lat_and_lon(postcode=postcode)
-                min_lat, max_lat, min_lon, max_lon = self.postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE,
+                min_lat, max_lat, min_lon, max_lon = self.postcode_ranges.calculate_ranges(approximate_max_distance,
                                                                                            lat, lon)
-                available_termine = self.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon,
-                                                              max_lon, INFORM_DAYS)
+                available_termine = self.get_postcodes_nearby(max_distance, postcode, min_lat, max_lat, min_lon,
+                                                              max_lon, inform_days)
                 if len(available_termine) > 0:
                     available_termin_data.append(available_termine)
 

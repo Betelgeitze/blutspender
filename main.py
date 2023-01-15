@@ -45,14 +45,14 @@ def get_termine(postcode):
     lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
     min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
     available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon,
-                                                       INFORM_DAYS=None)
+                                                       inform_days=None)
     return available_termine
 
 
 # SCHEDULED FUNCTIONS
 def send_termine():
     users_with_available_termine = manage_db.check_available_termine(
-        APPROXIMATE_MAX_DISTANCE=APPROXIMATE_MAX_DISTANCE, MAX_DISTANCE=MAX_DISTANCE, INFORM_DAYS=INFORM_DAYS)
+        approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:
             termin_str = dic_to_string(termin=user["available_termine"])
@@ -82,6 +82,7 @@ def schedule_checker():
 # run_parser()
 # send_termine()
 print("done")
+
 
 # Keyboards
 
