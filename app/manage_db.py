@@ -23,9 +23,9 @@ class ManageDB:
 
     def create_db_structure(self):
         engine = create_engine(f'postgresql://'
-                               f'{os.environ["USERNAME"]}:'
-                               f'{os.environ["PWD"]}@{os.environ["HOSTNAME"]}:'
-                               f'{os.environ["PORT_ID"]}/{os.environ["DATABASE"]}')
+                               f'{os.environ["POSTGRES_USER"]}:'
+                               f'{os.environ["POSTGRES_PASSWORD"]}@{os.environ["HOSTNAME"]}:'
+                               f'{os.environ["PORT_ID"]}/{os.environ["POSTGRES_DB"]}')
 
         Base = declarative_base()
 
