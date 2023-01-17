@@ -83,6 +83,7 @@ run_parser()
 # send_termine()
 print("done")
 
+#TODO: Change all "edit message" to "add new message". Click "Add another zip code" to understand what I mean
 
 # Keyboards
 
