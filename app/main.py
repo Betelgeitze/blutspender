@@ -79,7 +79,7 @@ def schedule_checker():
 # TO DELETE
 
 # manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
-# run_parser()
+run_parser()
 # send_termine()
 print("done")
 
