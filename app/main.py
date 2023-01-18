@@ -212,6 +212,7 @@ def remind_time(account_id, chat_id, language):
 
 @bot.message_handler(commands=['start', 'help'])
 def welcome_message(message):
+    print("r")
     if not message.from_user.is_bot:
         account_id = message.from_user.id
         user_data = message.json
