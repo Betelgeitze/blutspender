@@ -81,9 +81,6 @@ def schedule_checker():
 # manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
 run_parser()
 # send_termine()
-print("done")
-
-#TODO: Change all "edit message" to "add new message". Click "Add another zip code" to understand what I mean
 
 # Keyboards
 
@@ -187,7 +184,8 @@ def add_in_db_and_reply(message, language):
                                  rps[language]["add_or_del"])
     else:
         bot.send_message(chat_id,
-                         rps[language]["wrong_postcode"])
+                         rps[language]["wrong_postcode"] +
+                         rps[language]["write_start"])
 
 
 def change_language(callback_query, language):
@@ -208,11 +206,12 @@ def remind_time(account_id, chat_id, language):
                      rps[language]["reminder_success"].format(remind_date))
 
 
+#TODO: Change postcode does not exist to sending to the /start
+
 # BOT RUNNING
 
 @bot.message_handler(commands=['start', 'help'])
 def welcome_message(message):
-    print("r")
     if not message.from_user.is_bot:
         account_id = message.from_user.id
         user_data = message.json
@@ -237,7 +236,8 @@ def welcome_message(message):
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
                              rps[language]["no_action_required"] +
-                             rps[language]["not_reminding"].format(remind_date),
+                             rps[language]["not_reminding"].format(remind_date) +
+                             rps[language]["use_interface"],
                              reply_markup=main_keyboard)
         else:
             bot.reply_to(message,
@@ -266,7 +266,8 @@ def send_postcode(message):
                 postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
                 if postcode_row is None:
                     bot.reply_to(message,
-                                 rps[language]["postcode_not_exist"].format(command))
+                                 rps[language]["wrong_postcode"] +
+                                 rps[language]["show_all"])
                 else:
                     bot.reply_to(message,
                                  rps[language]["del_success"].format(command))
@@ -297,8 +298,8 @@ def send_postcode(message):
             else:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +
-                                 rps[language]["not_reminding"] +
-                                 rps[language]["not_reminding"])
+                                 rps[language]["not_reminding"].format(remind_date) +
+                                 rps[language]["add_or_del"])
         else:
             add_in_db_and_reply(message, language)
 
@@ -327,14 +328,14 @@ def handle_callback_query(callback_query):
 
         elif data == 'change_language_btn_clicked':
             language_keyboard = create_language_keyboard()
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps["select_language"],
-                                  reply_markup=language_keyboard)
+            bot.send_message(chat_id=chat_id,
+                             text=rps["select_language"],
+                             reply_markup=language_keyboard)
 
         elif data == 'add_btn_clicked':
             manage_db.update_timers(account_id=account_id, open=True, timer="postcode_timer", minutes=ADD_MIN)
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["write_postcode"])
+            bot.send_message(chat_id=chat_id,
+                             text=rps[language]["write_postcode"])
         elif data == 'show_btn_clicked':
             user_postcodes = manage_db.get_user_postcodes(account_id=account_id)[1]
             user_postcodes_str = "\n".join(user_postcodes)
@@ -343,8 +344,8 @@ def handle_callback_query(callback_query):
             bot.reply_to(callback_query.message, rps[language]["del_example"])
 
         elif data == 'feedback_btn_clicked':
-            bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                  text=rps[language]["write_feedback"])
+            bot.send_message(chat_id=chat_id,
+                             text=rps[language]["write_feedback"])
             manage_db.update_timers(account_id=account_id, open=True, timer="feedback_timer", minutes=FEEDBACK_MIN)
 
         elif data == "reminder_btn_clicked":

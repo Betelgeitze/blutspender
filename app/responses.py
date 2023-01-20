@@ -15,22 +15,22 @@ responses = {
         "reset": "Sie haben keine weiteren Postleitzahlen. Fangen wir von vorne an!",
         "add_or_del": "Wenn Sie Ihre Daten hinzufügen oder löschen wollen, schreiben Sie /start",
         "del_success": "Erfolg! {} ist gelöscht",
-        "postcode_not_exist": "{} existiert nicht"
-                              "Klicken Sie auf die Schaltfläche 'Alle meine Postleitzahlen anzeigen' in /start, um Ihre Postleitzahlen zu sehen",
+        "show_all": "Klicken Sie auf die Schaltfläche 'Alle meine Postleitzahlen anzeigen' in /start, um Ihre Postleitzahlen zu sehen",
         "add_example": "Sie können trotzdem eine Postleitzahl eingeben, zum Beispiel, wenn Sie in der Nähe Ihrer "
                             "Arbeit/Universität/etc.\n"
                             "Verwenden Sie dazu die Schaltfläche unten",
-        "wrong_postcode": "Diese Postleitzahl existiert nicht. Bitte versuchen sie erneut.",
-        "yes_termine": "Hier sind alle Termine für diese Woche. Ich gebe Ihnen Bescheid, wenn sich noch etwas ergibt.",
-        "no_termine": "Für diese Woche gibt es keine Termine in Ihrer Nähe. Ich sage Ihnen Bescheid, wenn sich etwas ergibt.\n\n",
+        "wrong_postcode": "Diese Postleitzahl existiert nicht.\n",
+        "write_start": "Schreibe /start",
+        "yes_termine": "Hier sind alle Termine für diese Woche. Ich gebe Ihnen Bescheid, wenn noch etwas dazwischen kommt.\n\n",
+        "no_termine": "Für diese Woche gibt es keine Termine in Ihrer Nähe. Ich gebe Ihnen Bescheid, wenn sich etwas ergibt.\n\n",
         "no_action":  "Sie brauchen nichts weiter zu tun. Danke!\n\n",
         "language_changed": "Sprache geändert.\n\n",
         "stop_reminder_reason": "Bitte wählen Sie aus, warum Sie keine Erinnerungen mehr erhalten möchten:",
         "else_stop_feedback": "Ich würde mich freuen, wenn Sie mir Ihr Feedback geben könnten. Klicken Sie dazu auf die Schaltfläche 'Feedback' in /start",
         "reminder_length": "Ab wann soll ich Sie an Blutspendetermine erinnern?",
         "reminder_success": "Danke, ich werde mit der Erinnerung beginnen am: {}. \n\nSchreiben Sie /start",
-        "not_reminding": "Wie Sie gewünscht haben, werde ich Sie bis {} nicht an Blutspendetermine erinnern. "
-                         "Um das zu ändern, verwenden Sie die unten stehende Schnittstelle.",
+        "not_reminding": "Wie von Ihnen gewünscht, werde ich Sie bis {} nicht an Blutspendetermine erinnern. ",
+        "use_interface": "Um das zu ändern, verwenden Sie die unten stehende Schnittstelle.",
 
         "feedback_thanks": "Danke für dein Feedback!",
         "write_feedback": "Bitte gib uns dein Feedback:",
@@ -65,12 +65,12 @@ responses = {
         "reset": "You have no more zip codes. Let's start from the beginning!",
         "add_or_del": "If you want to add or delete your data, write /start",
         "del_success": "Success! {} is deleted",
-        "postcode_not_exist": "{} does not exist."
-                              "Click on 'Show all my zip codes' button in /start to see your zip codes",
+        "show_all": "Click on 'Show all my zip codes' button in /start to see your zip codes",
         "add_example": "You can still enter a zip code, for example, if you could donate near your "
                             "work/university/etc.\n"
                             "For this, use the button below",
-        "wrong_postcode": "This zip code does not exist. Please try again.",
+        "wrong_postcode": "This zip code does not exist.\n",
+        "write_start": "Write /start",
         "yes_termine": "Here are all the appointments for this week. I'll let you know if anything else comes up.\n\n",
         "no_termine": "There are no appointments near you for this week. I'll let you know if anything comes up.\n\n",
         "no_action":  "You don't have to do anything else. Thank you!\n\n",
@@ -79,8 +79,8 @@ responses = {
         "else_stop_feedback": "I would be happy if you could give me your feedback. For that click 'Feedback' button in /start",
         "reminder_length": "When should I start remind you about blood donation appointments?",
         "reminder_success": "Thanks, I will start reminding on: {}. \n\nWrite /start",
-        "not_reminding": "As you asked, I will not to remind you about blood donation appointments till {}. "
-                         "To change that, use the interface below.",
+        "not_reminding": "As you asked, I will not remind you about blood donation appointments till {}. ",
+        "use_interface": "To change that, use the interface below.",
 
         "feedback_thanks": "Thanks for your feedback!",
         "write_feedback": "Please give your feedback:",
