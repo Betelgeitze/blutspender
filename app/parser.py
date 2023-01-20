@@ -11,19 +11,16 @@ from date_manager import DateManager
 
 class Parser:
 
-    def __init__(self, delta, start_date_offset, country_code):
-        self.start_date_offset = start_date_offset
-        self.delta = delta
+    def __init__(self, country_code):
         self.country_code = country_code
 
         self.manage_db = ManageDB(country_code)
         self.date_manager = DateManager()
 
 
-
-    def parse_pages(self):
+    def parse_pages(self, delta, start_date_offset):
         # Getting times
-        offsetted_today, week_later = self.date_manager.get_time_range(self.delta, self.start_date_offset)
+        offsetted_today, week_later = self.date_manager.get_time_range(delta, start_date_offset)
 
         # Parsing DRK
         next_page = True
@@ -74,5 +71,5 @@ class Parser:
                 self.manage_db.insert_termin(postal_code, full_address_list, times, normalized_date, full_link)
                 self.manage_db.insert_termin_postcodes(postal_code)
 
-            next_page = False
+            # next_page = False
         print(f"Number of checked pages: {counter}")

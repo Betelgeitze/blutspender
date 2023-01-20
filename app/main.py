@@ -12,7 +12,6 @@ import math
 
 COUNTRY_CODE = "de"
 DELTA = 7
-START_DATE_OFFSET = 0
 # Sends the data 0, 3 and 7 days before
 INFORM_DAYS = [0, 3, 7]
 
@@ -24,7 +23,7 @@ FEEDBACK_MIN = 30
 
 API_KEY = os.environ["BOT_API_KEY"]
 
-parser = Parser(DELTA, START_DATE_OFFSET, country_code=COUNTRY_CODE)
+parser = Parser(country_code=COUNTRY_CODE)
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 
@@ -59,14 +58,14 @@ def send_termine():
             bot.send_message(int(user["chat_id"]), termin_str)
 
 
-def run_parser():
+def run_parser(start_offset_date):
     manage_db.create_tables()
-    parser.parse_pages()
+    parser.parse_pages(DELTA, start_offset_date)
     manage_db.delete_outdated_data()
 
 
 scheduler = BlockingScheduler(timezone="Europe/Berlin")
-scheduler.add_job(run_parser, "cron", hour=22)
+scheduler.add_job(run_parser, "cron", hour=20, minute=16, args=[DELTA])
 scheduler.add_job(send_termine, "cron", hour=12)
 
 
@@ -78,8 +77,10 @@ def schedule_checker():
 # TODO: Delete and let parser loop go
 # TO DELETE
 
-# manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
-run_parser()
+manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
+
+
+# run_parser(0)
 # send_termine()
 
 # Keyboards
@@ -206,7 +207,7 @@ def remind_time(account_id, chat_id, language):
                      rps[language]["reminder_success"].format(remind_date))
 
 
-#TODO: Change postcode does not exist to sending to the /start
+# TODO: Change postcode does not exist to sending to the /start
 
 # BOT RUNNING
 
