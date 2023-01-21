@@ -2,6 +2,7 @@ version: '3'
 services:
   blutspender:
     env_file: ./.env
+    restart: always
     build:
       dockerfile: Dockerfile
       context: ./app
