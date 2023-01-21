@@ -3,7 +3,7 @@ services:
   blutspender:
     env_file: ./.env
     build:
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
       context: ./app
     depends_on:
       - database
