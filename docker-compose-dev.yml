@@ -1,9 +1,11 @@
 version: '3'
 services:
   blutspender:
-    image: 'betelgeitze/blutspender'
     env_file: ./.env
     restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./app
     depends_on:
       - database
   database:
