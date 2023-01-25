@@ -1,0 +1,24 @@
+version: '3'
+services:
+  blutspender:
+    image: 'betelgeitze/blutspender'
+    env_file: ./.env
+    restart: always
+    depends_on:
+      - database
+  database:
+    image: 'postgres:latest'
+    env_file: ./.env
+    ports:
+      - 5432:5432
+    volumes:
+      - data:/var/lib/postgresql/data
+volumes:
+  data:
+#  adminer:
+#    image: adminer
+#    restart: always
+#    depends_on:
+#      - database
+#    ports:
+#      - 8080:8080
