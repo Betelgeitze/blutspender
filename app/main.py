@@ -7,11 +7,13 @@ import os
 from parser import Parser
 from postcode_ranges import PostcodeRanges
 from manage_db import ManageDB
-from responses import responses as rps
+import json
 import math
 
+# TODO: Remove unnecessary dependencies
+
 COUNTRY_CODE = "de"
-DELTA = 0
+DELTA = 7
 # Sends the data 0, 3 and 7 days before
 INFORM_DAYS = [0, 3, 7]
 
@@ -22,6 +24,9 @@ ADD_MIN = 10
 FEEDBACK_MIN = 30
 
 API_KEY = os.environ["BOT_API_KEY"]
+
+with open("app/responses.json") as file:
+    rps = json.load(file)
 
 parser = Parser(country_code=COUNTRY_CODE)
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
@@ -65,7 +70,7 @@ def run_parser(delta, start_offset_date):
 
 
 scheduler = BlockingScheduler(timezone="Europe/Berlin")
-scheduler.add_job(run_parser, "cron", hour=20, minute=16, args=[DELTA, DELTA])
+scheduler.add_job(run_parser, "cron", hour=20, args=[DELTA, DELTA])
 scheduler.add_job(send_termine, "cron", hour=12)
 
 
@@ -74,14 +79,10 @@ def schedule_checker():
         scheduler.start()
 
 
-# TODO: Delete and let parser loop go
-# TO DELETE
-# manage_db.delete_tables(["termine", "times", "postcodes", "users", "userpostcodes"])
-
-
 # Parse 1 week starting from today
 print("Running first parser")
 run_parser(DELTA, 0)
+
 
 # Keyboards
 
@@ -205,6 +206,7 @@ def remind_time(account_id, chat_id, language):
     remind_date = manage_db.want_remind(account_id=account_id)[1]
     bot.send_message(chat_id,
                      rps[language]["reminder_success"].format(remind_date))
+
 
 # BOT RUNNING
 
