@@ -4,9 +4,8 @@ from bs4 import BeautifulSoup
 import lxml
 from time import sleep
 import random
-import json
-from manage_db import ManageDB
-from date_manager import DateManager
+from app.manage_db import ManageDB
+from app.date_manager import DateManager
 
 
 class Parser:
@@ -71,5 +70,4 @@ class Parser:
                 self.manage_db.insert_termin(postal_code, full_address_list, times, normalized_date, full_link)
                 self.manage_db.insert_termin_postcodes(postal_code)
 
-            # next_page = False
         print(f"Number of checked pages: {counter}")

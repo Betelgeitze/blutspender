@@ -4,8 +4,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship, sessionmaker
 import os
-from postcode_ranges import PostcodeRanges
-from date_manager import DateManager
+from app.postcode_ranges import PostcodeRanges
+from app.date_manager import DateManager
 
 
 class ManageDB:

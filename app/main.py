@@ -1,19 +1,18 @@
-import telebot
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
-
-from apscheduler.schedulers.blocking import BlockingScheduler
-from threading import Thread
-import os
-from parser import Parser
-from postcode_ranges import PostcodeRanges
-from manage_db import ManageDB
 import json
 import math
+import os
+import telebot
+from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
+from apscheduler.schedulers.blocking import BlockingScheduler
+from threading import Thread
+
+from app.postcode_ranges import PostcodeRanges
+from app.manage_db import ManageDB
 
 # TODO: Remove unnecessary dependencies
 
 COUNTRY_CODE = "de"
-DELTA = 7
+
 # Sends the data 0, 3 and 7 days before
 INFORM_DAYS = [0, 3, 7]
 
@@ -28,7 +27,6 @@ API_KEY = os.environ["BOT_API_KEY"]
 with open("app/responses.json") as file:
     rps = json.load(file)
 
-parser = Parser(country_code=COUNTRY_CODE)
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 
@@ -55,6 +53,7 @@ def get_termine(postcode):
 
 # SCHEDULED FUNCTIONS
 def send_termine():
+    print("test")
     users_with_available_termine = manage_db.check_available_termine(
         approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
     if not len(users_with_available_termine) == 0:
@@ -63,14 +62,7 @@ def send_termine():
             bot.send_message(int(user["chat_id"]), termin_str)
 
 
-def run_parser(delta, start_offset_date):
-    manage_db.create_tables()
-    parser.parse_pages(delta, start_offset_date)
-    manage_db.delete_outdated_data()
-
-
 scheduler = BlockingScheduler(timezone="Europe/Berlin")
-scheduler.add_job(run_parser, "cron", hour=20, args=[DELTA, DELTA])
 scheduler.add_job(send_termine, "cron", hour=12)
 
 
@@ -79,13 +71,7 @@ def schedule_checker():
         scheduler.start()
 
 
-# Parse 1 week starting from today
-print("Running first parser")
-run_parser(DELTA, 0)
-
-
 # Keyboards
-
 def create_main_keyboard(language, remind):
     main_keyboard = InlineKeyboardMarkup()
 
@@ -208,6 +194,8 @@ def remind_time(account_id, chat_id, language):
     bot.send_message(chat_id,
                      rps[language]["reminder_success"].format(remind_date))
 
+
+print("Starting the bot")
 
 # BOT RUNNING
 
