@@ -175,15 +175,16 @@ def add_in_db_and_reply(message, language):
                              rps[language]["no_action"] +
                              rps[language]["add_or_del"])
         else:
+            bot.send_message(chat_id,
+                             rps[language]["yes_termine"] +
+                             rps[language]["no_action"])
             for termin in available_termine:
                 termin_str = dic_to_string(termin)
-                bot.send_message(chat_id,
-                                 rps[language]["yes_termine"] +
-                                 rps[language]["no_action"])
+
                 bot.send_message(chat_id,
                                  termin_str)
-                bot.send_message(chat_id,
-                                 rps[language]["add_or_del"])
+            bot.send_message(chat_id,
+                             rps[language]["add_or_del"])
     else:
         bot.send_message(chat_id,
                          rps[language]["wrong_postcode"] +
