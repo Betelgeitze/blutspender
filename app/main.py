@@ -53,7 +53,6 @@ def get_termine(postcode):
 
 # SCHEDULED FUNCTIONS
 def send_termine():
-    print("test")
     users_with_available_termine = manage_db.check_available_termine(
         approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
     if not len(users_with_available_termine) == 0:
