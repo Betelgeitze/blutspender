@@ -1,11 +1,10 @@
 from datetime import datetime
 import requests
 from bs4 import BeautifulSoup
-import lxml
 from time import sleep
 import random
-from app.manage_db import ManageDB
-from app.date_manager import DateManager
+from support.manage_db import ManageDB
+from support.date_manager import DateManager
 
 
 class Parser:

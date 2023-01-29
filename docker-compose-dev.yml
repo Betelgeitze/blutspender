@@ -1,19 +1,17 @@
 version: '3'
 services:
-  blutspender:
+  bot:
     env_file: ./.env
-    restart: always
     build:
-      dockerfile: Dockerfile
-      context: ./app
+      dockerfile: Dockerfile-bot
+      context: .
     depends_on:
       - database
   parser:
     env_file: ./.env
-    restart: always
     build:
-      dockerfile: Dockerfile
-      context: ./parser
+      dockerfile: Dockerfile-parser
+      context: .
     depends_on:
       - database
   database:
@@ -25,6 +23,7 @@ services:
       - data:/var/lib/postgresql/data
 volumes:
   data:
+
 #  adminer:
 #    image: adminer
 #    restart: always

@@ -3,13 +3,13 @@ language: generic
 services:
   - docker
 before_install:
-  - docker build -t betelgeitze/blutspender -f ./app/Dockerfile ./app
+  - docker build -t betelgeitze/blutspender -f ./bot/Dockerfile-parser-bot ./bot #TODO: WRONG REWRITE IT
 
 #script:
 #  - docker run -e CI=true betelgeitze/blutspender
 
 after_success:
-  - docker build -t betelgeitze/blutspender ./app
+  - docker build -t betelgeitze/blutspender ./bot
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   - docker push betelgeitze/blutspender
 

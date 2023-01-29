@@ -1,9 +1,14 @@
 version: '3'
 services:
-  blutspender:
-    image: 'betelgeitze/blutspender'
+  bot:
+    image: 'betelgeitze/bot'
     env_file: ./.env
-    restart: always
+#    restart: always
+    depends_on:
+      - database
+  parser:
+    image: 'betelgeitze/parser'
+    env_file: ./.env
     depends_on:
       - database
   database:

@@ -1,9 +1,13 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 from parser import Parser
-from app.manage_db import ManageDB
+from support.manage_db import ManageDB
+import json
 
-DELTA = 2
-COUNTRY_CODE = "de"
+with open("config.json") as file:
+    config = json.load(file)
+
+DELTA = config["delta"]
+COUNTRY_CODE = config["country_code"]
 
 parser = Parser(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)

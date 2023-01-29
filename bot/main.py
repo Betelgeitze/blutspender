@@ -6,32 +6,34 @@ from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from apscheduler.schedulers.blocking import BlockingScheduler
 from threading import Thread
 
-from app.postcode_ranges import PostcodeRanges
-from app.manage_db import ManageDB
+from support.postcode_ranges import PostcodeRanges
+from support.manage_db import ManageDB
 
-# TODO: Remove unnecessary dependencies
 
-COUNTRY_CODE = "de"
+with open("config.json") as file:
+    config = json.load(file)
 
-# Sends the data 0, 3 and 7 days before
-INFORM_DAYS = [0, 3, 7]
-
-APPROXIMATE_MAX_DISTANCE = 20
-MAX_DISTANCE = 5
-
-ADD_MIN = 10
-FEEDBACK_MIN = 30
+COUNTRY_CODE = config["country_code"]
+INFORM_DAYS = config["inform_days"]
+APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
+MAX_DISTANCE = config["max_distance"]
+ADD_TIMEOUT = config["add_timeout"]
+FEEDBACK_TIMEOUT = config["feedback_timeout"]
 
 API_KEY = os.environ["BOT_API_KEY"]
 
-with open("app/responses.json") as file:
-    rps = json.load(file)
+try:
+    with open("responses.json") as file:
+        rps = json.load(file)
+except FileNotFoundError:
+    with open("bot/responses.json") as file:
+        rps = json.load(file)
 
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
-
 bot = telebot.TeleBot(API_KEY)
-
+# docker exec -it
+# docker-compose -f docker-compose-dev.yml up --build
 
 # SUPPORT FUNCTIONS:
 def dic_to_string(termin):
@@ -194,7 +196,7 @@ def remind_time(account_id, chat_id, language):
                      rps[language]["reminder_success"].format(remind_date))
 
 
-print("Starting the bot")
+print("Bot is running")
 
 # BOT RUNNING
 
@@ -321,7 +323,7 @@ def handle_callback_query(callback_query):
                              reply_markup=language_keyboard)
 
         elif data == 'add_btn_clicked':
-            manage_db.update_timers(account_id=account_id, open=True, timer="postcode_timer", minutes=ADD_MIN)
+            manage_db.update_timers(account_id=account_id, open=True, timer="postcode_timer", minutes=ADD_TIMEOUT)
             bot.send_message(chat_id=chat_id,
                              text=rps[language]["write_postcode"])
         elif data == 'show_btn_clicked':
@@ -334,7 +336,7 @@ def handle_callback_query(callback_query):
         elif data == 'feedback_btn_clicked':
             bot.send_message(chat_id=chat_id,
                              text=rps[language]["write_feedback"])
-            manage_db.update_timers(account_id=account_id, open=True, timer="feedback_timer", minutes=FEEDBACK_MIN)
+            manage_db.update_timers(account_id=account_id, open=True, timer="feedback_timer", minutes=FEEDBACK_TIMEOUT)
 
         elif data == "reminder_btn_clicked":
             stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=language)

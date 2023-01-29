@@ -1,0 +1,10 @@
+{
+  "delta": 1,
+  "country_code": "de",
+  "approximate_max_distance": 20,
+  "max_distance": 5,
+  "add_timeout": 10,
+  "feedback_timeout": 30,
+  "inform_days": [0,3,7]
+
+}
