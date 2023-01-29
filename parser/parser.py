@@ -18,7 +18,8 @@ class Parser:
 
     def parse_pages(self, delta, start_date_offset):
         # Getting times
-        offsetted_today, week_later = self.date_manager.get_time_range(delta, start_date_offset)
+        offsetted_today, days_later = self.date_manager.get_time_range(delta, start_date_offset)
+        print(f"Parsing appointements from {offsetted_today} - {days_later}")
 
         # Parsing DRK
         next_page = True
@@ -30,7 +31,7 @@ class Parser:
             delay = random.uniform(0, 2)
             sleep(delay)
 
-            page_url = f"https://www.drk-blutspende.de/blutspendetermine/termine?button=&county_id=&date_from={offsetted_today}&date_to={week_later}&last_donation=&page={counter}&radius=&term="
+            page_url = f"https://www.drk-blutspende.de/blutspendetermine/termine?button=&county_id=&date_from={offsetted_today}&date_to={days_later}&last_donation=&page={counter}&radius=&term="
             response = requests.get(url=page_url)
             data = response.text
             soup = BeautifulSoup(data, "lxml")
@@ -68,5 +69,7 @@ class Parser:
 
                 self.manage_db.insert_termin(postal_code, full_address_list, times, normalized_date, full_link)
                 self.manage_db.insert_termin_postcodes(postal_code)
+            if counter % 5 == 0:
+                print(f"{counter} pages are checked...")
 
-        print(f"Number of checked pages: {counter}")
+        print(f"Total number of checked pages: {counter}")

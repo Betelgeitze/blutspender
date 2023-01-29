@@ -3,8 +3,12 @@ from parser import Parser
 from support.manage_db import ManageDB
 import json
 
-with open("config.json") as file:
-    config = json.load(file)
+try:
+    with open("config.json") as file:
+        config = json.load(file)
+except FileNotFoundError:
+    with open("../config.json") as file:
+        config = json.load(file)
 
 DELTA = config["delta"]
 COUNTRY_CODE = config["country_code"]
