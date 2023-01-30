@@ -16,8 +16,8 @@ class ManageDB:
         self.postcode_ranges = PostcodeRanges(country_code=country_code)
         self.date_manager = DateManager()
 
-        Session = sessionmaker(self.engine)
-        self.session = Session()
+        # Session = sessionmaker(self.engine)
+        # self.session = Session()
 
 # Managing tables
 
@@ -109,32 +109,45 @@ class ManageDB:
 
 # Support functions
 
-    def write_into_db(self, data):
+    def write_into_db(self, data, session):
         # Catching dublicates
-        Session = sessionmaker(self.engine)
-        with Session.begin() as session:
-            session.add(data)
+        # Session = sessionmaker(self.engine)
+        # with Session.begin() as session:
+        #     session.add(data)
+        with session.begin() as sess:
+            sess.add(data)
         # try:
         #     # Add termin
         #     # self.session.flush()
-        #     self.session.add(data)
-        #     self.session.commit()
+        #     session.add(data)
+        #     session.commit()
         #     # self.session.close()
         # except IntegrityError:
-        #     self.session.rollback()
-        #     # self.session.close()
+        #     session.rollback()
+            # self.session.close()
         # except IllegalStateChangeError:
         #     #We need this exception for deploying in AWS.
         #     #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
         #     pass
 
+    def session_maker(self):
+        Session = sessionmaker(self.engine)
+        session = Session()
+        return session
 
     def get_user(self, account_id):
-        return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+        session = self.session_maker()
+        user = session.query(self.Users).filter(self.Users.account_id == account_id).first()
+        return user, session
+
+        # return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
+
+
 
 # Inserting in Database
 
     def insert_termin(self, postcode, full_address_list, times, normalized_date, full_link):
+        session = self.session_maker()
         # Inserting data in termine table
         new_termin = self.Termine(
             postcode=postcode[0],
@@ -151,9 +164,10 @@ class ManageDB:
             )
             new_termin.children.append(new_time)
 
-        self.write_into_db(new_termin)
+        self.write_into_db(new_termin, session)
 
     def insert_termin_postcodes(self, postcode):
+        session = self.session_maker()
         lat, lon = self.postcode_ranges.get_lat_and_lon(postcode=postcode[0])
         # Inserting data in postcodes table
         new_postcode = self.Postcodes(
@@ -161,9 +175,10 @@ class ManageDB:
             latitude=lat,
             longitude=lon
         )
-        self.write_into_db(new_postcode)
+        self.write_into_db(new_postcode, session)
 
     def insert_users(self, user_data):
+        session = self.session_maker()
         new_user = self.Users(
             account_id=user_data["from"]["id"],
             chat_id=user_data["chat"]["id"],
@@ -175,10 +190,10 @@ class ManageDB:
             start_reminding=self.date_manager.get_now()[0]
         )
 
-        self.write_into_db(new_user)
+        self.write_into_db(new_user, session)
 
     def insert_user_postcodes(self, account_id, text):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
 
         new_user_postcode = self.UserPostcodes(
             parent=user,
@@ -187,10 +202,10 @@ class ManageDB:
             date_time=self.date_manager.get_now()[0]
         )
 
-        self.write_into_db(new_user_postcode)
+        self.write_into_db(new_user_postcode, session)
 
     def insert_feedback(self, account_id, text):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
 
         new_feedback = self.Feedback(
             parent=user,
@@ -199,16 +214,18 @@ class ManageDB:
 
         )
 
-        self.write_into_db(new_feedback)
+        self.write_into_db(new_feedback, session)
 
 # Deleting from Database
 
     def delete_outdated_data(self):
+        session = self.session_maker()
+
         today = self.date_manager.get_today()
 
-        self.session.query(self.Termine).filter(self.Termine.date < today).delete()
-        self.session.commit()
-        self.session.close()
+        session.query(self.Termine).filter(self.Termine.date < today).delete()
+        session.commit()
+        session.close()
 
 
 # Scheduling: Checking available Termine
@@ -217,7 +234,9 @@ class ManageDB:
         available_termine = []
         postcodes_nearby = []
 
-        postcodes_data = self.session.query(self.Postcodes).filter(and_(
+        session = self.session_maker()
+
+        postcodes_data = session.query(self.Postcodes).filter(and_(
             self.Postcodes.latitude < max_lat,
             self.Postcodes.latitude > min_lat,
             self.Postcodes.longitude < max_lon,
@@ -230,12 +249,12 @@ class ManageDB:
             if distance <= max_distance:
                 postcodes_nearby.append(termin_postcode)
 
-        available_termin_data = self.session.query(self.Termine).filter(
+        available_termin_data = session.query(self.Termine).filter(
             self.Termine.postcode.in_(postcodes_nearby)).all()
 
 
         for row in available_termin_data:
-            times_data = self.session.query(self.Times).filter(self.Times.termin_id == row.id).all()
+            times_data = session.query(self.Times).filter(self.Times.termin_id == row.id).all()
             date_delta = self.date_manager.get_date_delta(row.date)
 
             if inform_days is None or date_delta in inform_days:
@@ -257,9 +276,11 @@ class ManageDB:
     def check_available_termine(self, approximate_max_distance, max_distance, inform_days):
         found_termine = []
         available_termin_data = []
-        users = self.session.query(self.Users).all()
+        session = self.session_maker()
+
+        users = session.query(self.Users).all()
         for user in users:
-            postcode_data = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
+            postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
             user_postcodes = [item.postcode for item in postcode_data]
             for postcode in user_postcodes:
                 lat, lon = self.postcode_ranges.get_lat_and_lon(postcode=postcode)
@@ -283,8 +304,9 @@ class ManageDB:
 # Checking Postcodes
 
     def get_user_postcodes(self, account_id):
-        user = self.get_user(account_id)
-        postcode_data = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
+        user, session = self.get_user(account_id)
+
+        postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
         if postcode_data:
             user_postcodes = [row.postcode for row in postcode_data]
             return True, user_postcodes
@@ -294,15 +316,15 @@ class ManageDB:
 # Writing extra data: Working with Timers
 
     def update_timers(self, account_id, open, timer, **kwargs):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         if open:
             setattr(user, timer, self.date_manager.get_min_from_now(kwargs.get("minutes")))
         else:
             setattr(user, timer, self.date_manager.get_now()[0])
-        self.write_into_db(user)
+        self.write_into_db(user, session)
 
     def check_timers(self, account_id, timer):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         now = self.date_manager.get_now()[1]
         if getattr(user, timer) > now:
             return True
@@ -312,45 +334,45 @@ class ManageDB:
 # User delete postcodes
 
     def delete_user_postcode(self, account_id, command):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         postcode_row = 0
         if command.lower() == "all":
-            self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).delete()
+            session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).delete()
         else:
-            postcode_row = self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).filter(
+            postcode_row = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).filter(
                 self.UserPostcodes.postcode == command).first()
-            self.session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).filter(
+            session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).filter(
                 self.UserPostcodes.postcode == command).delete()
 
-        self.session.commit()
-        self.session.close()
+        session.commit()
+        session.close()
         return postcode_row
 
 # Languages
 
     def update_language(self, account_id, language):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         user.selected_language = language
-        self.write_into_db(user)
+        self.write_into_db(user, session)
 
     def get_language(self, account_id):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         return user.selected_language
 
 # Reminder Stops
 
     def addup_donations(self, account_id):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         user.donations += 1
-        self.write_into_db(user)
+        self.write_into_db(user, session)
 
     def remind_in(self, account_id, days):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         user.start_reminding = self.date_manager.get_days_from_today(days=days)
-        self.write_into_db(user)
+        self.write_into_db(user, session)
 
     def want_remind(self, account_id):
-        user = self.get_user(account_id)
+        user, session = self.get_user(account_id)
         today = self.date_manager.get_today()
         formatted_reminder_start = self.date_manager.format_date(user.start_reminding)
         if today < user.start_reminding:
