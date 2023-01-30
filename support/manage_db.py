@@ -116,14 +116,14 @@ class ManageDB:
             # self.session.flush()
             self.session.add(data)
             self.session.commit()
-            self.session.close()
+            # self.session.close()
         except IntegrityError:
             self.session.rollback()
-            self.session.close()
-        except IllegalStateChangeError:
-            #We need this exception for deploying in AWS.
-            #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
-            pass
+            # self.session.close()
+        # except IllegalStateChangeError:
+        #     #We need this exception for deploying in AWS.
+        #     #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
+        #     pass
 
 
     def get_user(self, account_id):
