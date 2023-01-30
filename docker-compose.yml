@@ -3,6 +3,7 @@ services:
   bot:
     image: 'betelgeitze/bot'
     mem_limit: 128m
+    restart: always
     depends_on:
       - parser
     hostname: bot
@@ -16,6 +17,7 @@ services:
   parser:
     image: 'betelgeitze/parser'
     mem_limit: 128m
+    restart: always
     hostname: parser
     environment:
       - POSTGRES_DB=$POSTGRES_DB
