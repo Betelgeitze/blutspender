@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Date, TIMESTAMP, UniqueConstraint, \
     and_
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.exc import IntegrityError
+from sqlalchemy.exc import IntegrityError, IllegalStateChangeError
 from sqlalchemy.orm import relationship, sessionmaker
 import os
 from support.postcode_ranges import PostcodeRanges
@@ -116,12 +116,15 @@ class ManageDB:
             # self.session.flush()
             self.session.add(data)
             self.session.commit()
-        except IntegrityError as error_message:
-            self.session.rollback()
-        except KeyError as error_message:
-            print(f"Error Message: {error_message}")
-        finally:
             self.session.close()
+        except IntegrityError:
+            self.session.rollback()
+            self.session.close()
+        except IllegalStateChangeError:
+            #We need this exception for deploying in AWS.
+            #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
+            pass
+
 
     def get_user(self, account_id):
         return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
