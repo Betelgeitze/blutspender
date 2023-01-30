@@ -9,7 +9,6 @@ from threading import Thread
 from support.postcode_ranges import PostcodeRanges
 from support.manage_db import ManageDB
 
-
 with open("config.json") as file:
     config = json.load(file)
 
@@ -32,8 +31,7 @@ except FileNotFoundError:
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 bot = telebot.TeleBot(API_KEY)
-# docker exec -it
-# docker-compose -f docker-compose-dev.yml up --build
+
 
 # SUPPORT FUNCTIONS:
 def dic_to_string(termin):
@@ -197,6 +195,7 @@ def remind_time(account_id, chat_id, language):
 
 
 print("Bot is running")
+
 
 # BOT RUNNING
 
