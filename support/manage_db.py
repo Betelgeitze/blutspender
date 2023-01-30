@@ -111,19 +111,22 @@ class ManageDB:
 
     def write_into_db(self, data):
         # Catching dublicates
-        try:
-            # Add termin
-            # self.session.flush()
-            self.session.add(data)
-            self.session.commit()
-            # self.session.close()
-        except IntegrityError:
-            self.session.rollback()
-            # self.session.close()
-        except IllegalStateChangeError:
-            #We need this exception for deploying in AWS.
-            #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
-            pass
+        Session = sessionmaker(self.engine)
+        with Session.begin() as session:
+            session.add(data)
+        # try:
+        #     # Add termin
+        #     # self.session.flush()
+        #     self.session.add(data)
+        #     self.session.commit()
+        #     # self.session.close()
+        # except IntegrityError:
+        #     self.session.rollback()
+        #     # self.session.close()
+        # except IllegalStateChangeError:
+        #     #We need this exception for deploying in AWS.
+        #     #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
+        #     pass
 
 
     def get_user(self, account_id):
