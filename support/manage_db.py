@@ -113,6 +113,7 @@ class ManageDB:
         # Catching dublicates
         try:
             # Add termin
+            self.session.flush()
             self.session.add(data)
             self.session.commit()
         except IntegrityError as error_message:
