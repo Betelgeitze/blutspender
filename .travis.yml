@@ -16,14 +16,14 @@ after_success:
   - docker push betelgeitze/bot
   - docker push betelgeitze/parser
 
-#deploy:
-#  provider: elasticbeanstalk
-#  region: 'eu-central-1'
-#  app: 'blutspender'
-#  env: 'Blutspender-env'
-#  bucket_name: 'elasticbeanstalk-eu-central-1-771077539328'
-#  bucket_path: 'blutspender'
-#  on:
-#    branch: master
-#  access_key_id: $AWS_ACCESS_KEY
-#  secret_access_key: $AWS_SECRET_KEY
+deploy:
+  provider: elasticbeanstalk
+  region: 'eu-central-1'
+  app: 'blutspender'
+  env: 'Blutspender-env'
+  bucket_name: 'elasticbeanstalk-eu-central-1-771077539328'
+  bucket_path: 'blutspender'
+  on:
+    branch: master
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_KEY
