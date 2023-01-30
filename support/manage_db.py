@@ -120,7 +120,7 @@ class ManageDB:
         except KeyError as error_message:
             print(f"Error Message: {error_message}")
         finally:
-            self.session.remove()
+            self.session.close()
 
     def get_user(self, account_id):
         return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
