@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Date, TIMESTAMP, UniqueConstraint, \
     and_
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.exc import IntegrityError, IllegalStateChangeError
+from sqlalchemy.exc import IntegrityError, IllegalStateChangeError, InvalidRequestError
 from sqlalchemy.orm import relationship, sessionmaker
 import os
 from support.postcode_ranges import PostcodeRanges
@@ -114,8 +114,13 @@ class ManageDB:
         # Session = sessionmaker(self.engine)
         # with Session.begin() as session:
         #     session.add(data)
-        with session.begin() as sess:
-            sess.add(data)
+        try:
+            with session.begin_nested() as sess:
+                sess.add(data)
+        except IntegrityError:
+            sess.rollback()
+        except InvalidRequestError:
+            print("too fast")
         # try:
         #     # Add termin
         #     # self.session.flush()
