@@ -120,10 +120,9 @@ class ManageDB:
             # with session.begin_nested():
             #     session.add(data) #AttributeError: 'SessionTransaction' object has no attribute 'add'
         except IntegrityError:
-            print("Integrity Error")
             session.rollback()
-        except InvalidRequestError:
-            print("too fast")
+        finally:
+            session.commit()
 
         # try:
         #     # Add termin
