@@ -117,12 +117,12 @@ class ManageDB:
         # with session.begin():
         try:
             session.add(data)
+            session.commit()
             # with session.begin_nested():
             #     session.add(data) #AttributeError: 'SessionTransaction' object has no attribute 'add'
         except IntegrityError:
             session.rollback()
-        finally:
-            session.commit()
+
 
         # try:
         #     # Add termin
