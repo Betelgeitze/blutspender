@@ -111,32 +111,13 @@ class ManageDB:
 
     def write_into_db(self, data, session):
         # Catching dublicates
-        # Session = sessionmaker(self.engine)
-        # with Session.begin() as session:
-        #     session.add(data)
-        # with session.begin():
         try:
             session.add(data)
             session.commit()
-            # with session.begin_nested():
-            #     session.add(data) #AttributeError: 'SessionTransaction' object has no attribute 'add'
         except IntegrityError:
             session.rollback()
-
-
-        # try:
-        #     # Add termin
-        #     # self.session.flush()
-        #     session.add(data)
-        #     session.commit()
-        #     # self.session.close()
-        # except IntegrityError:
-        #     session.rollback()
-            # self.session.close()
-        # except IllegalStateChangeError:
-        #     #We need this exception for deploying in AWS.
-        #     #As it takes time to deploy and turn on the database. If you try to add smth in the meantime, it will fail
-        #     pass
+        finally:
+            session.close()
 
     def session_maker(self):
         Session = sessionmaker(self.engine)
