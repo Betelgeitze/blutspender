@@ -114,13 +114,17 @@ class ManageDB:
         # Session = sessionmaker(self.engine)
         # with Session.begin() as session:
         #     session.add(data)
+        # with session.begin():
         try:
-            with session.begin_nested() as sess:
-                sess.add(data)
+            session.add(data)
+            # with session.begin_nested():
+            #     session.add(data) #AttributeError: 'SessionTransaction' object has no attribute 'add'
         except IntegrityError:
-            sess.rollback()
+            print("Integrity Error")
+            session.rollback()
         except InvalidRequestError:
             print("too fast")
+
         # try:
         #     # Add termin
         #     # self.session.flush()
