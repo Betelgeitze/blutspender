@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Date, TIMESTAMP, UniqueConstraint, \
-    and_
+    and_, text
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship, sessionmaker
@@ -57,6 +57,7 @@ class ManageDB:
             latitude = Column(Float, nullable=False)
             longitude = Column(Float, nullable=False)
 
+
             __table_args__ = (UniqueConstraint("postcode", name="uq_postcode"),)
 
         class Users(Base):
@@ -103,7 +104,10 @@ class ManageDB:
 
     def delete_tables(self, tables):
         for table in tables:
-            self.engine.execute(f"DROP TABLE IF EXISTS {table} CASCADE;")
+            sql = text(f"DROP TABLE IF EXISTS {table} CASCADE;")
+            with self.engine.connect() as connection:
+                with connection.begin():
+                    connection.execute(sql)
 
 # Support functions
 
