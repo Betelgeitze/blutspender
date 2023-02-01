@@ -28,6 +28,6 @@ scheduler.add_job(run_parser, "cron", hour=20, args=[DELTA, DELTA])
 
 # Parse 1 week starting from today
 print("Running first parser...")
-# run_parser(DELTA, 0)
+run_parser(DELTA, 0)
 
 scheduler.start()
