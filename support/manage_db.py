@@ -218,7 +218,6 @@ class ManageDB:
 
 
 # Scheduling: Checking available Termine
-
     def get_postcodes_nearby(self, max_distance, postcode, min_lat, max_lat, min_lon, max_lon, inform_days):
         available_termine = []
         postcodes_nearby = []
@@ -245,6 +244,7 @@ class ManageDB:
         for row in available_termin_data:
             times_data = session.query(self.Times).filter(self.Times.termin_id == row.id).all()
             date_delta = self.date_manager.get_date_delta(row.date)
+            formatted_date = self.date_manager.format_date(row.date)
 
             if inform_days is None or date_delta in inform_days:
                 times = [item.time for item in times_data]
@@ -253,7 +253,7 @@ class ManageDB:
                     "Stadt": row.city,
                     "Strasse": row.street,
                     "Ort": row.building,
-                    "Datum": str(row.date),
+                    "Datum": formatted_date,
                     "Zeiten": times,
                     "Registrierungslink": row.link
                 }
