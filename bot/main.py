@@ -36,25 +36,8 @@ postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 bot = telebot.TeleBot(API_KEY)
 
-# SUPPORT FUNCTIONS:
-def dic_to_string(termin):
-    termin_str = str()
-    for key, value in termin.items():
-        if key == "Zeiten":
-            value = "\n              ".join(value)
-        termin_str += f"{key}: {value}\n"
-    return termin_str
 
-
-def get_termine(postcode):
-    lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
-    min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
-    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon,
-                                                       inform_days=None)
-    return available_termine
-
-
-# SCHEDULED FUNCTIONS
+# Scheduled Functions
 def send_termine():
     users_with_available_termine = manage_db.check_available_termine(
         approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
@@ -144,6 +127,22 @@ def create_stop_reminder_length_keyboard(language):
 
 
 # Support functions
+def dic_to_string(termin):
+    termin_str = str()
+    for key, value in termin.items():
+        if key == "Zeiten":
+            value = "\n              ".join(value)
+        termin_str += f"{key}: {value}\n"
+    return termin_str
+
+
+def get_termine(postcode):
+    lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
+    min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
+    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon,
+                                                       inform_days=None)
+    return available_termine
+
 
 def add_in_db_and_reply(message, language):
     postcode = message.text.strip()

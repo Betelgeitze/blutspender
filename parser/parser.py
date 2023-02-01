@@ -15,7 +15,6 @@ class Parser:
         self.manage_db = ManageDB(country_code)
         self.date_manager = DateManager()
 
-
     def parse_pages(self, delta, start_date_offset):
         # Getting times
         offsetted_today, days_later = self.date_manager.get_time_range(delta, start_date_offset)

@@ -16,8 +16,7 @@ class ManageDB:
         self.postcode_ranges = PostcodeRanges(country_code=country_code)
         self.date_manager = DateManager()
 
-# Managing tables
-
+    # Managing tables
     def create_db_structure(self):
         engine = create_engine(f'postgresql://'
                                f'{os.environ["POSTGRES_USER"]}:'
@@ -56,7 +55,6 @@ class ManageDB:
             postcode = Column(String(32), nullable=False)
             latitude = Column(Float, nullable=False)
             longitude = Column(Float, nullable=False)
-
 
             __table_args__ = (UniqueConstraint("postcode", name="uq_postcode"),)
 
@@ -109,8 +107,7 @@ class ManageDB:
                 with connection.begin():
                     connection.execute(sql)
 
-# Support functions
-
+    # Support functions
     def write_into_db(self, data, session):
         # Catching dublicates
         try:
@@ -131,12 +128,7 @@ class ManageDB:
         user = session.query(self.Users).filter(self.Users.account_id == account_id).first()
         return user, session
 
-        # return self.session.query(self.Users).filter(self.Users.account_id == account_id).first()
-
-
-
-# Inserting in Database
-
+    # Inserting in Database
     def insert_termin(self, postcode, full_address_list, times, normalized_date, full_link):
         session = self.session_maker()
         # Inserting data in termine table
@@ -204,11 +196,9 @@ class ManageDB:
             text=text
 
         )
-
         self.write_into_db(new_feedback, session)
 
-# Deleting from Database
-
+    # Deleting from Database
     def delete_outdated_data(self):
         session = self.session_maker()
 
@@ -218,8 +208,7 @@ class ManageDB:
         session.commit()
         session.close()
 
-
-# Scheduling: Checking available Termine
+    # Scheduling: Checking available Termine
     def get_postcodes_nearby(self, max_distance, postcode, min_lat, max_lat, min_lon, max_lon, inform_days):
         available_termine = []
         postcodes_nearby = []
@@ -241,7 +230,6 @@ class ManageDB:
 
         available_termin_data = session.query(self.Termine).filter(
             self.Termine.postcode.in_(postcodes_nearby)).all()
-
 
         for row in available_termin_data:
             times_data = session.query(self.Times).filter(self.Times.termin_id == row.id).all()
@@ -292,8 +280,7 @@ class ManageDB:
                 found_termine.append(found_termin)
         return found_termine
 
-# Checking Postcodes
-
+    # Checking Postcodes
     def get_user_postcodes(self, account_id):
         user, session = self.get_user(account_id)
 
@@ -304,8 +291,7 @@ class ManageDB:
         else:
             return False, []
 
-# Writing extra data: Working with Timers
-
+    # Writing extra data: Working with Timers
     def update_timers(self, account_id, open, timer, **kwargs):
         user, session = self.get_user(account_id)
         if open:
@@ -322,8 +308,7 @@ class ManageDB:
         else:
             return False
 
-# User delete postcodes
-
+    # User delete postcodes
     def delete_user_postcode(self, account_id, command):
         user, session = self.get_user(account_id)
         postcode_row = 0
@@ -339,8 +324,7 @@ class ManageDB:
         session.close()
         return postcode_row
 
-# Languages
-
+    # Languages
     def update_language(self, account_id, language):
         user, session = self.get_user(account_id)
         user.selected_language = language
@@ -350,8 +334,7 @@ class ManageDB:
         user, session = self.get_user(account_id)
         return user.selected_language
 
-# Reminder Stops
-
+    # Reminder Stops
     def addup_donations(self, account_id):
         today = self.date_manager.get_today()
         user, session = self.get_user(account_id)
@@ -374,6 +357,3 @@ class ManageDB:
             return False, formatted_reminder_start
         else:
             return True, formatted_reminder_start
-
-
-
