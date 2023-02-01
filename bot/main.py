@@ -19,6 +19,9 @@ APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
 MAX_DISTANCE = config["max_distance"]
 ADD_TIMEOUT = config["add_timeout"]
 FEEDBACK_TIMEOUT = config["feedback_timeout"]
+TIMEZONE = config["timezone"]
+SEND_HOUR = config["send_hour"]
+SEND_MIN = config["send_min"]
 
 API_KEY = os.environ["BOT_API_KEY"]
 
@@ -62,8 +65,8 @@ def send_termine():
             bot.send_message(int(user["chat_id"]), termin_str)
 
 
-scheduler = BlockingScheduler(timezone="Europe/Berlin")
-scheduler.add_job(send_termine, "cron", hour=12)
+scheduler = BlockingScheduler(timezone=TIMEZONE)
+scheduler.add_job(send_termine, "cron", hour=SEND_HOUR, minute=SEND_MIN)
 
 
 def schedule_checker():

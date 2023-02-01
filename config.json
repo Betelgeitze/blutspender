@@ -5,6 +5,12 @@
   "max_distance": 5,
   "add_timeout": 10,
   "feedback_timeout": 30,
-  "inform_days": [0,3,7]
 
+  "inform_days": [0,3,7],
+
+  "timezone": "Europe/Berlin",
+  "send_hour": 12,
+  "send_min": 0,
+  "parse_hour": 20,
+  "parse_min": 0
 }

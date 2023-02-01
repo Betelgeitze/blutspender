@@ -12,6 +12,9 @@ except FileNotFoundError:
 
 DELTA = config["delta"]
 COUNTRY_CODE = config["country_code"]
+TIMEZONE = config["timezone"]
+PARSE_HOUR = config["parse_hour"]
+PARSE_MIN = config["parse_min"]
 
 parser = Parser(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
@@ -23,8 +26,8 @@ def run_parser(delta, start_offset_date):
     manage_db.delete_outdated_data()
 
 
-scheduler = BlockingScheduler(timezone="Europe/Berlin")
-scheduler.add_job(run_parser, "cron", hour=20, args=[DELTA, DELTA])
+scheduler = BlockingScheduler(timezone=TIMEZONE)
+scheduler.add_job(run_parser, "cron", hour=PARSE_HOUR, minute=PARSE_MIN, args=[DELTA, DELTA])
 
 # Parse 1 week starting from today
 print("Running first parser...")
