@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Date, TIMESTAMP, UniqueConstraint, \
     and_
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.exc import IntegrityError, IllegalStateChangeError, InvalidRequestError
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship, sessionmaker
 import os
 from support.postcode_ranges import PostcodeRanges
@@ -15,9 +15,6 @@ class ManageDB:
 
         self.postcode_ranges = PostcodeRanges(country_code=country_code)
         self.date_manager = DateManager()
-
-        # Session = sessionmaker(self.engine)
-        # self.session = Session()
 
 # Managing tables
 
@@ -71,6 +68,7 @@ class ManageDB:
             selected_language = Column(String(32), nullable=False)
             postcode_timer = Column(TIMESTAMP)
             feedback_timer = Column(TIMESTAMP)
+            last_donation = Column(Date)
             donations = Column(Integer)
             start_reminding = Column(Date, nullable=False)
 
@@ -351,9 +349,13 @@ class ManageDB:
 # Reminder Stops
 
     def addup_donations(self, account_id):
+        today = self.date_manager.get_today()
         user, session = self.get_user(account_id)
-        user.donations += 1
-        self.write_into_db(user, session)
+        # User can tell that he donated only once a day
+        if today != user.last_donation:
+            user.donations += 1
+            user.last_donation = today
+            self.write_into_db(user, session)
 
     def remind_in(self, account_id, days):
         user, session = self.get_user(account_id)

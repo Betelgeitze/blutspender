@@ -36,7 +36,6 @@ postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 bot = telebot.TeleBot(API_KEY)
 
-
 # SUPPORT FUNCTIONS:
 def dic_to_string(termin):
     termin_str = str()
