@@ -158,11 +158,13 @@ def add_in_db_and_reply(message, language):
         if len(available_termine) == 0:
             bot.send_message(chat_id,
                              rps[language]["no_termine"] +
+                             rps[language]["no_action_info"] +
                              rps[language]["no_action"] +
                              rps[language]["add_or_del"])
         else:
             bot.send_message(chat_id,
                              rps[language]["yes_termine"] +
+                             rps[language]["no_action_info"] +
                              rps[language]["no_action"])
             for termin in available_termine:
                 termin_str = dic_to_string(termin)
@@ -182,6 +184,7 @@ def change_language(callback_query, language):
     if not postcode_exists:
         bot.reply_to(callback_query.message,
                      rps[language]["welcome_msg"] +
+                     rps[language]["no_action_info"] +
                      rps[language]["write_postcode"])
     else:
         bot.reply_to(callback_query.message,
@@ -219,12 +222,14 @@ def welcome_message(message):
             if remind:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
+                             rps[language]["no_action_info"] +
                              rps[language]["no_action_required"] +
                              rps[language]["add_example"],
                              reply_markup=main_keyboard)
             else:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
+                             rps[language]["no_action_info"] +
                              rps[language]["no_action_required"] +
                              rps[language]["not_reminding"].format(remind_date) +
                              rps[language]["use_interface"],
@@ -391,6 +396,7 @@ def handle_callback_query(callback_query):
                 main_keyboard = create_main_keyboard(language=language, remind=remind)
                 bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                       text=rps[language]["welcome_msg"] +
+                                           rps[language]["no_action_info"] +
                                            rps[language]["no_action_required"] +
                                            rps[language]["add_example"],
                                       reply_markup=main_keyboard)
