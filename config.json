@@ -9,8 +9,8 @@
   "inform_days": [0,3,7],
 
   "timezone": "Europe/Berlin",
-  "send_hour": 12,
+  "send_hour": 8,
   "send_min": 0,
-  "parse_hour": 20,
+  "parse_hour": 23,
   "parse_min": 0
 }
