@@ -29,8 +29,6 @@ def run_parser(delta, start_offset_date):
 scheduler = BlockingScheduler(timezone=TIMEZONE)
 scheduler.add_job(run_parser, "cron", hour=PARSE_HOUR, minute=PARSE_MIN, args=[DELTA, DELTA])
 
-# Delete DB Tables if needed
-# # manage_db.delete_tables(["feedback","postcodes","termine", "times", "userpostcodes", "users"])
 
 # Parse 1 week starting from today
 print("Running first parser...")
