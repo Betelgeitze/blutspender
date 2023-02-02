@@ -400,4 +400,4 @@ def handle_callback_query(callback_query):
 
 # LOOPING
 Thread(target=schedule_checker).start()
-bot.polling()
+bot.infinity_polling()
