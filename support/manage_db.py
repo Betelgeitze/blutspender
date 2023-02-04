@@ -249,12 +249,12 @@ class ManageDB:
         return available_termine
 
     def check_available_termine(self, approximate_max_distance, max_distance, inform_days):
-        found_termine = []
-        available_termin_data = []
+        found_termine_data = []
         session = self.session_maker()
 
         users = session.query(self.Users).all()
         for user in users:
+            available_termin_data = []
             postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
             user_postcodes = [item.postcode for item in postcode_data]
             for postcode in user_postcodes:
@@ -265,16 +265,14 @@ class ManageDB:
                                                               max_lon, inform_days)
                 if len(available_termine) > 0:
                     available_termin_data.append(available_termine)
-
-            for row in available_termin_data:
-                found_termin = {
-                    "account_id": user.account_id,
-                    "chat_id": user.chat_id,
-                    "language_code": user.language_code,
-                    "available_termine": row[0]
-                }
-                found_termine.append(found_termin)
-        return found_termine
+            found_termine = {
+                "account_id": user.account_id,
+                "chat_id": user.chat_id,
+                "language_code": user.language_code,
+                "available_termine": available_termin_data
+            }
+            found_termine_data.append(found_termine)
+        return found_termine_data
 
     # Checking Postcodes
     def get_user_postcodes(self, account_id):
@@ -319,6 +317,14 @@ class ManageDB:
         session.commit()
         session.close()
         return postcode_row
+
+    # Delete users
+    def delete_user(self, account_id):
+        user, session = self.get_user(account_id)
+        session.query(self.Users).filter(self.Users.id == user.id).delete()
+
+        session.commit()
+        session.close()
 
     # Languages
     def update_language(self, account_id, language):
