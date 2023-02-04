@@ -39,13 +39,13 @@ bot = telebot.TeleBot(API_KEY)
 
 # Scheduled Functions
 def send_termine():
-    #TODO: Add text "0, 3,7 days before"
     users_with_available_termine = manage_db.check_available_termine(
         approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:
             language = manage_db.get_language(account_id=user["account_id"])
             termin_str = dic_to_string(termin=user["available_termine"], language=language)
+            bot.send_message(int(user["chat_id"]), rps[language]["yes_termine"])
             bot.send_message(int(user["chat_id"]), termin_str)
 
 
@@ -168,13 +168,13 @@ def add_in_db_and_reply(message, language):
         if len(available_termine) == 0:
             bot.send_message(chat_id,
                              rps[language]["no_termine"] +
-                             rps[language]["no_action_info"] +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                              rps[language]["no_action"] +
                              rps[language]["add_or_del"])
         else:
             bot.send_message(chat_id,
                              rps[language]["yes_termine"] +
-                             rps[language]["no_action_info"] +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                              rps[language]["no_action"])
             for termin in available_termine:
                 termin_str = dic_to_string(termin, language)
@@ -194,7 +194,7 @@ def change_language(callback_query, language):
     if not postcode_exists:
         bot.reply_to(callback_query.message,
                      rps[language]["welcome_msg"] +
-                     rps[language]["no_action_info"] +
+                     rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                      rps[language]["write_postcode"])
     else:
         bot.reply_to(callback_query.message,
@@ -232,14 +232,14 @@ def welcome_message(message):
             if remind:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
-                             rps[language]["no_action_info"] +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                              rps[language]["no_action_required"] +
                              rps[language]["add_example"],
                              reply_markup=main_keyboard)
             else:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
-                             rps[language]["no_action_info"] +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                              rps[language]["no_action_required"] +
                              rps[language]["not_reminding"].format(remind_date) +
                              rps[language]["use_interface"],
@@ -298,7 +298,7 @@ def send_postcode(message):
             if remind:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +
-                                 rps[language]["no_action_info"] +
+                                 rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                                  rps[language]["add_or_del"])
             else:
                 bot.send_message(chat_id,
@@ -406,7 +406,7 @@ def handle_callback_query(callback_query):
                 main_keyboard = create_main_keyboard(language=language, remind=remind)
                 bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                       text=rps[language]["welcome_msg"] +
-                                           rps[language]["no_action_info"] +
+                                           rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
                                            rps[language]["no_action_required"] +
                                            rps[language]["add_example"],
                                       reply_markup=main_keyboard)
