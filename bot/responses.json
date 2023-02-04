@@ -26,6 +26,7 @@
     "use_interface": "Um das zu ändern, verwenden Sie die unten stehende Schnittstelle.",
     "feedback_thanks": "Danke für Ihr Feedback!",
     "write_feedback": "Bitte geben Sie uns Ihr Feedback:",
+
     "keyboard_add": "Noch eine Postleitzahl hinzufügen",
     "keyboard_show": "Zeige alle meine Postleitzahlen",
     "keyboard_del": "Wie lösche ich meine Postleitzahlen?",
@@ -38,7 +39,14 @@
     "remind_again": "Starten wieder zu erinnern",
     "remind_one_week": "Erinnern in 1 Woche",
     "remind_two_months": "Erinnern in 2 Monaten",
-    "remind_six_months": "Erinnern in 6 Monaten"
+    "remind_six_months": "Erinnern in 6 Monaten",
+
+    "date": "Datum",
+    "city": "Stadt",
+    "street": "Strasse",
+    "building": "Ort",
+    "times": "Zeiten",
+    "link": "Registrierungslink"
   },
   "en": {
     "welcome_msg": "Hi, ",
@@ -67,6 +75,7 @@
     "use_interface": "To change that, use the interface below.",
     "feedback_thanks": "Thanks for your feedback!",
     "write_feedback": "Please give your feedback:",
+
     "keyboard_add": "Add another zip code",
     "keyboard_show": "Show all my zip codes",
     "keyboard_del": "How do I delete my zip codes?",
@@ -79,7 +88,14 @@
     "remind_again": "Start reminding again",
     "remind_one_week": "Remind in 1 week",
     "remind_two_months": "Remind in 2 months",
-    "remind_six_months": "Remind in 6 months"
+    "remind_six_months": "Remind in 6 months",
+
+    "date": "Date",
+    "city": "City",
+    "street": "Street",
+    "building": "Location",
+    "times": "Times",
+    "link": "Registration link"
   },
   "select_language": "Wähle deine Sprache aus\n\nSelect your language"
 }

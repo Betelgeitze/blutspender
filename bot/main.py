@@ -39,11 +39,13 @@ bot = telebot.TeleBot(API_KEY)
 
 # Scheduled Functions
 def send_termine():
+    #TODO: Add text "0, 3,7 days before"
     users_with_available_termine = manage_db.check_available_termine(
         approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:
-            termin_str = dic_to_string(termin=user["available_termine"])
+            language = manage_db.get_language(account_id=user["account_id"])
+            termin_str = dic_to_string(termin=user["available_termine"], language=language)
             bot.send_message(int(user["chat_id"]), termin_str)
 
 
@@ -127,10 +129,18 @@ def create_stop_reminder_length_keyboard(language):
 
 
 # Support functions
-def dic_to_string(termin):
+def dic_to_string(termin, language):
     termin_str = str()
-    for key, value in termin.items():
-        if key == "Zeiten":
+    clean_termin = {
+        rps[language]["date"]: termin["date"],
+        rps[language]["city"]: termin["city"],
+        rps[language]["street"]: termin["street"],
+        rps[language]["building"]: termin["building"],
+        rps[language]["times"]: termin["times"],
+        rps[language]["link"]: termin["link"]
+    }
+    for key, value in clean_termin.items():
+        if key == rps[language]["times"]:
             value = "\n              ".join(value)
         termin_str += f"{key}: {value}\n"
     return termin_str
@@ -167,7 +177,7 @@ def add_in_db_and_reply(message, language):
                              rps[language]["no_action_info"] +
                              rps[language]["no_action"])
             for termin in available_termine:
-                termin_str = dic_to_string(termin)
+                termin_str = dic_to_string(termin, language)
 
                 bot.send_message(chat_id,
                                  termin_str)

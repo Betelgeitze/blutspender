@@ -238,16 +238,12 @@ class ManageDB:
 
             if inform_days is None or date_delta in inform_days:
                 times = [item.time for item in times_data]
-
-                available_termin = {
-                    "Stadt": row.city,
-                    "Strasse": row.street,
-                    "Ort": row.building,
-                    "Datum": formatted_date,
-                    "Zeiten": times,
-                    "Registrierungslink": row.link
-                }
-
+                available_termin = row.__dict__
+                useless_keys = ["_sa_instance_state", "id", "postcode"]
+                for useless_key in useless_keys:
+                    available_termin.pop(useless_key, None)
+                available_termin["date"] = formatted_date
+                available_termin["times"] = times
                 available_termine.append(available_termin)
 
         return available_termine
@@ -272,7 +268,7 @@ class ManageDB:
 
             for row in available_termin_data:
                 found_termin = {
-                    "user": user.account_id,
+                    "account_id": user.account_id,
                     "chat_id": user.chat_id,
                     "language_code": user.language_code,
                     "available_termine": row[0]
