@@ -45,7 +45,7 @@ def send_termine():
         for user in users_with_available_termine:
             language = manage_db.get_language(account_id=user["account_id"])
             try:
-                bot.send_message(int(user["chat_id"]), rps[language]["yes_termine"])
+                bot.send_message(int(user["chat_id"]), rps[language]["appointment_reminder"])
                 for termine in user["available_termine"]:
                     for termin in termine:
                         termin_str = dic_to_string(termin=termin, language=language)

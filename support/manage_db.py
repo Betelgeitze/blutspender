@@ -265,13 +265,14 @@ class ManageDB:
                                                               max_lon, inform_days)
                 if len(available_termine) > 0:
                     available_termin_data.append(available_termine)
-            found_termine = {
-                "account_id": user.account_id,
-                "chat_id": user.chat_id,
-                "language_code": user.language_code,
-                "available_termine": available_termin_data
-            }
-            found_termine_data.append(found_termine)
+            if not len(available_termin_data) == 0:
+                found_termine = {
+                    "account_id": user.account_id,
+                    "chat_id": user.chat_id,
+                    "language_code": user.language_code,
+                    "available_termine": available_termin_data
+                }
+                found_termine_data.append(found_termine)
         return found_termine_data
 
     # Checking Postcodes
