@@ -1,17 +1,17 @@
 {
   "de": {
-    "welcome_msg": "Hallo, ",
+    "welcome_msg": "Hallo,\n",
     "del_example": "Wenn Sie Ihre Postleitzahl löschen möchten, schreiben Sie sie in diesem Format:\n\ndelete: xxxxx\n\nZum Beispiel:\ndelete: 13450\n\nWenn Sie alle Postleitzahlen löschen wollen, schreiben Sie:\ndelete: all",
     "available_postcodes": "Ihre Postleitzahlen:\n",
     "write_postcode": "Bitte schreiben Sie Ihre Postleitzahl:",
     "no_action_required": "Sie haben Ihre Postleitzahl bereits eingegeben, Sie müssen nichts weiter tun.\n",
-    "no_action_info": "Ich werde Sie über Blutspendetermine in Ihrer Nähe auf dem Laufenden halten, indem ich Ihnen {} Tage vorher, {} Tage vorher und am Tag des Termins Erinnerungen schicke.\n\n",
+    "no_action_info": "ich werde Sie über Blutspendetermine in Ihrer Nähe auf dem Laufenden halten. Dafür werde ich Ihnen {} Tage vorher, {} Tage vorher und am Tag des Termins Erinnerungen schicken.\n\n",
     "failed_del": "Falsches Format\n",
     "reset": "Sie haben keine weiteren Postleitzahlen. Fangen wir von vorne an!",
     "add_or_del": "Wenn Sie Ihre Daten hinzufügen oder löschen wollen, schreiben Sie /start",
     "del_success": "Erfolg! {} ist gelöscht",
     "show_all": "Klicken Sie auf die Schaltfläche 'Alle meine Postleitzahlen anzeigen' in /start, um Ihre Postleitzahlen zu sehen",
-    "add_example": "Sie könnten aber auch eine andere Postleitzahl eingeben, zum Beispiel, wenn Sie in der Nähe Ihrer Arbeit/Universität/etc.\nVerwenden Sie dazu die Schaltfläche unten",
+    "add_example": "Sie können aber auch eine andere Postleitzahl eingeben. Zum Beispiel, in der Nähe Ihres Arbeitsortes/Universität/etc.\nVerwenden Sie dazu die Schaltfläche unten:",
     "wrong_postcode": "Diese Postleitzahl existiert nicht.\n",
     "write_start": "Schreiben Sie /start",
     "appointment_reminder": "Hier finden Sie alle anstehenden Blutspendetermine",
@@ -33,7 +33,7 @@
     "keyboard_del": "Wie lösche ich meine Postleitzahlen?",
     "change_language": "Sprache / Language",
     "feedback": "Feedback geben",
-    "reminder": "Aufhören zu errinern",
+    "reminder": "Erinnerung stoppen",
     "donated_stop_reminder": "Ich hab Blut gespendet",
     "often_stop_reminder": "Ich bekomme zu viele Nachrichten von dir",
     "else_stop_reminder": "Anderer Grund",
@@ -50,7 +50,7 @@
     "link": "Registrierungslink"
   },
   "en": {
-    "welcome_msg": "Hi, ",
+    "welcome_msg": "Hi,\n",
     "del_example": "If you want to delete your zip code, write it in this format:\n\ndelete: xxxxx\n\nFor example:\ndelete: 13450\n\nIf you want to delete all postal codes, write:\ndelete: all",
     "available_postcodes": "Your zip codes:\n",
     "write_postcode": "Please write your zip code:",
