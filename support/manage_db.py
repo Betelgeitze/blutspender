@@ -125,7 +125,9 @@ class ManageDB:
 
     def get_user(self, account_id):
         session = self.session_maker()
+        print(2)
         user = session.query(self.Users).filter(self.Users.account_id == account_id).first()
+        print(3)
         return user, session
 
     # Inserting in Database
@@ -245,7 +247,7 @@ class ManageDB:
                 available_termin["date"] = formatted_date
                 available_termin["times"] = times
                 available_termine.append(available_termin)
-
+        session.close()
         return available_termine
 
     def check_available_termine(self, approximate_max_distance, max_distance, inform_days):
@@ -273,6 +275,7 @@ class ManageDB:
                     "available_termine": available_termin_data
                 }
                 found_termine_data.append(found_termine)
+        session.close()
         return found_termine_data
 
     # Checking Postcodes
@@ -280,6 +283,7 @@ class ManageDB:
         user, session = self.get_user(account_id)
 
         postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
+        session.close()
         if postcode_data:
             user_postcodes = [row.postcode for row in postcode_data]
             return True, user_postcodes
@@ -296,11 +300,18 @@ class ManageDB:
         self.write_into_db(user, session)
 
     def check_timers(self, account_id, timer):
+        print(1)
         user, session = self.get_user(account_id)
+        print(4)
         now = self.date_manager.get_now()[1]
+        print(5)
+        session.close()
+        print(6)
         if getattr(user, timer) > now:
+            print(7)
             return True
         else:
+            print(8)
             return False
 
     # User delete postcodes
@@ -335,6 +346,7 @@ class ManageDB:
 
     def get_language(self, account_id):
         user, session = self.get_user(account_id)
+        session.close()
         return user.selected_language
 
     # Reminder Stops
@@ -356,7 +368,9 @@ class ManageDB:
         user, session = self.get_user(account_id)
         today = self.date_manager.get_today()
         formatted_reminder_start = self.date_manager.format_date(user.start_reminding)
+        session.close()
         if today < user.start_reminding:
             return False, formatted_reminder_start
         else:
             return True, formatted_reminder_start
+

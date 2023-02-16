@@ -4,11 +4,10 @@ import os
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.apihelper import ApiTelegramException
-from apscheduler.schedulers.blocking import BlockingScheduler
-from threading import Thread
 
 from support.postcode_ranges import PostcodeRanges
 from support.manage_db import ManageDB
+from support.formatter import Formatter
 
 with open("config.json") as file:
     config = json.load(file)
@@ -26,41 +25,16 @@ SEND_MIN = config["send_min"]
 API_KEY = os.environ["BOT_API_KEY"]
 
 try:
-    with open("responses.json") as file:
+    with open("../support/responses.json") as file:
         rps = json.load(file)
 except FileNotFoundError:
-    with open("bot/responses.json") as file:
+    with open("support/responses.json") as file:
         rps = json.load(file)
 
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
+formatter = Formatter()
 bot = telebot.TeleBot(API_KEY)
-
-
-# Scheduled Functions
-def send_termine():
-    users_with_available_termine = manage_db.check_available_termine(
-        approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
-    if not len(users_with_available_termine) == 0:
-        for user in users_with_available_termine:
-            language = manage_db.get_language(account_id=user["account_id"])
-            try:
-                bot.send_message(int(user["chat_id"]), rps[language]["appointment_reminder"])
-                for termine in user["available_termine"]:
-                    for termin in termine:
-                        termin_str = dic_to_string(termin=termin, language=language)
-                        bot.send_message(int(user["chat_id"]), termin_str)
-            except ApiTelegramException:
-                manage_db.delete_user(account_id=user["account_id"])
-
-
-scheduler = BlockingScheduler(timezone=TIMEZONE)
-scheduler.add_job(send_termine, "cron", hour=SEND_HOUR, minute=SEND_MIN)
-
-
-def schedule_checker():
-    while True:
-        scheduler.start()
 
 
 # Keyboards
@@ -134,23 +108,6 @@ def create_stop_reminder_length_keyboard(language):
 
 
 # Support functions
-def dic_to_string(termin, language):
-    termin_str = str()
-    clean_termin = {
-        rps[language]["date"]: termin["date"],
-        rps[language]["city"]: termin["city"],
-        rps[language]["street"]: termin["street"],
-        rps[language]["building"]: termin["building"],
-        rps[language]["times"]: termin["times"],
-        rps[language]["link"]: termin["link"]
-    }
-    for key, value in clean_termin.items():
-        if key == rps[language]["times"]:
-            value = "\n              ".join(value)
-        termin_str += f"{key}: {value}\n"
-    return termin_str
-
-
 def get_termine(postcode):
     lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
     min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
@@ -184,7 +141,7 @@ def add_in_db_and_reply(message, language):
                                                                     config["inform_days"][-2]) +
                              rps[language]["no_action"])
             for termin in available_termine:
-                termin_str = dic_to_string(termin, language)
+                termin_str = formatter.dic_to_string(rps, termin, language)
 
                 bot.send_message(chat_id,
                                  termin_str)
@@ -426,5 +383,4 @@ def handle_callback_query(callback_query):
 
 
 # LOOPING
-Thread(target=schedule_checker).start()
 bot.infinity_polling()

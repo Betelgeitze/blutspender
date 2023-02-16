@@ -3,7 +3,6 @@ services:
   bot:
     image: 'betelgeitze/bot'
     env_file: ./.env
-#    restart: always
     depends_on:
       - database
   parser:
