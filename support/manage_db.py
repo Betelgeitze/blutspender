@@ -125,9 +125,7 @@ class ManageDB:
 
     def get_user(self, account_id):
         session = self.session_maker()
-        print(2)
         user = session.query(self.Users).filter(self.Users.account_id == account_id).first()
-        print(3)
         return user, session
 
     # Inserting in Database
@@ -300,18 +298,12 @@ class ManageDB:
         self.write_into_db(user, session)
 
     def check_timers(self, account_id, timer):
-        print(1)
         user, session = self.get_user(account_id)
-        print(4)
         now = self.date_manager.get_now()[1]
-        print(5)
         session.close()
-        print(6)
         if getattr(user, timer) > now:
-            print(7)
             return True
         else:
-            print(8)
             return False
 
     # User delete postcodes

@@ -10,7 +10,7 @@
 
   "timezone": "Europe/Berlin",
   "send_hour": 23,
-  "send_min": 33,
+  "send_min": 48,
   "parse_hour": 23,
-  "parse_min": 32
+  "parse_min": 47
 }
