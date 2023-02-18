@@ -116,7 +116,7 @@ class ManageDB:
         except IntegrityError:
             session.rollback()
         finally:
-            session.close()
+            self.close_session(session)
 
     def session_maker(self):
         Session = sessionmaker(self.engine)
@@ -127,6 +127,9 @@ class ManageDB:
         session = self.session_maker()
         user = session.query(self.Users).filter(self.Users.account_id == account_id).first()
         return user, session
+
+    def close_session(self, session):
+        session.close()
 
     # Inserting in Database
     def insert_termin(self, postcode, full_address_list, times, normalized_date, full_link):
@@ -206,7 +209,7 @@ class ManageDB:
 
         session.query(self.Termine).filter(self.Termine.date < today).delete()
         session.commit()
-        session.close()
+        self.close_session(session)
 
     # Scheduling: Checking available Termine
     def get_postcodes_nearby(self, max_distance, postcode, min_lat, max_lat, min_lon, max_lon, inform_days):
@@ -245,7 +248,7 @@ class ManageDB:
                 available_termin["date"] = formatted_date
                 available_termin["times"] = times
                 available_termine.append(available_termin)
-        session.close()
+        self.close_session(session)
         return available_termine
 
     def check_available_termine(self, approximate_max_distance, max_distance, inform_days):
@@ -273,7 +276,7 @@ class ManageDB:
                     "available_termine": available_termin_data
                 }
                 found_termine_data.append(found_termine)
-        session.close()
+        self.close_session(session)
         return found_termine_data
 
     # Checking Postcodes
@@ -281,7 +284,7 @@ class ManageDB:
         user, session = self.get_user(account_id)
 
         postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
-        session.close()
+        self.close_session(session)
         if postcode_data:
             user_postcodes = [row.postcode for row in postcode_data]
             return True, user_postcodes
@@ -300,7 +303,7 @@ class ManageDB:
     def check_timers(self, account_id, timer):
         user, session = self.get_user(account_id)
         now = self.date_manager.get_now()[1]
-        session.close()
+        self.close_session(session)
         if getattr(user, timer) > now:
             return True
         else:
@@ -319,7 +322,7 @@ class ManageDB:
                 self.UserPostcodes.postcode == command).delete()
 
         session.commit()
-        session.close()
+        self.close_session(session)
         return postcode_row
 
     # Delete users
@@ -328,7 +331,7 @@ class ManageDB:
         session.query(self.Users).filter(self.Users.id == user.id).delete()
 
         session.commit()
-        session.close()
+        self.close_session(session)
 
     # Languages
     def update_language(self, account_id, language):
@@ -338,7 +341,7 @@ class ManageDB:
 
     def get_language(self, account_id):
         user, session = self.get_user(account_id)
-        session.close()
+        self.close_session(session)
         return user.selected_language
 
     # Reminder Stops
@@ -350,6 +353,8 @@ class ManageDB:
             user.donations += 1
             user.last_donation = today
             self.write_into_db(user, session)
+        else:
+            self.close_session(session)
 
     def remind_in(self, account_id, days):
         user, session = self.get_user(account_id)
@@ -360,7 +365,7 @@ class ManageDB:
         user, session = self.get_user(account_id)
         today = self.date_manager.get_today()
         formatted_reminder_start = self.date_manager.format_date(user.start_reminding)
-        session.close()
+        self.close_session(session)
         if today < user.start_reminding:
             return False, formatted_reminder_start
         else:
