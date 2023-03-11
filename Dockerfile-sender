@@ -1,0 +1,10 @@
+FROM python:3.10
+
+WORKDIR /sender
+COPY /sender/requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY ./sender .
+COPY ./support ./support
+COPY ./config.json .
+CMD ["python", "./sender.py"]
