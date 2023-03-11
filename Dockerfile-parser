@@ -7,4 +7,4 @@ RUN pip install -r requirements.txt
 COPY ./parser .
 COPY ./support ./support
 COPY ./config.json .
-CMD ["python", "./scheduler.py"]
+CMD ["python", "./parser.py"]
