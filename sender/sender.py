@@ -6,7 +6,6 @@ from telebot.apihelper import ApiTelegramException
 import os
 import json
 
-
 try:
     with open("../support/responses.json") as file:
         rps = json.load(file)
@@ -20,7 +19,6 @@ try:
 except FileNotFoundError:
     with open("../config.json") as file:
         config = json.load(file)
-
 
 APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
 MAX_DISTANCE = config["max_distance"]
@@ -47,3 +45,6 @@ def send_termine():
                         bot.send_message(int(user["chat_id"]), termin_str)
             except ApiTelegramException:
                 manage_db.delete_user(account_id=user["account_id"])
+
+
+send_termine()
