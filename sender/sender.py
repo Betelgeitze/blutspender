@@ -34,6 +34,7 @@ bot = telebot.TeleBot(API_KEY)
 def send_termine():
     users_with_available_termine = manage_db.check_available_termine(
         approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
+    print(len(users_with_available_termine))
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:
             language = manage_db.get_language(account_id=user["account_id"])
@@ -46,5 +47,8 @@ def send_termine():
             except ApiTelegramException:
                 manage_db.delete_user(account_id=user["account_id"])
 
-
+print("Starting sending...")
 send_termine()
+
+# docker build -t betelgeitze/sender -f Dockerfile-sender .
+# docker push betelgeitze/sender:latest
