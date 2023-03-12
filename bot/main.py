@@ -388,3 +388,6 @@ def handle_callback_query(callback_query):
 
 # LOOPING
 bot.infinity_polling()
+
+# docker build -t betelgeitze/bot -f Dockerfile-bot .
+# docker push betelgeitze/bot:latest
