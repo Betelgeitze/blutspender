@@ -27,6 +27,7 @@
     "use_interface": "Um das zu ändern, verwenden Sie die unten stehende Schnittstelle.",
     "feedback_thanks": "Danke für Ihr Feedback!",
     "write_feedback": "Bitte geben Sie uns Ihr Feedback:",
+    "await": "Ihre Anfrage wird ausgeführt. Dies kann einige Augenblicke dauern...",
 
     "keyboard_add": "Noch eine Postleitzahl hinzufügen",
     "keyboard_show": "Zeige alle meine Postleitzahlen",
@@ -77,6 +78,7 @@
     "use_interface": "To change that, use the interface below.",
     "feedback_thanks": "Thanks for your feedback!",
     "write_feedback": "Please give your feedback:",
+    "await": "Searching for appointments, this may take a few moments...",
 
     "keyboard_add": "Add another zip code",
     "keyboard_show": "Show all my zip codes",

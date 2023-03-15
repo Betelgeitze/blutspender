@@ -254,6 +254,8 @@ def send_postcode(message):
                              rps[language]["failed_del"] +
                              rps[language]["del_example"])
         elif add_another_postcode:
+            bot.send_message(chat_id,
+                             rps[language]["await"])
             add_in_db_and_reply(message, language)
         elif add_feedback:
             manage_db.insert_feedback(account_id=account_id, text=text)
@@ -273,6 +275,8 @@ def send_postcode(message):
                                  rps[language]["not_reminding"].format(remind_date) +
                                  rps[language]["add_or_del"])
         else:
+            bot.send_message(chat_id,
+                             rps[language]["await"])
             add_in_db_and_reply(message, language)
 
         manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
