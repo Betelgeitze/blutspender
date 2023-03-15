@@ -2,7 +2,7 @@
   "delta": 8,
   "offset": 8,
   "country_code": "de",
-  "approximate_max_distance": 20,
+  "approximate_max_distance": 10,
   "max_distance": 5,
   "add_timeout": 10,
   "feedback_timeout": 30,
