@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine, Column, Integer, String, Float, ForeignKey, Date, TIMESTAMP, UniqueConstraint, \
-    and_, text
+    and_, text, BIGINT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import relationship, sessionmaker
@@ -59,8 +59,8 @@ class ManageDB:
         class Users(Base):
             __tablename__ = "users"
             id = Column(Integer, primary_key=True)
-            account_id = Column(Integer, nullable=False)
-            chat_id = Column(Integer, nullable=False)
+            account_id = Column(BIGINT, nullable=False)
+            chat_id = Column(BIGINT, nullable=False)
             language_code = Column(String(32))
             selected_language = Column(String(32), nullable=False)
             postcode_timer = Column(TIMESTAMP)
@@ -169,7 +169,7 @@ class ManageDB:
             language_code=user_data["from"]["language_code"],
             postcode_timer=self.date_manager.get_now()[0],
             feedback_timer=self.date_manager.get_now()[0],
-            donations=0,
+            donations="l",
             selected_language="de",
             start_reminding=self.date_manager.get_now()[0]
         )
