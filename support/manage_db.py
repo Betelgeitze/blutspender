@@ -169,7 +169,7 @@ class ManageDB:
             language_code=user_data["from"]["language_code"],
             postcode_timer=self.date_manager.get_now()[0],
             feedback_timer=self.date_manager.get_now()[0],
-            donations="l",
+            donations=0,
             selected_language="de",
             start_reminding=self.date_manager.get_now()[0]
         )
