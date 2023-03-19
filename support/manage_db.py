@@ -88,7 +88,7 @@ class ManageDB:
         class Feedback(Base):
             __tablename__ = "feedback"
             id = Column(Integer, primary_key=True)
-            user_id = Column(Integer, ForeignKey("users.id"))
+            user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
             text = Column(String())
 
             parent = relationship("Users", back_populates="feedback_children")
