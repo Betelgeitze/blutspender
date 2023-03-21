@@ -256,6 +256,7 @@ class ManageDB:
         users = session.query(self.Users).all()
         for user in users:
             available_termin_data = []
+            unique_termine = []
             postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
             user_postcodes = [item.postcode for item in postcode_data]
             for postcode in user_postcodes:
@@ -267,11 +268,15 @@ class ManageDB:
                 if len(available_termine) > 0:
                     available_termin_data.append(available_termine)
             if not len(available_termin_data) == 0:
+                # Remove dublicates
+                for elem in available_termin_data:
+                    if elem not in unique_termine:
+                        unique_termine.append(elem)
                 found_termine = {
                     "account_id": user.account_id,
                     "chat_id": user.chat_id,
                     "language_code": user.language_code,
-                    "available_termine": available_termin_data
+                    "available_termine": unique_termine
                 }
                 found_termine_data.append(found_termine)
         self.close_session(session)
