@@ -37,6 +37,7 @@ def send_termine():
     print(len(users_with_available_termine))
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:
+            print(user["account_id"])
             language = manage_db.get_language(account_id=user["account_id"])
             try:
                 bot.send_message(int(user["chat_id"]), rps[language]["appointment_reminder"])

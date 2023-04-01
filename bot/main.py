@@ -177,7 +177,7 @@ print("Bot is running")
 
 # BOT RUNNING
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start', 'help', 'menu'])
 def welcome_message(message):
     if not message.from_user.is_bot:
         account_id = message.from_user.id
