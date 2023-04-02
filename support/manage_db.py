@@ -252,8 +252,9 @@ class ManageDB:
     def check_available_termine(self, approximate_max_distance, max_distance, inform_days):
         found_termine_data = []
         session = self.session_maker()
+        today = self.date_manager.get_today()
 
-        users = session.query(self.Users).all()
+        users = session.query(self.Users).filter(self.Users.start_reminding <= today).all()
         for user in users:
             available_termin_data = []
             unique_termine = []
