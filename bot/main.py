@@ -18,9 +18,6 @@ APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
 MAX_DISTANCE = config["max_distance"]
 ADD_TIMEOUT = config["add_timeout"]
 FEEDBACK_TIMEOUT = config["feedback_timeout"]
-TIMEZONE = config["timezone"]
-SEND_HOUR = config["send_hour"]
-SEND_MIN = config["send_min"]
 
 API_KEY = os.environ["BOT_API_KEY"]
 
@@ -130,15 +127,13 @@ def add_in_db_and_reply(message, language):
         if len(available_termine) == 0:
             bot.send_message(chat_id,
                              rps[language]["no_termine"] +
-                             rps[language]["no_action_info"].format(config["inform_days"][-1],
-                                                                    config["inform_days"][-2]) +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                              rps[language]["no_action"] +
                              rps[language]["add_or_del"])
         else:
             bot.send_message(chat_id,
                              rps[language]["yes_termine"] +
-                             rps[language]["no_action_info"].format(config["inform_days"][-1],
-                                                                    config["inform_days"][-2]) +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                              rps[language]["no_action"])
             for termin in available_termine:
                 termin_str = formatter.dic_to_string(rps, termin, language)

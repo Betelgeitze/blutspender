@@ -7,11 +7,5 @@
   "add_timeout": 10,
   "feedback_timeout": 30,
 
-  "inform_days": [0,3,7],
-
-  "timezone": "Europe/Berlin",
-  "send_hour": 23,
-  "send_min": 48,
-  "parse_hour": 23,
-  "parse_min": 47
+  "inform_days": [0,3]
 }
