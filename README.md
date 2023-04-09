@@ -28,11 +28,12 @@ If you need help or want to exchange ideas, write me a message.
     POSTGRES_USER=<think of a name>
    2. Save the file on the same level with config.json
  4. Open config.json
-   1. 
+   1. Explanation of variables:
+    delta - parses the appointments for the next 8 days
+    offset - 
 
 ## Deployment
 
 
-To use this bot, you need to have a Telegram account and register for a bot API token. Once you have your token, you can clone this repository to your local machine and run main.py
-
-1. Go to config.
+## License
+This project is licensed under the MIT License - see the LICENSE file for details.
