@@ -5,6 +5,7 @@ you have to change "betelgeitze" to smth else like your docker login name
 ## Encouragment
 This is a non-commercial project.
 Currently this bot is working for Germany. You can find it under: https://t.me/BlutspenderBot
+
 I encourage you to build such a bot for your country of living (if it is not Germany). You can use this project as the basis.
 To do so, you need to:
 1. Rewrite parser.py to parse blood donation appointments from your country
