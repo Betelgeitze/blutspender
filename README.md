@@ -58,7 +58,9 @@ I used AWS for deployment.
 I use the cheapest PostgreDB & Containers. Still I pay 28€ per month for them
 
 ### P.S:
-I know that Deployment part is not very well described, but it would take a lot of time to go through each and every step. In case you need help, just contact me. However, I am not a real deployment expert and deploying to AWS was a big headache for me. However, I will try my best in case you have questions
+I know that Deployment part is not very well described, but it would take a lot of time to go through each and every step. In case you need help, just contact me. However, I am not a real deployment expert and deploying to AWS was a big headache for me. However, I will try my best in case you have questions  
+
+Somehow I could not make it work using AWS Lambda, that is why I am using containers instead
 
 ## Feedback:
 If you have proposals about bot improvements, please let me know. Thanks!
