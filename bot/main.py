@@ -153,7 +153,7 @@ def change_language(callback_query, language):
     if not postcode_exists:
         bot.reply_to(callback_query.message,
                      rps[language]["welcome_msg"] +
-                     rps[language]["no_action_info"].format(config["inform_days"][-1], config["inform_days"][-2]) +
+                     rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                      rps[language]["write_postcode"])
     else:
         bot.reply_to(callback_query.message,
@@ -191,16 +191,14 @@ def welcome_message(message):
             if remind:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
-                             rps[language]["no_action_info"].format(config["inform_days"][-1],
-                                                                    config["inform_days"][-2]) +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                              rps[language]["no_action_required"] +
                              rps[language]["add_example"],
                              reply_markup=main_keyboard)
             else:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
-                             rps[language]["no_action_info"].format(config["inform_days"][-1],
-                                                                    config["inform_days"][-2]) +
+                             rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                              rps[language]["no_action_required"] +
                              rps[language]["not_reminding"].format(remind_date) +
                              rps[language]["use_interface"],
@@ -261,8 +259,7 @@ def send_postcode(message):
             if remind:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +
-                                 rps[language]["no_action_info"].format(config["inform_days"][-1],
-                                                                        config["inform_days"][-2]) +
+                                 rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                                  rps[language]["add_or_del"])
             else:
                 bot.send_message(chat_id,
@@ -376,8 +373,7 @@ def handle_callback_query(callback_query):
                     main_keyboard = create_main_keyboard(language=language, remind=remind)
                     bot.edit_message_text(chat_id=chat_id, message_id=message_id,
                                           text=rps[language]["welcome_msg"] +
-                                               rps[language]["no_action_info"].format(config["inform_days"][-1],
-                                                                                      config["inform_days"][-2]) +
+                                               rps[language]["no_action_info"].format(config["inform_days"][-1]) +
                                                rps[language]["no_action_required"] +
                                                rps[language]["add_example"],
                                           reply_markup=main_keyboard)
