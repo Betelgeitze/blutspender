@@ -52,7 +52,7 @@ I used AWS for deployment.
       POSTGRES_PASSWORD=take this value from your PostgreDB in AWS 
       POSTGRES_USER=take this value from your PostgreDB in AWS 
 6. Create tasks for Dockerfile-parser & Dockerfile-sender
-7. Use AWS EventBridge to schedule parser & sender containers
+7. Use AWS EventBridge to schedule parser & sender containers to run every day, for example at 7:00 in the morning
 
 ###  Costs of deployment
 I use the cheapest PostgreDB & Containers. Still I pay 28€ per month for them
