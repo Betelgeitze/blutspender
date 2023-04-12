@@ -12,6 +12,11 @@ from support.formatter import Formatter
 with open("config.json") as file:
     config = json.load(file)
 
+# TODO:
+# 2. Remove feedback button
+# 6. Add opportunity to define reminders
+
+
 COUNTRY_CODE = config["country_code"]
 INFORM_DAYS = config["inform_days"]
 APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
@@ -209,6 +214,17 @@ def welcome_message(message):
                          reply_markup=language_keyboard)
 
 
+@bot.message_handler(commands=['info'])
+def info_message(message):
+    if not message.from_user.is_bot:
+        account_id = message.from_user.id
+        chat_id = message.chat.id
+
+        language = manage_db.get_language(account_id=account_id)
+        bot.reply_to(message, rps[language]["info"])
+        bot.send_message(chat_id, rps[language]["write_start"])
+
+
 @bot.message_handler()
 def send_postcode(message):
     if not message.from_user.is_bot:
@@ -271,8 +287,8 @@ def send_postcode(message):
                              rps[language]["await"])
             add_in_db_and_reply(message, language)
 
-        manage_db.update_timers(account_id=account_id, open=False, timer="postcode_timer")
-        manage_db.update_timers(account_id=account_id, open=False, timer="feedback_timer")
+        manage_db.update_timers(account_id=account_id, status=False, timer="postcode_timer")
+        manage_db.update_timers(account_id=account_id, status=False, timer="feedback_timer")
 
 
 @bot.callback_query_handler(func=lambda query: True)
@@ -310,7 +326,7 @@ def handle_callback_query(callback_query):
                                      reply_markup=language_keyboard)
 
                 elif data == 'add_btn_clicked':
-                    manage_db.update_timers(account_id=account_id, open=True, timer="postcode_timer", minutes=ADD_TIMEOUT)
+                    manage_db.update_timers(account_id=account_id, status=True, timer="postcode_timer")
                     bot.send_message(chat_id=chat_id,
                                      text=rps[language]["write_postcode"])
                 elif data == 'show_btn_clicked':
@@ -323,8 +339,7 @@ def handle_callback_query(callback_query):
                 elif data == 'feedback_btn_clicked':
                     bot.send_message(chat_id=chat_id,
                                      text=rps[language]["write_feedback"])
-                    manage_db.update_timers(account_id=account_id, open=True, timer="feedback_timer",
-                                            minutes=FEEDBACK_TIMEOUT)
+                    manage_db.update_timers(account_id=account_id, status=True, timer="feedback_timer")
 
                 elif data == "reminder_btn_clicked":
                     stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=language)

@@ -61,7 +61,6 @@ class ManageDB:
             id = Column(Integer, primary_key=True)
             account_id = Column(BIGINT, nullable=False)
             chat_id = Column(BIGINT, nullable=False)
-            language_code = Column(String(32))
             selected_language = Column(String(32), nullable=False)
             postcode_timer = Column(TIMESTAMP)
             feedback_timer = Column(TIMESTAMP)
@@ -166,9 +165,8 @@ class ManageDB:
         new_user = self.Users(
             account_id=user_data["from"]["id"],
             chat_id=user_data["chat"]["id"],
-            language_code=user_data["from"]["language_code"],
-            postcode_timer=self.date_manager.get_now()[0],
-            feedback_timer=self.date_manager.get_now()[0],
+            postcode_timer= False,
+            feedback_timer= False,
             donations=0,
             selected_language="de",
             start_reminding=self.date_manager.get_now()[0]
@@ -296,22 +294,15 @@ class ManageDB:
             return False, []
 
     # Writing extra data: Working with Timers
-    def update_timers(self, account_id, open, timer, **kwargs):
+    def update_timers(self, account_id, status, timer):
         user, session = self.get_user(account_id)
-        if open:
-            setattr(user, timer, self.date_manager.get_min_from_now(kwargs.get("minutes")))
-        else:
-            setattr(user, timer, self.date_manager.get_now()[0])
+        setattr(user, timer, status)
         self.write_into_db(user, session)
 
     def check_timers(self, account_id, timer):
         user, session = self.get_user(account_id)
-        now = self.date_manager.get_now()[1]
         self.close_session(session)
-        if getattr(user, timer) > now:
-            return True
-        else:
-            return False
+        return getattr(user, timer)
 
     # User delete postcodes
     def delete_user_postcode(self, account_id, command):
