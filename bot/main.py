@@ -13,6 +13,10 @@ with open("config.json") as file:
     config = json.load(file)
 
 # TODO:
+# 1. Alter tables before commiting:
+# ALTER TABLE users ALTER COLUMN feedback_timer TYPE BOOLEAN USING false;
+# ALTER TABLE users ALTER COLUMN postcode_timer TYPE BOOLEAN USING false;
+# ALTER TABLE users DROP COLUMN language_code;
 # 2. Remove feedback button
 # 6. Add opportunity to define reminders
 
@@ -212,17 +216,6 @@ def welcome_message(message):
             bot.reply_to(message,
                          rps["select_language"],
                          reply_markup=language_keyboard)
-
-
-@bot.message_handler(commands=['info'])
-def info_message(message):
-    if not message.from_user.is_bot:
-        account_id = message.from_user.id
-        chat_id = message.chat.id
-
-        language = manage_db.get_language(account_id=account_id)
-        bot.reply_to(message, rps[language]["info"])
-        bot.send_message(chat_id, rps[language]["write_start"])
 
 
 @bot.message_handler()

@@ -1,7 +1,6 @@
 {
   "de": {
     "welcome_msg": "Hallo,\n",
-    "info": "Hallo, ich würde mich sehr über Ihr Feedback freuen. Bitte kontaktieren Sie mich, wenn Sie Fragen oder Verbesserungsvorschläge haben: @betelgeitze\n\nDies ist ein nicht-kommerzielles Open-Source-Projekt: https://github.com/Betelgeitze/blutspender",
     "del_example": "Wenn Sie Ihre Postleitzahl löschen möchten, schreiben Sie sie in diesem Format:\n\ndelete: xxxxx\n\nZum Beispiel:\ndelete: 13450\n\nWenn Sie alle Postleitzahlen löschen wollen, schreiben Sie:\ndelete: all",
     "available_postcodes": "Ihre Postleitzahlen:\n",
     "write_postcode": "Bitte schreiben Sie Ihre Postleitzahl:",
@@ -53,7 +52,6 @@
   },
   "en": {
     "welcome_msg": "Hi,\n",
-    "info": "Hi, I would be very happy to hear your feedback. Please contact me if you have questions or improvement suggestions: @betelgeitze\n\nThis is a non-commercial open-source project: https://github.com/Betelgeitze/blutspender",
     "del_example": "If you want to delete your zip code, write it in this format:\n\ndelete: xxxxx\n\nFor example:\ndelete: 13450\n\nIf you want to delete all postal codes, write:\ndelete: all",
     "available_postcodes": "Your zip codes:\n",
     "write_postcode": "Please write your zip code:",
