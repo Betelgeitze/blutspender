@@ -12,21 +12,12 @@ from support.formatter import Formatter
 with open("config.json") as file:
     config = json.load(file)
 
-# TODO:
-# 1. Alter tables before commiting:
-# ALTER TABLE users ALTER COLUMN feedback_timer TYPE BOOLEAN USING false;
-# ALTER TABLE users ALTER COLUMN postcode_timer TYPE BOOLEAN USING false;
-# ALTER TABLE users DROP COLUMN language_code;
-# 2. Remove feedback button
-# 6. Add opportunity to define reminders
-
 
 COUNTRY_CODE = config["country_code"]
 INFORM_DAYS = config["inform_days"]
 APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
 MAX_DISTANCE = config["max_distance"]
-ADD_TIMEOUT = config["add_timeout"]
-FEEDBACK_TIMEOUT = config["feedback_timeout"]
+
 
 API_KEY = os.environ["BOT_API_KEY"]
 
