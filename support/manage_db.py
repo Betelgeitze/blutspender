@@ -274,7 +274,6 @@ class ManageDB:
                 found_termine = {
                     "account_id": user.account_id,
                     "chat_id": user.chat_id,
-                    "language_code": user.language_code,
                     "available_termine": unique_termine
                 }
                 found_termine_data.append(found_termine)
