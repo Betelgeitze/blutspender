@@ -203,7 +203,7 @@ class ManageDB:
 
         today = self.date_manager.get_today()
 
-        session.query(self.Termine).filter(self.Termine.date < today).delete()
+        session.query(self.Termine).filter(self.Termine.date <= today).delete()
         session.commit()
         self.close_session(session)
 
