@@ -11,7 +11,8 @@ from support.date_manager import DateManager
 class ManageDB:
 
     def __init__(self, country_code):
-        self.Base, self.engine, self.Termine, self.Times, self.Postcodes, self.Users, self.UserPostcodes, self.Feedback = self.create_db_structure()
+        self.Base, self.engine, self.Termine, self.Times, self.Postcodes, \
+        self.Users, self.UserPostcodes, self.Feedback, self.ReminderDays = self.create_db_structure()
 
         self.postcode_ranges = PostcodeRanges(country_code=country_code)
         self.date_manager = DateManager()
@@ -67,9 +68,11 @@ class ManageDB:
             last_donation = Column(Date)
             donations = Column(Integer)
             start_reminding = Column(Date, nullable=False)
+            distance = Column(Float, nullable=False)
 
             postcodes_children = relationship("UserPostcodes", cascade="all,delete", back_populates="parent")
             feedback_children = relationship("Feedback", cascade="all,delete", back_populates="parent")
+            reminderdays_children = relationship("ReminderDays", cascade="all,delete", back_populates="parent")
 
             __table_args__ = (UniqueConstraint("account_id", name="uq_account_id"),)
 
@@ -92,7 +95,16 @@ class ManageDB:
 
             parent = relationship("Users", back_populates="feedback_children")
 
-        return Base, engine, Termine, Times, Postcodes, Users, UserPostcodes, Feedback
+        class ReminderDays(Base):
+            __tablename__ = "reminderdays"
+            id = Column(Integer, primary_key=True)
+            user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
+            reminder_day = Column(Integer)
+
+            parent = relationship("Users", back_populates="reminderdays_children")
+            __table_args__ = (UniqueConstraint("user_id", "reminder_day", name="uq_user_id_and_reminder_day"),)
+
+        return Base, engine, Termine, Times, Postcodes, Users, UserPostcodes, Feedback, ReminderDays
 
     def create_tables(self):
         self.Base.metadata.create_all(self.engine)
@@ -165,8 +177,8 @@ class ManageDB:
         new_user = self.Users(
             account_id=user_data["from"]["id"],
             chat_id=user_data["chat"]["id"],
-            postcode_timer= False,
-            feedback_timer= False,
+            postcode_timer=False,
+            feedback_timer=False,
             donations=0,
             selected_language="de",
             start_reminding=self.date_manager.get_now()[0]
@@ -364,4 +376,3 @@ class ManageDB:
             return False, formatted_reminder_start
         else:
             return True, formatted_reminder_start
-

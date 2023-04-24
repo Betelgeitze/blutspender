@@ -3,6 +3,7 @@
   "offset": 8,
   "country_code": "de",
   "inform_days": [0,3],
+  "max_day": 7,
   "max_distance": 5,
   "approximate_max_distance": 10
 }

@@ -21,6 +21,27 @@ COUNTRY_CODE = config["country_code"]
 manage_db = ManageDB(COUNTRY_CODE)
 date_manager = DateManager()
 
+#TODO: Add settings, instead of "stop_reminding" button.
+#TODO:Inside create:
+# 1. Change reminder days
+# 2. Change distance
+# 3. Stop reminding
+
+#TODO:
+# Run this:
+# ALTER TABLE users
+# ADD COLUMN distance FLOAT NOT NULL DEFAULT 5;
+
+#TODO:
+# Run parser container to create a table
+
+#TODO:
+# Run this:
+# INSERT INTO reminderdays (user_id, reminder_day)
+# SELECT u.id, d.reminder_day
+# FROM users u
+# CROSS JOIN (VALUES (0), (3)) AS d(reminder_day);
+
 
 def parse_pages(delta, start_date_offset):
     # Getting times
