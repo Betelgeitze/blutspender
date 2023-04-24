@@ -63,8 +63,7 @@ class ManageDB:
             account_id = Column(BIGINT, nullable=False)
             chat_id = Column(BIGINT, nullable=False)
             selected_language = Column(String(32), nullable=False)
-            postcode_timer = Column(TIMESTAMP)
-            feedback_timer = Column(TIMESTAMP)
+            response = Column(String(32))
             last_donation = Column(Date)
             donations = Column(Integer)
             start_reminding = Column(Date, nullable=False)
@@ -177,11 +176,11 @@ class ManageDB:
         new_user = self.Users(
             account_id=user_data["from"]["id"],
             chat_id=user_data["chat"]["id"],
-            postcode_timer=False,
-            feedback_timer=False,
+            response="postcode",
             donations=0,
             selected_language="de",
-            start_reminding=self.date_manager.get_now()[0]
+            start_reminding=self.date_manager.get_now()[0],
+            distance=5
         )
 
         self.write_into_db(new_user, session)
@@ -295,7 +294,6 @@ class ManageDB:
     # Checking Postcodes
     def get_user_postcodes(self, account_id):
         user, session = self.get_user(account_id)
-
         postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
         self.close_session(session)
         if postcode_data:
@@ -305,15 +303,10 @@ class ManageDB:
             return False, []
 
     # Writing extra data: Working with Timers
-    def update_timers(self, account_id, status, timer):
+    def update_timers(self, account_id, response):
         user, session = self.get_user(account_id)
-        setattr(user, timer, status)
+        setattr(user, "response", response)
         self.write_into_db(user, session)
-
-    def check_timers(self, account_id, timer):
-        user, session = self.get_user(account_id)
-        self.close_session(session)
-        return getattr(user, timer)
 
     # User delete postcodes
     def delete_user_postcode(self, account_id, command):
@@ -345,11 +338,6 @@ class ManageDB:
         user.selected_language = language
         self.write_into_db(user, session)
 
-    def get_language(self, account_id):
-        user, session = self.get_user(account_id)
-        self.close_session(session)
-        return user.selected_language
-
     # Reminder Stops
     def addup_donations(self, account_id):
         today = self.date_manager.get_today()
@@ -376,3 +364,16 @@ class ManageDB:
             return False, formatted_reminder_start
         else:
             return True, formatted_reminder_start
+
+
+    # Get User data
+    def get_user_data(self, account_id):
+        user, session = self.get_user(account_id)
+        self.close_session(session)
+        return user
+
+    # Change distance
+    def change_distance(self, account_id, distance):
+        user, session = self.get_user(account_id)
+        user.distance = distance
+        self.write_into_db(user, session)

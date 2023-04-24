@@ -42,6 +42,18 @@ date_manager = DateManager()
 # FROM users u
 # CROSS JOIN (VALUES (0), (3)) AS d(reminder_day);
 
+#TODO:
+# Run this:
+# ALTER TABLE users
+# ALTER COLUMN postcode_timer TYPE VARCHAR(32);
+#TODO:
+# ALTER TABLE users
+# RENAME COLUMN postcode_timer TO response;
+#TODO:
+# UPDATE users
+# SET response = 'none';
+
+
 
 def parse_pages(delta, start_date_offset):
     # Getting times

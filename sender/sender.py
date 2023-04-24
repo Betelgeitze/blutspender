@@ -20,8 +20,8 @@ except FileNotFoundError:
     with open("../config.json") as file:
         config = json.load(file)
 
-APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
-MAX_DISTANCE = config["max_distance"]
+APPROXIMATE_DEFAULT_DISTANCE = config["approximate_default_distance"]
+DEFAULT_DISTANCE = config["default_distance"]
 INFORM_DAYS = config["inform_days"]
 API_KEY = os.environ["BOT_API_KEY"]
 COUNTRY_CODE = config["country_code"]
@@ -33,7 +33,7 @@ bot = telebot.TeleBot(API_KEY)
 
 def send_termine():
     users_with_available_termine = manage_db.check_available_termine(
-        approximate_max_distance=APPROXIMATE_MAX_DISTANCE, max_distance=MAX_DISTANCE, inform_days=INFORM_DAYS)
+        approximate_max_distance=APPROXIMATE_DEFAULT_DISTANCE, max_distance=DEFAULT_DISTANCE, inform_days=INFORM_DAYS)
     print(len(users_with_available_termine))
     if not len(users_with_available_termine) == 0:
         for user in users_with_available_termine:

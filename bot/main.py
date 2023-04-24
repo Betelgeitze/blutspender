@@ -15,8 +15,9 @@ with open("config.json") as file:
 
 COUNTRY_CODE = config["country_code"]
 INFORM_DAYS = config["inform_days"]
-APPROXIMATE_MAX_DISTANCE = config["approximate_max_distance"]
+APPROXIMATE_MAX_DISTANCE = config["approximate_default_distance"]
 MAX_DISTANCE = config["max_distance"]
+DEFAULT_DISTANCE = config["default_distance"]
 
 
 API_KEY = os.environ["BOT_API_KEY"]
@@ -128,7 +129,7 @@ def create_stop_reminder_length_keyboard(language):
 def get_termine(postcode):
     lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
     min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(APPROXIMATE_MAX_DISTANCE, lat, lon)
-    available_termine = manage_db.get_postcodes_nearby(MAX_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon,
+    available_termine = manage_db.get_postcodes_nearby(DEFAULT_DISTANCE, postcode, min_lat, max_lat, min_lon, max_lon,
                                                        inform_days=None)
     return available_termine
 
@@ -168,12 +169,12 @@ def add_in_db_and_reply(message, language):
                          rps[language]["write_start"])
 
 
-def change_language(callback_query, language):
+def change_language(callback_query, language, user):
     postcode_exists = manage_db.get_user_postcodes(callback_query.from_user.id)[0]
     if not postcode_exists:
         bot.reply_to(callback_query.message,
                      rps[language]["welcome_msg"] +
-                     rps[language]["no_action_info"].format(config["inform_days"][-1]) +
+                     rps[language]["no_action_info"].format(user.distance, config["inform_days"][-1]) + ###TODO
                      rps[language]["write_postcode"])
     else:
         bot.reply_to(callback_query.message,
@@ -203,7 +204,8 @@ def welcome_message(message):
 
         remind, remind_date = manage_db.want_remind(account_id=account_id)
 
-        language = manage_db.get_language(account_id=account_id)
+        user = manage_db.get_user_data(account_id=account_id)
+        language = user.selected_language
         main_keyboard = create_main_keyboard(language=language)
         language_keyboard = create_language_keyboard()
 
@@ -211,14 +213,14 @@ def welcome_message(message):
             if remind:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
-                             rps[language]["no_action_info"].format(config["inform_days"][-1]) +
+                             rps[language]["no_action_info"].format(user.distance, config["inform_days"][-1]) +
                              rps[language]["no_action_required"] +
                              rps[language]["add_example"],
                              reply_markup=main_keyboard)
             else:
                 bot.reply_to(message,
                              rps[language]["welcome_msg"] +
-                             rps[language]["no_action_info"].format(config["inform_days"][-1]) +
+                             rps[language]["no_action_info"].format(user.distance, config["inform_days"][-1]) +
                              rps[language]["no_action_required"] +
                              rps[language]["not_reminding"].format(remind_date) +
                              rps[language]["use_interface"],
@@ -236,11 +238,13 @@ def send_postcode(message):
         chat_id = message.chat.id
         text = message.text
 
-        add_another_postcode = manage_db.check_timers(account_id=account_id, timer="postcode_timer")
-        add_feedback = manage_db.check_timers(account_id=account_id, timer="feedback_timer")
+        user = manage_db.get_user_data(account_id=account_id)
+        language = user.selected_language
+        response = user.response
+        distance = user.distance
+
         postcode_exists = manage_db.get_user_postcodes(account_id=account_id)[0]
         remind, remind_date = manage_db.want_remind(account_id=account_id)
-        language = manage_db.get_language(account_id=account_id)
 
         if "delete:" in text.lower():
             command = text.split(":")
@@ -266,33 +270,49 @@ def send_postcode(message):
                 bot.reply_to(message,
                              rps[language]["failed_del"] +
                              rps[language]["del_example"])
-        elif add_another_postcode:
+        elif response == "postcode":
             bot.send_message(chat_id,
                              rps[language]["await"])
             add_in_db_and_reply(message, language)
-        elif add_feedback:
+        elif response == "feedback":
             manage_db.insert_feedback(account_id=account_id, text=text)
             bot.reply_to(message,
                          rps[language]["feedback_thanks"])
             welcome_message(message)
+        elif response == "distance":
+            dist = text.replace(",", ".")
+            try:
+                dist = float(dist)
+                if 0 <= dist < MAX_DISTANCE:
+                    manage_db.change_distance(account_id=account_id, distance=dist)
+                    ###todo
+                else:
+                    bot.reply_to(message,
+                                 rps[language]["enter_digit"])
+            except ValueError:
+                bot.reply_to(message,
+                             rps[language]["enter_digit"])
+
+
+
         elif postcode_exists:
             if remind:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +
-                                 rps[language]["no_action_info"].format(config["inform_days"][-1]) +
+                                 rps[language]["no_action_info"].format(distance, config["inform_days"][-1]) +
                                  rps[language]["add_or_del"])
             else:
                 bot.send_message(chat_id,
                                  rps[language]["no_action_required"] +
                                  rps[language]["not_reminding"].format(remind_date) +
                                  rps[language]["add_or_del"])
-        else:
-            bot.send_message(chat_id,
-                             rps[language]["await"])
-            add_in_db_and_reply(message, language)
+        # else:
+        #     print("test")
+        #     bot.send_message(chat_id,
+        #                      rps[language]["await"])
+        #     add_in_db_and_reply(message, language)
 
-        manage_db.update_timers(account_id=account_id, status=False, timer="postcode_timer")
-        manage_db.update_timers(account_id=account_id, status=False, timer="feedback_timer")
+        manage_db.update_timers(account_id=account_id, response="none")
 
 
 @bot.callback_query_handler(func=lambda query: True)
@@ -303,10 +323,10 @@ def handle_callback_query(callback_query):
     message_id = callback_query.message.message_id
 
     # Checking if the user is in database
-    user, session = manage_db.get_user(account_id)
-    manage_db.close_session(session)
+    user = manage_db.get_user_data(account_id)
+    language = user.selected_language
     if user is not None:
-        manage_db.update_timers(account_id, False, "postcode_timer")
+        #manage_db.update_timers(account_id, response="none")
 
         if not callback_query.from_user.is_bot:
             # I add this exception handler because without it if you click a button which edits the message very fast,
@@ -314,14 +334,12 @@ def handle_callback_query(callback_query):
             # I could not find a better solution. It seems to be a Telegram problem according to:
             # https://stackoverflow.com/questions/60862027/telegram-bot-with-python-telegram-error-badrequest-message-is-not-modified
             try:
-                language = manage_db.get_language(account_id=account_id)
-
                 if data == 'english_btn_clicked':
                     manage_db.update_language(account_id=account_id, language="en")
-                    change_language(callback_query=callback_query, language="en")
+                    change_language(callback_query=callback_query, language="en", user=user)
                 elif data == 'deutsch_btn_clicked':
                     manage_db.update_language(account_id=account_id, language="de")
-                    change_language(callback_query=callback_query, language="de")
+                    change_language(callback_query=callback_query, language="de", user=user)
 
                 elif data == 'change_language_btn_clicked':
                     language_keyboard = create_language_keyboard()
@@ -330,7 +348,7 @@ def handle_callback_query(callback_query):
                                      reply_markup=language_keyboard)
 
                 elif data == 'add_btn_clicked':
-                    manage_db.update_timers(account_id=account_id, status=True, timer="postcode_timer")
+                    manage_db.update_timers(account_id=account_id, response="postcode")
                     bot.send_message(chat_id=chat_id,
                                      text=rps[language]["write_postcode"])
                 elif data == 'show_btn_clicked':
@@ -343,7 +361,7 @@ def handle_callback_query(callback_query):
                 elif data == 'feedback_btn_clicked':
                     bot.send_message(chat_id=chat_id,
                                      text=rps[language]["write_feedback"])
-                    manage_db.update_timers(account_id=account_id, status=True, timer="feedback_timer")
+                    manage_db.update_timers(account_id=account_id, response="feedback")
 
                 elif data == "settings_btn_clicked":
                     remind = manage_db.want_remind(account_id=account_id)[0]
@@ -353,9 +371,9 @@ def handle_callback_query(callback_query):
                                           reply_markup=settings_keyboard)
 
                 elif data == "distance_btn_clicked":
-
+                    manage_db.update_timers(account_id=account_id, response="distance")
                     bot.edit_message_text(chat_id=chat_id, message_id=message_id,
-                                          text=rps[language]["distance_explanation"])
+                                          text=rps[language]["distance_explanation"].format(MAX_DISTANCE))
 
                 elif data == "reminder_btn_clicked":
                     stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=language)
