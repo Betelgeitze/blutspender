@@ -8,6 +8,6 @@
   "inform_days": [0,3],
 
   "max_day": 7,
-  "max_distance": 30,
+  "max_distance": 15,
   "reminder_days": [0,7,56,168]
 }
