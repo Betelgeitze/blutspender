@@ -197,7 +197,7 @@ class ManageDB:
         session.close()
         return available_termine
 
-    def get_available_termine(self, approximate_max_distance, max_distance, inform_days):
+    def get_available_termine(self, DISTANCE_DELTA):
         found_termine_data = []
         session = self.session_maker()
         today = self.date_manager.get_today()
@@ -206,13 +206,15 @@ class ManageDB:
         for user in users:
             available_termin_data = []
             unique_termine = []
+            distance = user.distance
+            inform_days = self.get_reminder_days(user.account_id)
             postcode_data = session.query(self.UserPostcodes).filter(self.UserPostcodes.user_id == user.id).all()
             user_postcodes = [item.postcode for item in postcode_data]
             for postcode in user_postcodes:
                 lat, lon = self.postcode_ranges.get_lat_and_lon(postcode=postcode)
-                min_lat, max_lat, min_lon, max_lon = self.postcode_ranges.calculate_ranges(approximate_max_distance,
+                min_lat, max_lat, min_lon, max_lon = self.postcode_ranges.calculate_ranges(distance + DISTANCE_DELTA,
                                                                                            lat, lon)
-                available_termine = self.get_postcodes_nearby(max_distance, postcode, min_lat, max_lat, min_lon,
+                available_termine = self.get_postcodes_nearby(distance, postcode, min_lat, max_lat, min_lon,
                                                               max_lon, inform_days)
                 if len(available_termine) > 0:
                     available_termin_data.append(available_termine)
@@ -224,7 +226,9 @@ class ManageDB:
                 found_termine = {
                     "account_id": user.account_id,
                     "chat_id": user.chat_id,
-                    "available_termine": unique_termine
+                    "available_termine": unique_termine,
+                    "selected_language": user.selected_language,
+                    "distance": distance
                 }
                 found_termine_data.append(found_termine)
         session.close()
