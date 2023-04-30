@@ -2,9 +2,12 @@
   "delta": 8,
   "offset": 8,
   "country_code": "de",
+  "default_language": "de",
+  "distance_delta": 5,
+  "default_distance": 5,
   "inform_days": [0,3],
+
   "max_day": 7,
   "max_distance": 30,
-  "default_distance": 5,
-  "approximate_default_distance": 10
+  "reminder_days": [0,7,56,168]
 }
