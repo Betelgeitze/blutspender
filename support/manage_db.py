@@ -309,7 +309,6 @@ class ManageDB:
         self.write_into_db(new_feedback, session)
 
     def insert_reminder_days(self, account_id, days):
-        # todo: think how to rewrite it in a clever way
         user, session = self.get_user(account_id)
         session.query(self.ReminderDays).filter(self.ReminderDays.user_id == user.id).delete()
         session.commit()
