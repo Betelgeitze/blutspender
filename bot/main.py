@@ -129,6 +129,7 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
     zero_days = ""
     non_zero_days = ""
     _and = ""
+    space = " "
 
     user = manage_db.get_user_data(account_id=account_id)
     remind, remind_date = manage_db.check_if_remind(account_id=account_id)
@@ -152,6 +153,9 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
     # Dealing with "no_action_info" response
     if 0 in days:
         zero_days = rps[user.selected_language]["zero_days"]
+        if len(days) == 1:
+            space = ""
+
         if len(days) > 1:
             if len(days) == 2 and 1 in days:
                 plural = ""
@@ -167,7 +171,7 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
             plural = rps[user.selected_language]["plural"]
         non_zero_days = rps[user.selected_language]["non_zero_days"].format(plural=plural)
 
-    days = ", ".join(map(str, days))
+    days = ", ".join(map(str, days)) + space
 
     # Unpacking responses
     for response in responses:

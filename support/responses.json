@@ -74,7 +74,7 @@
     "available_postcodes": "Your zip codes:\n",
     "write_postcode": "Please write your zip code:",
     "no_action_required": "You already entered your zip code, you don't need to do anything.\n",
-    "no_action_info": "I will keep you updated with blood donation appointments within {distance} km from your postcode by sending reminders {days} {non_zero_days}{_and}{zero_days}the appointment.\n\n",
+    "no_action_info": "I will keep you updated with blood donation appointments within {distance} km from your postcode by sending reminders {days}{non_zero_days}{_and}{zero_days}the appointment.\n\n",
     "failed_del": "Wrong format\n",
     "reset": "You have no more zip codes. Let's start from the beginning!",
     "add_or_del": "If you want to add or delete your data, write /menu",
