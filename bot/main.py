@@ -217,12 +217,12 @@ def get_termine(postcode, distance):
     return available_termine
 
 
-def change_language(callback_query, user):
+def change_language(callback_query, account_id):
     postcode_exists = manage_db.get_user_postcodes(callback_query.from_user.id)
     if not postcode_exists:
-        msg("reply", user, ["no_action_info", "write_postcode"], message=callback_query.message)
+        msg("reply", account_id, ["no_action_info", "write_postcode"], message=callback_query.message)
     else:
-        msg("reply", user, ["language_changed", "add_or_del"], message=callback_query.message)
+        msg("reply", account_id, ["language_changed", "add_or_del"], message=callback_query.message)
 
 
 print("Bot is running")
@@ -287,7 +287,6 @@ def send_postcode(message):
 
             if not math.isnan(lat):
                 manage_db.insert_user_postcodes(account_id=account_id, text=text)
-                print(user.distance)
                 available_termine = get_termine(postcode=text, distance=user.distance)
                 if len(available_termine) == 0:
                     msg("edit", account_id, ["no_termine", "no_action_info", "no_action"], message=searcher)
