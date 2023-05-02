@@ -5,7 +5,7 @@
     "available_postcodes": "Ihre Postleitzahlen:\n",
     "write_postcode": "Bitte schreiben Sie Ihre Postleitzahl:",
     "no_action_required": "Sie haben Ihre Postleitzahl bereits eingegeben, Sie müssen nichts weiter tun.\n",
-    "no_action_info": "Ich werde Sie über Blutspendetermine im Umkreis von {distance} km von Ihrer Postleitzahl auf dem Laufenden halten, indem ich Ihnen {days} {non_zero_days}{_and}{zero_days}einem Termin Erinnerungen schicke.\n\n",
+    "no_action_info": "Ich werde Sie über Blutspendetermine im Umkreis von {distance} km von Ihrer Postleitzahl auf dem Laufenden halten, indem ich Ihnen {days}{non_zero_days}{_and}{zero_days}einem Termin Erinnerungen schicke.\n\n",
     "failed_del": "Falsches Format\n",
     "reset": "Sie haben keine weiteren Postleitzahlen. Fangen wir von vorne an!",
     "add_or_del": "Wenn Sie Ihre Daten hinzufügen oder löschen wollen, schreiben Sie /menu",
