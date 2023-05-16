@@ -48,6 +48,3 @@ def send_termine():
 
 print("Starting sending...")
 send_termine()
-
-# docker build -t betelgeitze/sender -f Dockerfile-sender .
-# docker push betelgeitze/sender:latest

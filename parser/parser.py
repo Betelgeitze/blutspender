@@ -86,5 +86,3 @@ print("Running first parser...")
 parse_pages(DELTA, OFFSET)
 manage_db.delete_outdated_data()
 
-# docker build -t betelgeitze/parser -f Dockerfile-parser .
-# docker push betelgeitze/parser:latest

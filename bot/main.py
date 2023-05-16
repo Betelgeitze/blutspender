@@ -239,7 +239,11 @@ def welcome_message(message):
     if not message.from_user.is_bot:
         account_id = message.from_user.id
         user_data = message.json
-        manage_db.insert_users(user_data=user_data, default_distance=DEFAULT_DISTANCE, default_language=DEFAULT_LANGUAGE)
+        user = manage_db.get_user_data(account_id)
+        if user is None:
+            manage_db.insert_users(user_data=user_data, default_distance=DEFAULT_DISTANCE,
+                                   default_language=DEFAULT_LANGUAGE)
+            manage_db.insert_reminder_days(account_id, INFORM_DAYS)
 
         postcode_exists = manage_db.get_user_postcodes(account_id=account_id)
         remind, remind_date = manage_db.check_if_remind(account_id=account_id)
@@ -435,5 +439,3 @@ def handle_callback_query(callback_query):
 # LOOPING
 bot.infinity_polling()
 
-# docker build -t betelgeitze/bot -f Dockerfile-bot .
-# docker push betelgeitze/bot:latest
