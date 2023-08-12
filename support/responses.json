@@ -41,7 +41,7 @@
     "next_level": "*Nächste Stufe in:* {next_level_num} Blutspende/n",
     "max_level": "*Höchste Stufe erreicht*",
     "never_donated": "Nie gespendet",
-    "water": "VERGESSEN SIE NICHT MINDESTENS 2 LITER WASSER AM TAG DES TERMINS ZU TRINKEN\n\n",
+    "water": "*VERGESSEN SIE NICHT MINDESTENS 2 LITER WASSER AM TAG DES TERMINS ZU TRINKEN*\n\n",
 
     "level0": "Potenzieller Held \uD83E\uDD0D",
     "level1": "Neuling Spender \uD83E\uDEF6",
