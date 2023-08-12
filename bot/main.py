@@ -38,6 +38,7 @@ formatter = Formatter()
 dateManager = DateManager()
 bot = telebot.TeleBot(API_KEY)
 
+
 # Keyboards
 def create_main_keyboard(language):
     main_keyboard = InlineKeyboardMarkup()
@@ -53,7 +54,6 @@ def create_main_keyboard(language):
     main_keyboard.row(donated_stop_reminder)
     main_keyboard.row(feedback_btn)
     main_keyboard.row(settings)
-
 
     return main_keyboard
 
@@ -73,6 +73,18 @@ def create_manage_postcodes_keyboard(language):
     manage_postcodes.row(delete_postcodes_btn)
     manage_postcodes.row(back_btn)
     return manage_postcodes
+
+
+def create_donation_confirmed_keyboard(language):
+    confirm_donation = InlineKeyboardMarkup()
+
+    donation_confirmed_btn = InlineKeyboardButton(text=rps[language]["confirm_donation"],
+                                                  callback_data="donation_confirmed_btn_clicked")
+    back_btn = InlineKeyboardButton(text=rps[language]["keyboard_back"],
+                                    callback_data="back_btn_clicked")
+    confirm_donation.row(donation_confirmed_btn)
+    confirm_donation.row(back_btn)
+    return confirm_donation
 
 
 def create_language_keyboard():
@@ -159,15 +171,17 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
     space = " "
 
     user = manage_db.get_user_data(account_id=account_id)
+    language = user.selected_language
     remind, remind_date = manage_db.check_if_remind(account_id=account_id)
     days = manage_db.get_reminder_days(account_id=account_id)
 
-    main_keyboard = create_main_keyboard(language=user.selected_language)
-    manage_postcodes = create_manage_postcodes_keyboard(language=user.selected_language)
+    main_keyboard = create_main_keyboard(language=language)
+    manage_postcodes = create_manage_postcodes_keyboard(language=language)
+    confirm_keyboard = create_donation_confirmed_keyboard(language=language)
     language_keyboard = create_language_keyboard()
-    settings_keyboard = create_settings_keyboard(language=user.selected_language, remind=remind)
-    stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=user.selected_language)
-    stop_reminder_length_keyboard = create_stop_reminder_length_keyboard(language=user.selected_language)
+    settings_keyboard = create_settings_keyboard(language=language, remind=remind)
+    stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=language)
+    stop_reminder_length_keyboard = create_stop_reminder_length_keyboard(language=language)
 
     keyboards = {
         "main": main_keyboard,
@@ -176,12 +190,13 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
         "settings": settings_keyboard,
         "reason": stop_reminder_reason_keyboard,
         "length": stop_reminder_length_keyboard,
+        "confirm": confirm_keyboard,
         None: None
     }
 
     # Dealing with "no_action_info" response
     if 0 in days:
-        zero_days = rps[user.selected_language]["zero_days"]
+        zero_days = rps[language]["zero_days"]
         if len(days) == 1:
             space = ""
 
@@ -189,39 +204,39 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
             if len(days) == 2 and 1 in days:
                 plural = ""
             else:
-                plural = rps[user.selected_language]["plural"]
-            _and = rps[user.selected_language]["_and"]
-            non_zero_days = rps[user.selected_language]["non_zero_days"].format(plural=plural)
+                plural = rps[language]["plural"]
+            _and = rps[language]["_and"]
+            non_zero_days = rps[language]["non_zero_days"].format(plural=plural)
         days.remove(0)
     else:
         if len(days) == 1 and 1 in days:
             plural = ""
         else:
-            plural = rps[user.selected_language]["plural"]
-        non_zero_days = rps[user.selected_language]["non_zero_days"].format(plural=plural)
+            plural = rps[language]["plural"]
+        non_zero_days = rps[language]["non_zero_days"].format(plural=plural)
 
     days = ", ".join(map(str, days)) + space
 
-    #Gamification
+    # Gamification
     last_donation_date = user.last_donation
     if last_donation_date is None:
-        last_donation_date = rps[user.selected_language]["never_donated"]
+        last_donation_date = rps[language]["never_donated"]
     else:
         last_donation_date = dateManager.format_date(last_donation_date)
     donations = user.donations
 
-    level_number = math.ceil(donations/DONATIONS_BASE)
+    level_number = math.ceil(donations / DONATIONS_BASE)
     next_level_num = (level_number * DONATIONS_BASE) - donations + 1
-    next_level = rps[user.selected_language]["next_level"].format(next_level_num=next_level_num)
+    next_level = rps[language]["next_level"].format(next_level_num=next_level_num)
     if level_number >= 7:
         level_number = 7
-        next_level = rps[user.selected_language]["max_level"]
-    level = rps[user.selected_language][f"level{level_number}"]
+        next_level = rps[language]["max_level"]
+    level = rps[language][f"level{level_number}"]
 
     # Unpacking responses
     for response in responses:
         try:
-            text = text + rps[user.selected_language][response]
+            text = text + rps[language][response]
         except KeyError:
             text = text + response
     filled_text = text.format(
@@ -350,9 +365,9 @@ def send_postcode(message):
                 manage_db.insert_user_postcodes(account_id=account_id, text=text)
                 available_termine = get_termine(postcode=text, distance=user.distance)
                 if len(available_termine) == 0:
-                    msg("edit", account_id, ["no_termine", "no_action_info", "no_action"], message=searcher)
+                    msg("edit", account_id, ["no_termine", "no_action"], message=searcher)
                 else:
-                    msg("edit", account_id, ["yes_termine", "no_action_info", "no_action"], message=searcher)
+                    msg("edit", account_id, ["yes_termine", "no_action"], message=searcher)
                     for termin in available_termine:
                         termin_str = formatter.dic_to_string(rps, termin, user.selected_language)
                         msg("send", account_id, termin_str)
@@ -456,8 +471,11 @@ def handle_callback_query(callback_query):
                         msg("edit", account_id, ["stop_reminder_reason"], message=message, ktype="reason")
 
                     case "donated_btn_clicked":
+                        msg("edit", account_id, ["really_donate"], ktype="confirm", message=message)
+
+                    case "donation_confirmed_btn_clicked":
                         pressed_twice = manage_db.addup_donations(account_id=account_id)
-                        msg("edit", account_id, ["reminder_length"], ktype="length",message=message)
+                        msg("edit", account_id, ["reminder_length"], ktype="length", message=message)
                         if pressed_twice:
                             msg("send", account_id, ["donated_twice"])
 
@@ -470,7 +488,7 @@ def handle_callback_query(callback_query):
                     case "else_btn_clicked":
                         text = "ADMIN: Else"
                         manage_db.insert_feedback(account_id=account_id, text=text)
-                        msg("edit", account_id, ["else_stop_feedback", "reminder_length"], ktype="length",
+                        msg("edit", account_id, ["reminder_length"], ktype="length",
                             message=message)
 
                     case "remind_one_week_btn_clicked":
@@ -487,7 +505,7 @@ def handle_callback_query(callback_query):
 
                     case "remind_again_btn_clicked":
                         manage_db.update_user(account_id, "start_reminding", REMINDER_DAYS[0])
-                        msg("edit", account_id, ["no_action_info", "no_action_required"], ktype="main",
+                        msg("edit", account_id, ["no_action_info", "no_action_required", "stats"], ktype="main",
                             message=message)
                     case "back_btn_clicked":
                         remind, remind_date = manage_db.check_if_remind(account_id=account_id)
