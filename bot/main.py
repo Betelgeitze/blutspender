@@ -8,6 +8,7 @@ from telebot.apihelper import ApiTelegramException
 from support.postcode_ranges import PostcodeRanges
 from support.manage_db import ManageDB
 from support.formatter import Formatter
+from support.date_manager import DateManager
 
 with open("config.json") as file:
     config = json.load(file)
@@ -20,6 +21,7 @@ DISTANCE_DELTA = config["distance_delta"]
 INFORM_DAYS = config["inform_days"]
 DELTA = config["delta"]
 REMINDER_DAYS = config["reminder_days"]
+DONATIONS_BASE = config["donations_base"]
 
 API_KEY = os.environ["BOT_API_KEY"]
 
@@ -33,29 +35,44 @@ except FileNotFoundError:
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 formatter = Formatter()
+dateManager = DateManager()
 bot = telebot.TeleBot(API_KEY)
-
 
 # Keyboards
 def create_main_keyboard(language):
     main_keyboard = InlineKeyboardMarkup()
+    manage_poscodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_manage"],
+                                               callback_data="manage_btn_clicked")
+    donated_stop_reminder = InlineKeyboardButton(text=rps[language]["donated_stop_reminder"],
+                                                 callback_data="donated_btn_clicked")
+    feedback_btn = InlineKeyboardButton(text=rps[language]["feedback"],
+                                        callback_data="feedback_btn_clicked")
+    settings = InlineKeyboardButton(text=rps[language]["settings"],
+                                    callback_data="settings_btn_clicked")
+    main_keyboard.row(manage_poscodes_btn)
+    main_keyboard.row(donated_stop_reminder)
+    main_keyboard.row(feedback_btn)
+    main_keyboard.row(settings)
+
+
+    return main_keyboard
+
+
+def create_manage_postcodes_keyboard(language):
+    manage_postcodes = InlineKeyboardMarkup()
     add_postcode_btn = InlineKeyboardButton(text=rps[language]["keyboard_add"],
                                             callback_data="add_btn_clicked")
     show_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_show"],
                                               callback_data="show_btn_clicked")
     delete_postcodes_btn = InlineKeyboardButton(text=rps[language]["keyboard_del"],
                                                 callback_data="delete_btn_clicked")
-    feedback_btn = InlineKeyboardButton(text=rps[language]["feedback"],
-                                        callback_data="feedback_btn_clicked")
-    settings = InlineKeyboardButton(text=rps[language]["settings"],
-                                    callback_data="settings_btn_clicked")
-    main_keyboard.row(add_postcode_btn)
-    main_keyboard.row(show_postcodes_btn)
-    main_keyboard.row(delete_postcodes_btn)
-    main_keyboard.row(feedback_btn)
-    main_keyboard.row(settings)
-
-    return main_keyboard
+    back_btn = InlineKeyboardButton(text=rps[language]["keyboard_back"],
+                                    callback_data="back_btn_clicked")
+    manage_postcodes.row(add_postcode_btn)
+    manage_postcodes.row(show_postcodes_btn)
+    manage_postcodes.row(delete_postcodes_btn)
+    manage_postcodes.row(back_btn)
+    return manage_postcodes
 
 
 def create_language_keyboard():
@@ -79,6 +96,9 @@ def create_settings_keyboard(language, remind):
 
     change_language_btn = InlineKeyboardButton(text=rps[language]["change_language"],
                                                callback_data="change_language_btn_clicked")
+    back_btn = InlineKeyboardButton(text=rps[language]["keyboard_back"],
+                                    callback_data="back_btn_clicked")
+
     if remind:
         reminder = InlineKeyboardButton(text=rps[language]["reminder"],
                                         callback_data="reminder_btn_clicked")
@@ -89,6 +109,7 @@ def create_settings_keyboard(language, remind):
     settings_keyboard.row(change_reminder_days_btn)
     settings_keyboard.row(reminder)
     settings_keyboard.row(change_language_btn)
+    settings_keyboard.row(back_btn)
 
     return settings_keyboard
 
@@ -101,9 +122,12 @@ def create_stop_reminder_reason_keyboard(language):
                                                callback_data="often_btn_clicked")
     else_stop_reminder = InlineKeyboardButton(text=rps[language]["else_stop_reminder"],
                                               callback_data="else_btn_clicked")
+    back_btn = InlineKeyboardButton(text=rps[language]["keyboard_back"],
+                                    callback_data="back_btn_clicked")
     stop_reminder_reason_keyboard.row(donated_stop_reminder)
     stop_reminder_reason_keyboard.row(often_stop_reminder)
     stop_reminder_reason_keyboard.row(else_stop_reminder)
+    stop_reminder_reason_keyboard.row(back_btn)
     return stop_reminder_reason_keyboard
 
 
@@ -116,9 +140,12 @@ def create_stop_reminder_length_keyboard(language):
                                              callback_data="remind_two_months_btn_clicked")
     remind_six_months = InlineKeyboardButton(text=rps[language]["remind_six_months"],
                                              callback_data="remind_six_months_btn_clicked")
+    back_btn = InlineKeyboardButton(text=rps[language]["keyboard_back"],
+                                    callback_data="back_btn_clicked")
     stop_reminder_length_keyboard.row(remind_one_week)
     stop_reminder_length_keyboard.row(remind_two_months)
     stop_reminder_length_keyboard.row(remind_six_months)
+    stop_reminder_length_keyboard.row(back_btn)
     return stop_reminder_length_keyboard
 
 
@@ -136,6 +163,7 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
     days = manage_db.get_reminder_days(account_id=account_id)
 
     main_keyboard = create_main_keyboard(language=user.selected_language)
+    manage_postcodes = create_manage_postcodes_keyboard(language=user.selected_language)
     language_keyboard = create_language_keyboard()
     settings_keyboard = create_settings_keyboard(language=user.selected_language, remind=remind)
     stop_reminder_reason_keyboard = create_stop_reminder_reason_keyboard(language=user.selected_language)
@@ -143,6 +171,7 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
 
     keyboards = {
         "main": main_keyboard,
+        "manage": manage_postcodes,
         "lang": language_keyboard,
         "settings": settings_keyboard,
         "reason": stop_reminder_reason_keyboard,
@@ -173,6 +202,22 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
 
     days = ", ".join(map(str, days)) + space
 
+    #Gamification
+    last_donation_date = user.last_donation
+    if last_donation_date is None:
+        last_donation_date = rps[user.selected_language]["never_donated"]
+    else:
+        last_donation_date = dateManager.format_date(last_donation_date)
+    donations = user.donations
+
+    level_number = math.ceil(donations/DONATIONS_BASE)
+    next_level_num = (level_number * DONATIONS_BASE) - donations + 1
+    next_level = rps[user.selected_language]["next_level"].format(next_level_num=next_level_num)
+    if level_number >= 7:
+        level_number = 7
+        next_level = rps[user.selected_language]["max_level"]
+    level = rps[user.selected_language][f"level{level_number}"]
+
     # Unpacking responses
     for response in responses:
         try:
@@ -187,6 +232,10 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
         zero_days=zero_days,
         _and=_and,
         remind_date=remind_date,
+        donations=donations,
+        last_donation_date=last_donation_date,
+        level=level,
+        next_level=next_level,
         postcode=command,
         delta=DELTA
     )
@@ -196,20 +245,23 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
             return bot.send_message(
                 chat_id=user.chat_id,
                 text=filled_text,
-                reply_markup=keyboards[ktype]
+                reply_markup=keyboards[ktype],
+                parse_mode='Markdown'
             )
         case "reply":
             return bot.reply_to(
                 message=message,
                 text=filled_text,
-                reply_markup=keyboards[ktype]
+                reply_markup=keyboards[ktype],
+                parse_mode='Markdown'
             )
         case "edit":
             return bot.edit_message_text(
                 chat_id=user.chat_id,
                 message_id=message.id,
                 text=filled_text,
-                reply_markup=keyboards[ktype]
+                reply_markup=keyboards[ktype],
+                parse_mode='Markdown'
             )
 
 
@@ -226,7 +278,7 @@ def change_language(callback_query, account_id):
     if not postcode_exists:
         msg("reply", account_id, ["no_action_info", "write_postcode"], message=callback_query.message)
     else:
-        msg("reply", account_id, ["language_changed", "add_or_del"], message=callback_query.message)
+        msg("reply", account_id, ["language_changed", "write_start"], message=callback_query.message)
 
 
 print("Bot is running")
@@ -250,10 +302,11 @@ def welcome_message(message):
 
         if postcode_exists:
             if remind:
-                msg("send", account_id, ["no_action_info", "no_action_required", "add_example"], ktype="main")
+                msg("send", account_id,
+                    ["no_action_info", "no_action_required", "stats"], ktype="main")
             else:
-                msg("send", account_id, ["no_action_info", "no_action_required", "not_reminding", "use_interface"],
-                    ktype="main")
+                msg("send", account_id,
+                    ["not_reminding", "use_interface", "no_action_required", "stats"], ktype="main")
         else:
             msg("send", account_id, ["select_language"], ktype="lang")
 
@@ -282,7 +335,7 @@ def send_postcode(message):
                 else:
                     msg("reply", account_id, ["del_success"], message=message, command=command)
                     if postcode_exists:
-                        msg("reply", account_id, ["add_or_del"], message=message)
+                        msg("reply", account_id, ["write_start"], message=message)
                     else:
                         msg("reply", account_id, ["reset"], message=message)
                         welcome_message(message)
@@ -303,7 +356,7 @@ def send_postcode(message):
                     for termin in available_termine:
                         termin_str = formatter.dic_to_string(rps, termin, user.selected_language)
                         msg("send", account_id, termin_str)
-                msg("send", account_id, ["add_or_del"])
+                msg("send", account_id, ["write_start"])
             else:
                 msg("edit", account_id, ["wrong_postcode", "write_start"], message=searcher)
         elif response == "feedback":
@@ -335,9 +388,9 @@ def send_postcode(message):
             else:
                 msg("reply", account_id, ["wrong_days_format", "write_start"], message=message)
         elif remind:
-            msg("send", account_id, ["no_action_required", "no_action_info", "add_or_del"])
+            msg("send", account_id, ["no_action_required", "no_action_info", "write_start"])
         else:
-            msg("send", account_id, ["no_action_required", "not_reminding", "add_or_del"])
+            msg("send", account_id, ["no_action_required", "not_reminding", "write_start"])
 
         manage_db.update_user(account_id, "response", "none")
 
@@ -368,6 +421,9 @@ def handle_callback_query(callback_query):
 
                     case 'change_language_btn_clicked':
                         msg("send", account_id, ["select_language"], ktype="lang")
+
+                    case 'manage_btn_clicked':
+                        msg("edit", account_id, ["add_example"], message=message, ktype="manage")
 
                     case 'add_btn_clicked':
                         manage_db.update_user(account_id, "response", "postcode")
@@ -400,9 +456,10 @@ def handle_callback_query(callback_query):
                         msg("edit", account_id, ["stop_reminder_reason"], message=message, ktype="reason")
 
                     case "donated_btn_clicked":
-                        manage_db.addup_donations(account_id=account_id)
-                        msg("edit", account_id, ["reminder_length"], ktype="length",
-                            message=message)
+                        pressed_twice = manage_db.addup_donations(account_id=account_id)
+                        msg("edit", account_id, ["reminder_length"], ktype="length",message=message)
+                        if pressed_twice:
+                            msg("send", account_id, ["donated_twice"])
 
                     case "often_btn_clicked":
                         text = "ADMIN: Too often"
@@ -430,12 +487,17 @@ def handle_callback_query(callback_query):
 
                     case "remind_again_btn_clicked":
                         manage_db.update_user(account_id, "start_reminding", REMINDER_DAYS[0])
-                        msg("edit", account_id, ["no_action_info", "no_action_required", "add_example"], ktype="main",
+                        msg("edit", account_id, ["no_action_info", "no_action_required"], ktype="main",
                             message=message)
+                    case "back_btn_clicked":
+                        remind, remind_date = manage_db.check_if_remind(account_id=account_id)
+                        text = ["not_reminding", "use_interface", "no_action_required", "stats"]
+                        if remind:
+                            text = ["no_action_info", "no_action_required", "stats"]
+                        msg("edit", account_id, text, ktype="main", message=message)
             except ApiTelegramException:
                 print("ApiTelegramException")
 
 
 # LOOPING
-bot.infinity_polling()
-
+bot.polling(none_stop=True)

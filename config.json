@@ -9,5 +9,7 @@
 
   "max_day": 7,
   "max_distance": 15,
-  "reminder_days": [0,7,56,168]
+  "reminder_days": [0,7,56,168],
+
+  "donations_base": 4
 }
