@@ -193,6 +193,10 @@ class ManageDB:
                     available_termin.pop(useless_key, None)
                 available_termin["date"] = formatted_date
                 available_termin["times"] = times
+                available_termin["water"] = False
+                # Remind to drink water if termin is today
+                if date_delta == 0:
+                    available_termin["water"] = True
                 available_termine.append(available_termin)
         session.close()
         return available_termine
@@ -343,6 +347,7 @@ class ManageDB:
             self.write_into_db(user, session)
         else:
             session.close()
+            return True
 
 # Deleting from Tables
     def delete_outdated_data(self):
