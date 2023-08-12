@@ -2,6 +2,9 @@ class Formatter:
 
     def dic_to_string(self, rps, termin, language):
         termin_str = str()
+        if termin["water"]:
+            termin_str = rps[language]["water"]
+
         clean_termin = {
             rps[language]["date"]: termin["date"],
             rps[language]["city"]: termin["city"],
