@@ -36,7 +36,7 @@ postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 formatter = Formatter()
 dateManager = DateManager()
-bot = telebot.TeleBot(API_KEY)
+bot = telebot.TeleBot(API_KEY, threaded=False)
 
 
 # Keyboards
@@ -516,6 +516,3 @@ def handle_callback_query(callback_query):
             except ApiTelegramException:
                 print("ApiTelegramException")
 
-
-# LOOPING
-bot.polling(none_stop=True)
