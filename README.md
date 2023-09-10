@@ -37,7 +37,7 @@ If you need help or want to exchange ideas, write me a message.
  8. To make the bot available 24/7 and send reminders, see deployment section
     
 
-## Deployment
+## Container Deployment
 I used AWS for deployment.  
 1. Login in your Docker
 2. Build bot, parser, sender images and push them to your docker repository. (You can see the code for this at the end of main.py, sender.py, parser.py scripts. Just change "betelgeitze" to your name)
@@ -57,10 +57,10 @@ I used AWS for deployment.
 ###  Costs of deployment
 I use the cheapest PostgreDB & Containers. Still I pay 28€ per month for them
 
-### P.S:
-I know that Deployment part is not very well described, but it would take a lot of time to go through each and every step. In case you need help, just contact me. However, I am not a real deployment expert and deploying to AWS was a big headache for me. However, I will try my best in case you have questions  
 
-Somehow I could not make it work using AWS Lambda, that is why I am using containers instead
+## AWS Lambda Deployment
+1. Go to AWS Elastic Container Registry and push there an image using Dockerfile-bot-lambda
+2. 
 
 ## Feedback:
 If you have proposals about bot improvements, please let me know. Thanks!

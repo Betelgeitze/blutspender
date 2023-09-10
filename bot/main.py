@@ -39,6 +39,22 @@ dateManager = DateManager()
 bot = telebot.TeleBot(API_KEY, threaded=False)
 
 
+def process_event(event):
+    # Get telegram webhook json from event
+    request_body_dict = json.loads(event['body'])
+    # Parse updates from json
+    update = telebot.types.Update.de_json(request_body_dict)
+    # Run handlers and etc for updates
+    bot.process_new_updates([update])
+
+
+def lambda_handler(event, context):
+    # Process event from aws and respond
+    process_event(event)
+    return {
+        'statusCode': 200
+    }
+
 # Keyboards
 def create_main_keyboard(language):
     main_keyboard = InlineKeyboardMarkup()
@@ -254,7 +270,6 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
         postcode=command,
         delta=DELTA
     )
-
     match reply:
         case "send":
             return bot.send_message(
@@ -279,12 +294,14 @@ def msg(reply, account_id, responses, ktype=None, message=None, command=None):
                 parse_mode='Markdown'
             )
 
-
 def get_termine(postcode, distance):
     lat, lon = postcode_ranges.get_lat_and_lon(postcode=postcode)
+    print(lat, lon)
     min_lat, max_lat, min_lon, max_lon = postcode_ranges.calculate_ranges(distance + DISTANCE_DELTA, lat, lon)
+    print(f"PPP: {max_lat}")
     available_termine = manage_db.get_postcodes_nearby(distance, postcode, min_lat, max_lat, min_lon, max_lon,
                                                        inform_days=None)
+    print(available_termine)
     return available_termine
 
 
@@ -314,7 +331,6 @@ def welcome_message(message):
 
         postcode_exists = manage_db.get_user_postcodes(account_id=account_id)
         remind, remind_date = manage_db.check_if_remind(account_id=account_id)
-
         if postcode_exists:
             if remind:
                 msg("send", account_id,

@@ -1,0 +1,9 @@
+FROM public.ecr.aws/lambda/python:3.10
+
+COPY /bot/requirements.txt .
+RUN pip install -r requirements.txt
+
+COPY ./bot .
+COPY ./support ./support
+COPY ./config.json .
+CMD ["main.lambda_handler"]

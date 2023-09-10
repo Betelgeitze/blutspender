@@ -30,8 +30,3 @@ class PostcodeRanges:
         country = pgeocode.GeoDistance(self.country_code)
         distance = country.query_postal_code(user_postcode, termin_postcode)
         return distance
-
-    def check_postcode_exists(self, postcode):
-        country = pgeocode.Nominatim(self.country_code)
-        test = country.query_postal_code(postcode)
-        print(test)
