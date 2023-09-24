@@ -4,6 +4,7 @@ import os
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.apihelper import ApiTelegramException
+from time import sleep
 
 from support.postcode_ranges import PostcodeRanges
 from support.manage_db import ManageDB
@@ -296,7 +297,7 @@ def change_language(callback_query, account_id):
         msg("reply", account_id, ["language_changed", "write_start"], message=callback_query.message)
 
 
-print("Bot is running")
+print("Bot is running (v2)")
 
 
 # BOT RUNNING
@@ -518,4 +519,10 @@ def handle_callback_query(callback_query):
 
 
 # LOOPING
-bot.polling(none_stop=True)
+while True:
+    try:
+        bot.infinity_polling(timeout=60, long_polling_timeout=60, none_stop=True)
+    except Exception as e:
+        print(f"Exception is: {e}")
+        sleep(5)
+
