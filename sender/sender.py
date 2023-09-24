@@ -38,11 +38,15 @@ def send_termine():
         for user in users_with_available_termine:
             language = user["selected_language"]
             try:
-                bot.send_message(int(user["chat_id"]), rps[language]["appointment_reminder"].format(distance=user["distance"]))
+                bot.send_message(
+                    int(user["chat_id"]),
+                    rps[language]["appointment_reminder"].format(distance=user["distance"]),
+                    timeout=120
+                )
                 for termine in user["available_termine"]:
                     for termin in termine:
                         termin_str = formatter.dic_to_string(rps=rps, termin=termin, language=language)
-                        bot.send_message(int(user["chat_id"]), termin_str)
+                        bot.send_message(int(user["chat_id"]), termin_str, timeout=120)
             except ApiTelegramException:
                 manage_db.delete_user(account_id=user["account_id"])
 
