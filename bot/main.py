@@ -39,22 +39,29 @@ formatter = Formatter()
 dateManager = DateManager()
 bot = telebot.TeleBot(API_KEY, threaded=False)
 
+# def process_event(event):
+#     # Get telegram webhook json from event
+#     request_body_dict = json.loads(event['body'])
+#     # Parse updates from json
+#     update = telebot.types.Update.de_json(request_body_dict)
+#     # Run handlers and etc for updates
+#     bot.process_new_updates([update]) # error here
 
-def process_event(event):
-    # Get telegram webhook json from event
-    request_body_dict = json.loads(event['body'])
-    # Parse updates from json
-    update = telebot.types.Update.de_json(request_body_dict)
-    # Run handlers and etc for updates
-    bot.process_new_updates([update])
 
+@bot.message_handler(commands=['test'])
+def startCommand(message):
+    username = message.chat.username
+    bot.send_message(message.chat.id, f"Hi, {username}")
 
 def lambda_handler(event, context):
     # Process event from aws and respond
-    process_event(event)
-    return {
-        'statusCode': 200
-    }
+    # process_event(event)
+    body = json.loads(event['body'])
+
+    json_string = json.dumps(body)
+    update = telebot.types.Update.de_json(json_string)
+    bot.process_new_updates([update])
+    print("after")
 
 # Keyboards
 def create_main_keyboard(language):
@@ -345,6 +352,8 @@ def welcome_message(message):
 
 @bot.message_handler()
 def send_postcode(message):
+    print("inside")
+    bot.reply_to(message, "echo")
     if not message.from_user.is_bot:
         account_id = message.from_user.id
         text = message.text.strip()
@@ -532,4 +541,3 @@ def handle_callback_query(callback_query):
                         msg("edit", account_id, text, ktype="main", message=message)
             except ApiTelegramException:
                 print("ApiTelegramException")
-

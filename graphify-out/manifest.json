@@ -1,0 +1,77 @@
+{
+  "bot/main.py": {
+    "mtime": 1730062504.4056737,
+    "ast_hash": "7c82a51a2d0f35b51b0e5b906c9bbd1b",
+    "semantic_hash": "7c82a51a2d0f35b51b0e5b906c9bbd1b"
+  },
+  "config.json": {
+    "mtime": 1691838342.9977765,
+    "ast_hash": "0dc7805f9057bcfab0f75eed37002ba7",
+    "semantic_hash": "0dc7805f9057bcfab0f75eed37002ba7"
+  },
+  "parser/parser.py": {
+    "mtime": 1684264617.0457654,
+    "ast_hash": "bdcccf9b7c3835f4fc4c5be21932605a",
+    "semantic_hash": "bdcccf9b7c3835f4fc4c5be21932605a"
+  },
+  "sender/sender.py": {
+    "mtime": 1729976305.4404452,
+    "ast_hash": "5011c2ba1efc7400a10992047a5d4d8a",
+    "semantic_hash": "5011c2ba1efc7400a10992047a5d4d8a"
+  },
+  "support/__init__.py": {
+    "mtime": 1674921588.930107,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": "d41d8cd98f00b204e9800998ecf8427e"
+  },
+  "support/date_manager.py": {
+    "mtime": 1675283334.0950673,
+    "ast_hash": "c2fe6f3bcf6e503fb0713cb3a31b4f2f",
+    "semantic_hash": "c2fe6f3bcf6e503fb0713cb3a31b4f2f"
+  },
+  "support/formatter.py": {
+    "mtime": 1691360183.1020298,
+    "ast_hash": "d40cec9c0a0ec4c567c4db0dbf165588",
+    "semantic_hash": "d40cec9c0a0ec4c567c4db0dbf165588"
+  },
+  "support/manage_db.py": {
+    "mtime": 1694272738.8455336,
+    "ast_hash": "59fd9948bc02760f85fb73befdc43e33",
+    "semantic_hash": "59fd9948bc02760f85fb73befdc43e33"
+  },
+  "support/postcode_ranges.py": {
+    "mtime": 1729975999.9639966,
+    "ast_hash": "48aba62cd0bcde2c39d73fa19c58775a",
+    "semantic_hash": "48aba62cd0bcde2c39d73fa19c58775a"
+  },
+  "support/responses.json": {
+    "mtime": 1691864618.9941163,
+    "ast_hash": "60b7d2a2014aaf422b167fac8129c831",
+    "semantic_hash": "60b7d2a2014aaf422b167fac8129c831"
+  },
+  "README.md": {
+    "mtime": 1730026033.4406955,
+    "ast_hash": "434af9ca64b00d96db3d94744b5d8cd5",
+    "semantic_hash": "434af9ca64b00d96db3d94744b5d8cd5"
+  },
+  "bot/requirements.txt": {
+    "mtime": 1730025533.1672797,
+    "ast_hash": "3c22ff2f17efc57132f0513a182b053b",
+    "semantic_hash": "3c22ff2f17efc57132f0513a182b053b"
+  },
+  "docker-compose.yml": {
+    "mtime": 1681046651.992008,
+    "ast_hash": "a3524ab70385358fa862e2f5d951c460",
+    "semantic_hash": "a3524ab70385358fa862e2f5d951c460"
+  },
+  "parser/requirements.txt": {
+    "mtime": 1730025533.1672797,
+    "ast_hash": "943db2557c4c450c6178e172ad3d319c",
+    "semantic_hash": "943db2557c4c450c6178e172ad3d319c"
+  },
+  "sender/requirements.txt": {
+    "mtime": 1730025533.1672797,
+    "ast_hash": "bfb1796ee177f969c1207e928429f2d6",
+    "semantic_hash": "bfb1796ee177f969c1207e928429f2d6"
+  }
+}
