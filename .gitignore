@@ -6,3 +6,4 @@ __pycache__/
 backups/
 deploy/logs/
 graphify-out/cache/
+deploy/README.md
