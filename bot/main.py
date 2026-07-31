@@ -528,7 +528,17 @@ def handle_callback_query(callback_query):
 
 
 # LOOPING
+# Polling mode only. Webhook mode imports this file for its handlers and serves
+# them from webhook.py instead, so nothing below runs there.
 if __name__ == "__main__":
+    # Telegram answers getUpdates with 409 Conflict for as long as a webhook is
+    # registered, and the loop below would spin on that forever. Clearing it
+    # here makes falling back to polling a single BOT_MODE change.
+    try:
+        bot.remove_webhook()
+    except Exception as e:
+        print(f"remove_webhook failed (continuing): {e}")
+
     print("Starting polling...")
     while True:
         try:

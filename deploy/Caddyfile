@@ -1,0 +1,31 @@
+# TLS terminator in front of the bot. Caddy obtains and renews a Let's Encrypt
+# certificate for WEBHOOK_DOMAIN on its own — there is no cron job, no certbot,
+# and nothing to remember before it expires.
+#
+# WEBHOOK_DOMAIN comes from .env via env_file in docker-compose.yml.
+
+{$WEBHOOK_DOMAIN} {
+	encode zstd gzip
+
+	# Telegram updates are small JSON documents; files arrive as references, not
+	# as payload. Refuse anything larger here so an oversized body is dropped at
+	# the proxy rather than buffered by gunicorn. webhook.py sets the same cap.
+	request_body {
+		max_size 1MB
+	}
+
+	# Everything goes to the bot; Flask itself rejects any path that is not the
+	# webhook, so the secret path is defined in exactly one place (webhook.py).
+	reverse_proxy bot:8080 {
+		# Telegram gives up on a webhook delivery well before this, and a slow
+		# handler must not pile up connections here.
+		transport http {
+			response_header_timeout 30s
+		}
+	}
+
+	log {
+		output stdout
+		format console
+	}
+}

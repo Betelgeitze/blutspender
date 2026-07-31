@@ -1,0 +1,24 @@
+# Local testing only — never used on the VPS.
+#
+#   docker compose -f docker-compose.yml -f docker-compose.local.yml up -d
+#
+# Runs the bot in webhook mode on your own machine with no domain, no
+# certificate and no Telegram registration, so you can POST updates at it
+# directly. See deploy/smoke-webhook.sh.
+#
+# Deliberately NOT called docker-compose.override.yml: that filename is loaded
+# automatically, and it would follow the repo onto the server and quietly
+# unregister the production webhook.
+services:
+  bot:
+    environment:
+      BOT_MODE: webhook
+      # The one that matters. Without it, starting this on a laptop would point
+      # the real bot at a URL Telegram cannot reach — a self-inflicted outage.
+      WEBHOOK_REGISTER: "false"
+      WEBHOOK_DOMAIN: localhost
+      WEBHOOK_SECRET: local-test-secret
+    # Loopback only. 8080 bound to 0.0.0.0 would expose an unauthenticated-ish
+    # endpoint to the coffee-shop wifi.
+    ports:
+      - "127.0.0.1:8080:8080"

@@ -7,6 +7,7 @@ RUN pip install -r requirements.txt
 COPY ./bot .
 COPY ./support ./support
 COPY ./config.json .
+RUN chmod +x ./entrypoint.sh
 
 # Run unprivileged. pgeocode downloads its postal-code dataset on first use, so
 # the user needs a writable home for that cache; nothing else is written to disk.
@@ -16,5 +17,10 @@ RUN useradd --uid 10001 --home-dir /home/app --create-home app \
     && chown -R app:app /home/app /bot
 USER app
 
-CMD ["python", "./main.py"]
+# Webhook mode listens here. Not published to the host — Caddy reaches it over
+# the compose network and is the only thing that should.
+EXPOSE 8080
+
+# entrypoint.sh branches on BOT_MODE (webhook or polling).
+CMD ["./entrypoint.sh"]
 

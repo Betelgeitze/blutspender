@@ -3,6 +3,7 @@
 # silently does nothing.
 *.sh            text eol=lf
 deploy/crontab  text eol=lf
+deploy/Caddyfile text eol=lf
 Dockerfile*     text eol=lf
 *.yml           text eol=lf
 *.py            text eol=lf

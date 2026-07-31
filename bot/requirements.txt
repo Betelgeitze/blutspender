@@ -4,3 +4,7 @@ pgeocode==0.4.0
 requests==2.28.2
 pyTelegramBotAPI==4.9.0
 psycopg2-binary==2.9.5
+# Webhook mode only (BOT_MODE=webhook). Unused when polling, but kept in the one
+# requirements file so the same image can serve either mode.
+Flask==3.0.3
+gunicorn==22.0.0
