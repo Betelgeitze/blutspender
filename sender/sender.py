@@ -6,19 +6,11 @@ from telebot.apihelper import ApiTelegramException
 import os
 import json
 
-try:
-    with open("../support/responses.json") as file:
-        rps = json.load(file)
-except FileNotFoundError:
-    with open("support/responses.json") as file:
-        rps = json.load(file)
+with open("support/responses.json") as file:
+    rps = json.load(file)
 
-try:
-    with open("config.json") as file:
-        config = json.load(file)
-except FileNotFoundError:
-    with open("../config.json") as file:
-        config = json.load(file)
+with open("config.json") as file:
+    config = json.load(file)
 
 COUNTRY_CODE = config["country_code"]
 DISTANCE_DELTA = config["distance_delta"]

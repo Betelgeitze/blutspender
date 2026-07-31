@@ -27,13 +27,6 @@ WEBHOOK_SECRET = os.environ["WEBHOOK_SECRET"]
 WEBHOOK_DOMAIN = os.environ["WEBHOOK_DOMAIN"]
 WEBHOOK_URL = f"https://{WEBHOOK_DOMAIN}{WEBHOOK_PATH}"
 
-# Set false to serve without telling Telegram anything. Local testing needs this:
-# a laptop has no public domain, and registering one would point the *real* bot at
-# an address that cannot answer. Always true on the VPS.
-WEBHOOK_REGISTER = os.environ.get("WEBHOOK_REGISTER", "true").lower() not in (
-    "false", "0", "no",
-)
-
 app = Flask(__name__)
 
 # A Telegram update is JSON metadata — files arrive as references, never as
@@ -111,7 +104,4 @@ def register_webhook(retries=6, delay=5):
     )
 
 
-if WEBHOOK_REGISTER:
-    register_webhook()
-else:
-    print(f"WEBHOOK_REGISTER=false — serving {WEBHOOK_PATH} without registering.")
+register_webhook()

@@ -27,12 +27,8 @@ DONATIONS_BASE = config["donations_base"]
 
 API_KEY = os.environ["BOT_API_KEY"]
 
-try:
-    with open("../support/responses.json") as file:
-        rps = json.load(file)
-except FileNotFoundError:
-    with open("support/responses.json") as file:
-        rps = json.load(file)
+with open("support/responses.json") as file:
+    rps = json.load(file)
 
 postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
