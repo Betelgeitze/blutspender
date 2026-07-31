@@ -41,12 +41,6 @@ dateManager = DateManager()
 bot = telebot.TeleBot(API_KEY)
 
 
-@bot.message_handler(commands=['test'])
-def startCommand(message):
-    username = message.chat.username
-    bot.send_message(message.chat.id, f"Hi, {username}")
-
-
 # Keyboards
 def create_main_keyboard(language):
     main_keyboard = InlineKeyboardMarkup()

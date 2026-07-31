@@ -24,7 +24,12 @@ class PostcodeRanges:
         country = pgeocode.Nominatim(self.country_code)
         lat = country.query_postal_code(postcode)["latitude"]
         lon = country.query_postal_code(postcode)["longitude"]
-        return lat, lon
+        # float(), because pgeocode hands back numpy scalars and psycopg2 renders
+        # unknown types with repr(). Since numpy 2.0 that repr is
+        # "np.float64(51.2157)", which reaches Postgres as a call into a schema
+        # named "np" and fails the INSERT. An unknown postcode yields NaN here;
+        # float() preserves it, so the math.isnan() check in main.py still works.
+        return float(lat), float(lon)
 
     def check_distance(self, user_postcode, termin_postcode):
         country = pgeocode.GeoDistance(self.country_code)
