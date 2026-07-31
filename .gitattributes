@@ -1,0 +1,9 @@
+# Anything executed on the Linux VPS must keep LF endings. Checked out with CRLF
+# a shell script dies with "bad interpreter: /usr/bin/env bash^M", and cron
+# silently does nothing.
+*.sh            text eol=lf
+deploy/crontab  text eol=lf
+Dockerfile*     text eol=lf
+*.yml           text eol=lf
+*.py            text eol=lf
+*.json          text eol=lf

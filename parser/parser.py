@@ -38,7 +38,9 @@ def parse_pages(delta, start_date_offset):
         sleep(delay)
 
         page_url = f"https://www.drk-blutspende.de/blutspendetermine/termine?button=&county_id=&date_from={offsetted_today}&date_to={days_later}&last_donation=&page={counter}&radius=&term="
-        response = requests.get(url=page_url)
+        # Always time out: cron fires this daily, and a stalled connection with no
+        # timeout hangs forever, so tomorrow's run stacks on top of today's.
+        response = requests.get(url=page_url, timeout=(10, 30))
         data = response.text
         soup = BeautifulSoup(data, "lxml")
 

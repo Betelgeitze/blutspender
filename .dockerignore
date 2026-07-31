@@ -1,0 +1,22 @@
+# Keep the build context to what the Dockerfiles actually COPY (bot/, parser/,
+# sender/, support/, config.json). Nothing below is copied today — this is here
+# so a future "COPY . ." cannot bake .env or the backups into an image layer.
+.env
+.env.*
+!.env.example
+backups/
+deploy/logs/
+
+.git/
+.gitignore
+.gitattributes
+.idea/
+.scratch/
+graphify-out/
+
+__pycache__/
+*.py[cod]
+
+docs/
+*.md
+!README.md

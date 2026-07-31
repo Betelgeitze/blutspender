@@ -1,33 +1,90 @@
-version: '3'
 services:
-  bot:
-    image: 'betelgeitze/bot'
-    env_file: ./.env
-    depends_on:
-      - database
-#  parser:
-#    image: 'betelgeitze/parser'
-#    env_file: ./.env
-#    depends_on:
-#      - database
-#  sender:
-#    image: 'betelgeitze/sender'
-#    env_file: ./.env
-#    depends_on:
-#      - database
   database:
-    image: 'postgres:latest'
+    image: 'postgres:16'
+    restart: unless-stopped
     env_file: ./.env
-    ports:
-      - 5432:5432
+    # Not published to the host. bot/parser/sender reach it over the compose
+    # network as "database". Publishing 5432 on a public VPS exposes Postgres to
+    # the internet. Uncomment the loopback bind below only for local psql access.
+    # ports:
+    #   - "127.0.0.1:5432:5432"
     volumes:
       - data:/var/lib/postgresql/data
+    # No cap_drop here: the postgres entrypoint starts as root to fix up the data
+    # directory and needs CHOWN/SETUID/SETGID before it drops to the postgres user.
+    security_opt: &no_new_privs
+      - no-new-privileges:true
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging: &logging
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile-bot
+    image: 'blutspender/bot'
+    restart: unless-stopped
+    env_file: ./.env
+    environment: &app_env
+      DB_HOST: database
+      PORT_ID: 5432
+      PYTHONUNBUFFERED: 1
+      TZ: Europe/Berlin
+    # The images run as uid 10001, so nothing here needs a capability.
+    security_opt: *no_new_privs
+    cap_drop: &drop_all_caps
+      - ALL
+    # Ceilings, not tuned working-set sizes: they stop one runaway container from
+    # taking the box down with it. Raise if a job gets OOM-killed.
+    mem_limit: 1g
+    depends_on:
+      database:
+        condition: service_healthy
+    logging: *logging
+
+  # One-shot jobs. Held behind a profile so "docker compose up" does not start
+  # them; cron invokes them with "docker compose run --rm parser".
+  parser:
+    build:
+      context: .
+      dockerfile: Dockerfile-parser
+    image: 'blutspender/parser'
+    profiles: ["jobs"]
+    restart: "no"
+    env_file: ./.env
+    environment: *app_env
+    security_opt: *no_new_privs
+    cap_drop: *drop_all_caps
+    mem_limit: 1536m
+    depends_on:
+      database:
+        condition: service_healthy
+    logging: *logging
+
+  sender:
+    build:
+      context: .
+      dockerfile: Dockerfile-sender
+    image: 'blutspender/sender'
+    profiles: ["jobs"]
+    restart: "no"
+    env_file: ./.env
+    environment: *app_env
+    security_opt: *no_new_privs
+    cap_drop: *drop_all_caps
+    mem_limit: 768m
+    depends_on:
+      database:
+        condition: service_healthy
+    logging: *logging
+
 volumes:
   data:
-#  adminer:
-#    image: adminer
-#    restart: always
-#    depends_on:
-#      - database
-#    ports:
-#      - 8080:8080

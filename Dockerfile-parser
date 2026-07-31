@@ -7,4 +7,13 @@ RUN pip install -r requirements.txt
 COPY ./parser .
 COPY ./support ./support
 COPY ./config.json .
+
+# Run unprivileged. This is the container that parses third-party HTML, so it is
+# the one that most wants to not be root if lxml ever goes wrong.
+ENV HOME=/home/app PGEOCODE_DATA_DIR=/home/app/.cache/pgeocode
+RUN useradd --uid 10001 --home-dir /home/app --create-home app \
+    && mkdir -p "$PGEOCODE_DATA_DIR" \
+    && chown -R app:app /home/app /parser
+USER app
+
 CMD ["python", "./parser.py"]

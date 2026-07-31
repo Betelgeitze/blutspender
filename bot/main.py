@@ -4,6 +4,7 @@ import os
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 from telebot.apihelper import ApiTelegramException
+from time import sleep
 
 
 from support.manage_db import ManageDB
@@ -37,15 +38,7 @@ postcode_ranges = PostcodeRanges(country_code=COUNTRY_CODE)
 manage_db = ManageDB(country_code=COUNTRY_CODE)
 formatter = Formatter()
 dateManager = DateManager()
-bot = telebot.TeleBot(API_KEY, threaded=False)
-
-# def process_event(event):
-#     # Get telegram webhook json from event
-#     request_body_dict = json.loads(event['body'])
-#     # Parse updates from json
-#     update = telebot.types.Update.de_json(request_body_dict)
-#     # Run handlers and etc for updates
-#     bot.process_new_updates([update]) # error here
+bot = telebot.TeleBot(API_KEY)
 
 
 @bot.message_handler(commands=['test'])
@@ -53,15 +46,6 @@ def startCommand(message):
     username = message.chat.username
     bot.send_message(message.chat.id, f"Hi, {username}")
 
-def lambda_handler(event, context):
-    # Process event from aws and respond
-    # process_event(event)
-    body = json.loads(event['body'])
-
-    json_string = json.dumps(body)
-    update = telebot.types.Update.de_json(json_string)
-    bot.process_new_updates([update])
-    print("after")
 
 # Keyboards
 def create_main_keyboard(language):
@@ -541,3 +525,14 @@ def handle_callback_query(callback_query):
                         msg("edit", account_id, text, ktype="main", message=message)
             except ApiTelegramException:
                 print("ApiTelegramException")
+
+
+# LOOPING
+if __name__ == "__main__":
+    print("Starting polling...")
+    while True:
+        try:
+            bot.infinity_polling(timeout=60, long_polling_timeout=60, none_stop=True)
+        except Exception as e:
+            print(f"Exception is: {e}")
+            sleep(5)

@@ -56,7 +56,6 @@
       "_origin": "ast",
       "id": "bot_main",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "main.py"
     },
     {
@@ -67,150 +66,146 @@
       "_origin": "ast",
       "id": "message_handler",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "message_handler"
     },
     {
       "label": "startCommand()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L45",
+      "source_location": "L52",
       "_origin": "ast",
       "id": "bot_main_startcommand",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "startcommand()"
+    },
+    {
+      "label": "lambda_handler()",
+      "file_type": "code",
+      "source_file": "bot/main.py",
+      "source_location": "L56",
+      "_origin": "ast",
+      "id": "bot_main_lambda_handler",
+      "community": 3,
+      "norm_label": "lambda_handler()"
     },
     {
       "label": "create_main_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L51",
+      "source_location": "L67",
       "_origin": "ast",
       "id": "bot_main_create_main_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_main_keyboard()"
     },
     {
       "label": "create_manage_postcodes_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L69",
+      "source_location": "L85",
       "_origin": "ast",
       "id": "bot_main_create_manage_postcodes_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_manage_postcodes_keyboard()"
     },
     {
       "label": "create_donation_confirmed_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L86",
+      "source_location": "L102",
       "_origin": "ast",
       "id": "bot_main_create_donation_confirmed_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_donation_confirmed_keyboard()"
     },
     {
       "label": "create_language_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L98",
+      "source_location": "L114",
       "_origin": "ast",
       "id": "bot_main_create_language_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_language_keyboard()"
     },
     {
       "label": "create_settings_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L108",
+      "source_location": "L124",
       "_origin": "ast",
       "id": "bot_main_create_settings_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_settings_keyboard()"
     },
     {
       "label": "create_stop_reminder_reason_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L137",
+      "source_location": "L153",
       "_origin": "ast",
       "id": "bot_main_create_stop_reminder_reason_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_stop_reminder_reason_keyboard()"
     },
     {
       "label": "create_stop_reminder_length_keyboard()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L154",
+      "source_location": "L170",
       "_origin": "ast",
       "id": "bot_main_create_stop_reminder_length_keyboard",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "create_stop_reminder_length_keyboard()"
     },
     {
       "label": "msg()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L174",
+      "source_location": "L190",
       "_origin": "ast",
       "id": "bot_main_msg",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "msg()"
     },
     {
       "label": "get_termine()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L289",
+      "source_location": "L305",
       "_origin": "ast",
       "id": "bot_main_get_termine",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "get_termine()"
     },
     {
       "label": "change_language()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L300",
+      "source_location": "L316",
       "_origin": "ast",
       "id": "bot_main_change_language",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "change_language()"
     },
     {
       "label": "welcome_message()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L314",
+      "source_location": "L330",
       "_origin": "ast",
       "id": "bot_main_welcome_message",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "welcome_message()"
     },
     {
       "label": "send_postcode()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L338",
+      "source_location": "L354",
       "_origin": "ast",
       "id": "bot_main_send_postcode",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "send_postcode()"
     },
     {
@@ -221,124 +216,17 @@
       "_origin": "ast",
       "id": "callback_query_handler",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "callback_query_handler"
     },
     {
       "label": "handle_callback_query()",
       "file_type": "code",
       "source_file": "bot/main.py",
-      "source_location": "L424",
+      "source_location": "L440",
       "_origin": "ast",
       "id": "bot_main_handle_callback_query",
       "community": 3,
-      "community_name": "main.py",
       "norm_label": "handle_callback_query()"
-    },
-    {
-      "label": "backup.sh",
-      "file_type": "code",
-      "source_file": "deploy/backup.sh",
-      "source_location": "L1",
-      "metadata": {
-        "language": "bash",
-        "kind": "file"
-      },
-      "_origin": "ast",
-      "id": "deploy_backup",
-      "community": 12,
-      "community_name": "backup.sh",
-      "norm_label": "backup.sh"
-    },
-    {
-      "label": "backup.sh script",
-      "file_type": "code",
-      "source_file": "deploy/backup.sh",
-      "source_location": "L1",
-      "metadata": {
-        "language": "bash",
-        "kind": "bash_entrypoint"
-      },
-      "_origin": "ast",
-      "id": "deploy_backup_sh__entry",
-      "community": 12,
-      "community_name": "backup.sh",
-      "norm_label": "backup.sh script"
-    },
-    {
-      "label": "restore.sh",
-      "file_type": "code",
-      "source_file": "deploy/restore.sh",
-      "source_location": "L1",
-      "metadata": {
-        "language": "bash",
-        "kind": "file"
-      },
-      "_origin": "ast",
-      "id": "deploy_restore",
-      "community": 13,
-      "community_name": "restore.sh",
-      "norm_label": "restore.sh"
-    },
-    {
-      "label": "restore.sh script",
-      "file_type": "code",
-      "source_file": "deploy/restore.sh",
-      "source_location": "L1",
-      "metadata": {
-        "language": "bash",
-        "kind": "bash_entrypoint"
-      },
-      "_origin": "ast",
-      "id": "deploy_restore_sh__entry",
-      "community": 13,
-      "community_name": "restore.sh",
-      "norm_label": "restore.sh script"
-    },
-    {
-      "label": "run-job.sh",
-      "file_type": "code",
-      "source_file": "deploy/run-job.sh",
-      "source_location": "L1",
-      "metadata": {
-        "language": "bash",
-        "kind": "file"
-      },
-      "_origin": "ast",
-      "id": "deploy_run_job",
-      "community": 11,
-      "community_name": "run-job.sh",
-      "norm_label": "run-job.sh"
-    },
-    {
-      "label": "run-job.sh script",
-      "file_type": "code",
-      "source_file": "deploy/run-job.sh",
-      "source_location": "L1",
-      "metadata": {
-        "language": "bash",
-        "kind": "bash_entrypoint"
-      },
-      "_origin": "ast",
-      "id": "deploy_run_job_sh__entry",
-      "community": 11,
-      "community_name": "run-job.sh",
-      "norm_label": "run-job.sh script"
-    },
-    {
-      "label": "notify_failure()",
-      "file_type": "code",
-      "source_file": "deploy/run-job.sh",
-      "source_location": "L29",
-      "metadata": {
-        "language": "bash",
-        "kind": "bash_function"
-      },
-      "_origin": "ast",
-      "id": "deploy_run_job_notify_failure",
-      "community": 11,
-      "community_name": "run-job.sh",
-      "norm_label": "notify_failure()"
     },
     {
       "label": "parser.py",
@@ -348,7 +236,6 @@
       "_origin": "ast",
       "id": "parser_parser",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "parser.py"
     },
     {
@@ -359,7 +246,6 @@
       "_origin": "ast",
       "id": "parser_parser_parse_pages",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "parse_pages()"
     },
     {
@@ -370,7 +256,6 @@
       "_origin": "ast",
       "id": "sender_sender",
       "community": 5,
-      "community_name": "sender.py",
       "norm_label": "sender.py"
     },
     {
@@ -381,7 +266,6 @@
       "_origin": "ast",
       "id": "sender_sender_send_termine",
       "community": 5,
-      "community_name": "sender.py",
       "norm_label": "send_termine()"
     },
     {
@@ -392,7 +276,6 @@
       "_origin": "ast",
       "id": "support_init",
       "community": 6,
-      "community_name": "__init__.py",
       "norm_label": "__init__.py"
     },
     {
@@ -403,7 +286,6 @@
       "_origin": "ast",
       "id": "support_date_manager",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "date_manager.py"
     },
     {
@@ -414,7 +296,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "datemanager"
     },
     {
@@ -425,7 +306,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_get_time_range",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_time_range()"
     },
     {
@@ -436,7 +316,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_get_today",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_today()"
     },
     {
@@ -447,7 +326,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_get_now",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_now()"
     },
     {
@@ -458,7 +336,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_get_min_from_now",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_min_from_now()"
     },
     {
@@ -469,7 +346,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_get_days_from_today",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_days_from_today()"
     },
     {
@@ -480,7 +356,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_format_date",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".format_date()"
     },
     {
@@ -491,7 +366,6 @@
       "_origin": "ast",
       "id": "support_date_manager_datemanager_get_date_delta",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_date_delta()"
     },
     {
@@ -502,7 +376,6 @@
       "_origin": "ast",
       "id": "support_formatter",
       "community": 5,
-      "community_name": "sender.py",
       "norm_label": "formatter.py"
     },
     {
@@ -513,7 +386,6 @@
       "_origin": "ast",
       "id": "support_formatter_formatter",
       "community": 5,
-      "community_name": "sender.py",
       "norm_label": "formatter"
     },
     {
@@ -524,7 +396,6 @@
       "_origin": "ast",
       "id": "support_formatter_formatter_dic_to_string",
       "community": 5,
-      "community_name": "sender.py",
       "norm_label": ".dic_to_string()"
     },
     {
@@ -535,7 +406,6 @@
       "_origin": "ast",
       "id": "support_manage_db",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "manage_db.py"
     },
     {
@@ -546,7 +416,6 @@
       "_origin": "ast",
       "id": "support_manage_db_managedb",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": "managedb"
     },
     {
@@ -557,7 +426,6 @@
       "_origin": "ast",
       "id": "support_manage_db_managedb_init",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".__init__()"
     },
     {
@@ -568,249 +436,226 @@
       "_origin": "ast",
       "id": "support_manage_db_managedb_create_db_structure",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".create_db_structure()"
     },
     {
       "label": ".create_tables()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L111",
+      "source_location": "L108",
       "_origin": "ast",
       "id": "support_manage_db_managedb_create_tables",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".create_tables()"
     },
     {
       "label": ".delete_tables()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L114",
+      "source_location": "L111",
       "_origin": "ast",
       "id": "support_manage_db_managedb_delete_tables",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".delete_tables()"
     },
     {
       "label": ".write_into_db()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L122",
+      "source_location": "L119",
       "_origin": "ast",
       "id": "support_manage_db_managedb_write_into_db",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".write_into_db()"
     },
     {
       "label": ".session_maker()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L132",
+      "source_location": "L129",
       "_origin": "ast",
       "id": "support_manage_db_managedb_session_maker",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".session_maker()"
     },
     {
       "label": ".get_user()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L137",
+      "source_location": "L134",
       "_origin": "ast",
       "id": "support_manage_db_managedb_get_user",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".get_user()"
     },
     {
       "label": ".get_user_data()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L143",
+      "source_location": "L140",
       "_origin": "ast",
       "id": "support_manage_db_managedb_get_user_data",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".get_user_data()"
     },
     {
       "label": ".get_reminder_days()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L148",
+      "source_location": "L145",
       "_origin": "ast",
       "id": "support_manage_db_managedb_get_reminder_days",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".get_reminder_days()"
     },
     {
       "label": ".get_user_postcodes()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L155",
+      "source_location": "L152",
       "_origin": "ast",
       "id": "support_manage_db_managedb_get_user_postcodes",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".get_user_postcodes()"
     },
     {
       "label": ".get_postcodes_nearby()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L164",
+      "source_location": "L161",
       "_origin": "ast",
       "id": "support_manage_db_managedb_get_postcodes_nearby",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".get_postcodes_nearby()"
     },
     {
       "label": ".get_available_termine()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L207",
+      "source_location": "L204",
       "_origin": "ast",
       "id": "support_manage_db_managedb_get_available_termine",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".get_available_termine()"
     },
     {
       "label": ".check_if_remind()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L244",
+      "source_location": "L241",
       "_origin": "ast",
       "id": "support_manage_db_managedb_check_if_remind",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".check_if_remind()"
     },
     {
       "label": ".insert_termin()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L255",
+      "source_location": "L252",
       "_origin": "ast",
       "id": "support_manage_db_managedb_insert_termin",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".insert_termin()"
     },
     {
       "label": ".insert_termin_postcodes()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L275",
+      "source_location": "L272",
       "_origin": "ast",
       "id": "support_manage_db_managedb_insert_termin_postcodes",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".insert_termin_postcodes()"
     },
     {
       "label": ".insert_users()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L286",
+      "source_location": "L283",
       "_origin": "ast",
       "id": "support_manage_db_managedb_insert_users",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".insert_users()"
     },
     {
       "label": ".insert_user_postcodes()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L300",
+      "source_location": "L297",
       "_origin": "ast",
       "id": "support_manage_db_managedb_insert_user_postcodes",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".insert_user_postcodes()"
     },
     {
       "label": ".insert_feedback()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L312",
+      "source_location": "L309",
       "_origin": "ast",
       "id": "support_manage_db_managedb_insert_feedback",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".insert_feedback()"
     },
     {
       "label": ".insert_reminder_days()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L322",
+      "source_location": "L319",
       "_origin": "ast",
       "id": "support_manage_db_managedb_insert_reminder_days",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".insert_reminder_days()"
     },
     {
       "label": ".update_user()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L336",
+      "source_location": "L333",
       "_origin": "ast",
       "id": "support_manage_db_managedb_update_user",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".update_user()"
     },
     {
       "label": ".addup_donations()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L343",
+      "source_location": "L340",
       "_origin": "ast",
       "id": "support_manage_db_managedb_addup_donations",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".addup_donations()"
     },
     {
       "label": ".delete_outdated_data()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L356",
+      "source_location": "L353",
       "_origin": "ast",
       "id": "support_manage_db_managedb_delete_outdated_data",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".delete_outdated_data()"
     },
     {
       "label": ".delete_user_postcode()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L365",
+      "source_location": "L362",
       "_origin": "ast",
       "id": "support_manage_db_managedb_delete_user_postcode",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".delete_user_postcode()"
     },
     {
       "label": ".delete_user()",
       "file_type": "code",
       "source_file": "support/manage_db.py",
-      "source_location": "L380",
+      "source_location": "L377",
       "_origin": "ast",
       "id": "support_manage_db_managedb_delete_user",
       "community": 0,
-      "community_name": "ManageDB",
       "norm_label": ".delete_user()"
     },
     {
@@ -821,7 +666,6 @@
       "_origin": "ast",
       "id": "support_postcode_ranges",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "postcode_ranges.py"
     },
     {
@@ -832,7 +676,6 @@
       "_origin": "ast",
       "id": "support_postcode_ranges_postcoderanges",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": "postcoderanges"
     },
     {
@@ -843,7 +686,6 @@
       "_origin": "ast",
       "id": "support_postcode_ranges_postcoderanges_init",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".__init__()"
     },
     {
@@ -854,7 +696,6 @@
       "_origin": "ast",
       "id": "support_postcode_ranges_postcoderanges_calculate_ranges",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".calculate_ranges()"
     },
     {
@@ -865,7 +706,6 @@
       "_origin": "ast",
       "id": "support_postcode_ranges_postcoderanges_get_lat_and_lon",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".get_lat_and_lon()"
     },
     {
@@ -876,338 +716,7 @@
       "_origin": "ast",
       "id": "support_postcode_ranges_postcoderanges_check_distance",
       "community": 2,
-      "community_name": "DateManager",
       "norm_label": ".check_distance()"
-    },
-    {
-      "label": "CLAUDE.md",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "claude",
-      "community": 8,
-      "community_name": "Agent skills",
-      "norm_label": "claude.md"
-    },
-    {
-      "label": "blutspender",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "claude_blutspender",
-      "community": 8,
-      "community_name": "Agent skills",
-      "norm_label": "blutspender"
-    },
-    {
-      "label": "Agent skills",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L3",
-      "_origin": "ast",
-      "id": "claude_agent_skills",
-      "community": 8,
-      "community_name": "Agent skills",
-      "norm_label": "agent skills"
-    },
-    {
-      "label": "Issue tracker",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L5",
-      "_origin": "ast",
-      "id": "claude_issue_tracker",
-      "community": 8,
-      "community_name": "Agent skills",
-      "norm_label": "issue tracker"
-    },
-    {
-      "label": "Triage labels",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L9",
-      "_origin": "ast",
-      "id": "claude_triage_labels",
-      "community": 8,
-      "community_name": "Agent skills",
-      "norm_label": "triage labels"
-    },
-    {
-      "label": "Domain docs",
-      "file_type": "document",
-      "source_file": "CLAUDE.md",
-      "source_location": "L13",
-      "_origin": "ast",
-      "id": "claude_domain_docs",
-      "community": 8,
-      "community_name": "Agent skills",
-      "norm_label": "domain docs"
-    },
-    {
-      "label": "README.md",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "deploy_readme",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "readme.md"
-    },
-    {
-      "label": "VPS deployment",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "deploy_readme_vps_deployment",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "vps deployment"
-    },
-    {
-      "label": "1. Provision and harden",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L12",
-      "_origin": "ast",
-      "id": "deploy_readme_1_provision_and_harden",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "1. provision and harden"
-    },
-    {
-      "label": "2. Install Docker",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L35",
-      "_origin": "ast",
-      "id": "deploy_readme_2_install_docker",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "2. install docker"
-    },
-    {
-      "label": "3. Deploy",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L44",
-      "_origin": "ast",
-      "id": "deploy_readme_3_deploy",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "3. deploy"
-    },
-    {
-      "label": "4. Seed the database",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L64",
-      "_origin": "ast",
-      "id": "deploy_readme_4_seed_the_database",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "4. seed the database"
-    },
-    {
-      "label": "5. Schedule",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L82",
-      "_origin": "ast",
-      "id": "deploy_readme_5_schedule",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "5. schedule"
-    },
-    {
-      "label": "Migrating data off AWS RDS",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L93",
-      "_origin": "ast",
-      "id": "deploy_readme_migrating_data_off_aws_rds",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "migrating data off aws rds"
-    },
-    {
-      "label": "Day-to-day",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L112",
-      "_origin": "ast",
-      "id": "deploy_readme_day_to_day",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "day-to-day"
-    },
-    {
-      "label": "Backups",
-      "file_type": "document",
-      "source_file": "deploy/README.md",
-      "source_location": "L124",
-      "_origin": "ast",
-      "id": "deploy_readme_backups",
-      "community": 7,
-      "community_name": "VPS deployment",
-      "norm_label": "backups"
-    },
-    {
-      "label": "domain.md",
-      "file_type": "document",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_agents_domain",
-      "community": 9,
-      "community_name": "Domain Docs",
-      "norm_label": "domain.md"
-    },
-    {
-      "label": "Domain Docs",
-      "file_type": "document",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_agents_domain_domain_docs",
-      "community": 9,
-      "community_name": "Domain Docs",
-      "norm_label": "domain docs"
-    },
-    {
-      "label": "Before exploring, read these",
-      "file_type": "document",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L7",
-      "_origin": "ast",
-      "id": "docs_agents_domain_before_exploring_read_these",
-      "community": 9,
-      "community_name": "Domain Docs",
-      "norm_label": "before exploring, read these"
-    },
-    {
-      "label": "File structure",
-      "file_type": "document",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L14",
-      "_origin": "ast",
-      "id": "docs_agents_domain_file_structure",
-      "community": 9,
-      "community_name": "Domain Docs",
-      "norm_label": "file structure"
-    },
-    {
-      "label": "Use the glossary's vocabulary",
-      "file_type": "document",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L28",
-      "_origin": "ast",
-      "id": "docs_agents_domain_use_the_glossary_s_vocabulary",
-      "community": 9,
-      "community_name": "Domain Docs",
-      "norm_label": "use the glossary's vocabulary"
-    },
-    {
-      "label": "Flag ADR conflicts",
-      "file_type": "document",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "docs_agents_domain_flag_adr_conflicts",
-      "community": 9,
-      "community_name": "Domain Docs",
-      "norm_label": "flag adr conflicts"
-    },
-    {
-      "label": "issue-tracker.md",
-      "file_type": "document",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_agents_issue_tracker",
-      "community": 10,
-      "community_name": "Issue tracker: Local Markdown",
-      "norm_label": "issue-tracker.md"
-    },
-    {
-      "label": "Issue tracker: Local Markdown",
-      "file_type": "document",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_agents_issue_tracker_issue_tracker_local_markdown",
-      "community": 10,
-      "community_name": "Issue tracker: Local Markdown",
-      "norm_label": "issue tracker: local markdown"
-    },
-    {
-      "label": "Conventions",
-      "file_type": "document",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L7",
-      "_origin": "ast",
-      "id": "docs_agents_issue_tracker_conventions",
-      "community": 10,
-      "community_name": "Issue tracker: Local Markdown",
-      "norm_label": "conventions"
-    },
-    {
-      "label": "When a skill says \"publish to the issue tracker\"",
-      "file_type": "document",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L15",
-      "_origin": "ast",
-      "id": "docs_agents_issue_tracker_when_a_skill_says_publish_to_the_issue_tracker",
-      "community": 10,
-      "community_name": "Issue tracker: Local Markdown",
-      "norm_label": "when a skill says \"publish to the issue tracker\""
-    },
-    {
-      "label": "When a skill says \"fetch the relevant ticket\"",
-      "file_type": "document",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L19",
-      "_origin": "ast",
-      "id": "docs_agents_issue_tracker_when_a_skill_says_fetch_the_relevant_ticket",
-      "community": 10,
-      "community_name": "Issue tracker: Local Markdown",
-      "norm_label": "when a skill says \"fetch the relevant ticket\""
-    },
-    {
-      "label": "Wayfinding operations",
-      "file_type": "document",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L23",
-      "_origin": "ast",
-      "id": "docs_agents_issue_tracker_wayfinding_operations",
-      "community": 10,
-      "community_name": "Issue tracker: Local Markdown",
-      "norm_label": "wayfinding operations"
-    },
-    {
-      "label": "triage-labels.md",
-      "file_type": "document",
-      "source_file": "docs/agents/triage-labels.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_agents_triage_labels",
-      "community": 14,
-      "community_name": "triage-labels.md",
-      "norm_label": "triage-labels.md"
-    },
-    {
-      "label": "Triage Labels",
-      "file_type": "document",
-      "source_file": "docs/agents/triage-labels.md",
-      "source_location": "L1",
-      "_origin": "ast",
-      "id": "docs_agents_triage_labels_triage_labels",
-      "community": 14,
-      "community_name": "triage-labels.md",
-      "norm_label": "triage labels"
     },
     {
       "label": "BlutspenderBot",
@@ -1218,10 +727,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "blutspenderbot",
       "id": "readme_blutspenderbot",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "blutspenderbot"
     },
     {
       "label": "Blood Donation Appointment Parsing (DRK website)",
@@ -1232,10 +740,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "blood donation appointment parsing (drk website)",
       "id": "readme_blood_donation_appointment_parsing",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "blood donation appointment parsing (drk website)"
     },
     {
       "label": "Postcode Distance Matching",
@@ -1246,10 +753,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "postcode distance matching",
       "id": "readme_postcode_distance_matching",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "postcode distance matching"
     },
     {
       "label": "config.json Configuration",
@@ -1260,10 +766,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "config.json configuration",
       "id": "readme_config_json",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "config.json configuration"
     },
     {
       "label": "delta / offset Parsing Window",
@@ -1274,10 +779,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "delta / offset parsing window",
       "id": "readme_delta_offset_windowing",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "delta / offset parsing window"
     },
     {
       "label": "Reminder Sender Flow (inform_days)",
@@ -1288,10 +792,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "reminder sender flow (inform_days)",
       "id": "readme_reminder_sender_flow",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "reminder sender flow (inform_days)"
     },
     {
       "label": "PostgreSQL Appointment Database",
@@ -1302,10 +805,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "postgresql appointment database",
       "id": "readme_postgres_database",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "postgresql appointment database"
     },
     {
       "label": "Telegram Bot API / BotFather Registration",
@@ -1316,10 +818,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "telegram bot api / botfather registration",
       "id": "readme_telegram_bot_api",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "telegram bot api / botfather registration"
     },
     {
       "label": "Container Deployment on AWS ECS",
@@ -1330,10 +831,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "container deployment on aws ecs",
       "id": "readme_container_deployment",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "container deployment on aws ecs"
     },
     {
       "label": "AWS Lambda Deployment (ECR image)",
@@ -1344,10 +844,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "aws lambda deployment (ecr image)",
       "id": "readme_aws_lambda_deployment",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "aws lambda deployment (ecr image)"
     },
     {
       "label": "AWS EventBridge Daily Scheduling",
@@ -1358,10 +857,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "aws eventbridge daily scheduling",
       "id": "readme_aws_eventbridge_scheduling",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "aws eventbridge daily scheduling"
     },
     {
       "label": "Environment Credential Variables (BOT_API_KEY, POSTGRES_*)",
@@ -1372,10 +870,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "environment credential variables (bot_api_key, postgres_*)",
       "id": "readme_env_credentials",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "environment credential variables (bot_api_key, postgres_*)"
     },
     {
       "label": "Country Portability (country_code, rewrite parser)",
@@ -1386,10 +883,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "country portability (country_code, rewrite parser)",
       "id": "readme_country_portability",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "country portability (country_code, rewrite parser)"
     },
     {
       "label": "Telegram Update Payload Example (/menu command)",
@@ -1400,10 +896,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "telegram update payload example (/menu command)",
       "id": "readme_telegram_update_payload",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "telegram update payload example (/menu command)"
     },
     {
       "label": "docker-compose bot service",
@@ -1414,10 +909,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "docker-compose bot service",
       "id": "docker_compose_bot_service",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "docker-compose bot service"
     },
     {
       "label": "docker-compose parser service (commented out)",
@@ -1428,10 +922,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "docker-compose parser service (commented out)",
       "id": "docker_compose_parser_service",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "docker-compose parser service (commented out)"
     },
     {
       "label": "docker-compose sender service (commented out)",
@@ -1442,10 +935,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "docker-compose sender service (commented out)",
       "id": "docker_compose_sender_service",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "docker-compose sender service (commented out)"
     },
     {
       "label": "docker-compose database service (postgres:latest)",
@@ -1456,10 +948,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "docker-compose database service (postgres:latest)",
       "id": "docker_compose_database_service",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "docker-compose database service (postgres:latest)"
     },
     {
       "label": "Shared .env File Across Services",
@@ -1470,10 +961,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "shared .env file across services",
       "id": "docker_compose_shared_env_file",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "shared .env file across services"
     },
     {
       "label": "Bot Dependency Set",
@@ -1484,10 +974,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "bot dependency set",
       "id": "bot_requirements_dependency_set",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "bot dependency set"
     },
     {
       "label": "Parser Dependency Set",
@@ -1498,10 +987,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "parser dependency set",
       "id": "parser_requirements_dependency_set",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "parser dependency set"
     },
     {
       "label": "Sender Dependency Set",
@@ -1512,10 +1000,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "sender dependency set",
       "id": "sender_requirements_dependency_set",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "sender dependency set"
     },
     {
       "label": "APScheduler 3.9.1 (in-process scheduling)",
@@ -1526,10 +1013,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
-      "norm_label": "apscheduler 3.9.1 (in-process scheduling)",
       "id": "bot_requirements_apscheduler",
-      "community_name": "Container Deployment on AWS ECS"
+      "community": 4,
+      "norm_label": "apscheduler 3.9.1 (in-process scheduling)"
     },
     {
       "label": "beautifulsoup4 + lxml HTML scraping stack",
@@ -1540,10 +1026,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "beautifulsoup4 + lxml html scraping stack",
       "id": "parser_requirements_beautifulsoup4",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "beautifulsoup4 + lxml html scraping stack"
     },
     {
       "label": "pgeocode geocoding library (bot)",
@@ -1554,10 +1039,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "pgeocode geocoding library (bot)",
       "id": "bot_requirements_pgeocode",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "pgeocode geocoding library (bot)"
     },
     {
       "label": "SQLAlchemy 2.0.0 ORM layer (bot)",
@@ -1568,10 +1052,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "sqlalchemy 2.0.0 orm layer (bot)",
       "id": "bot_requirements_sqlalchemy",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "sqlalchemy 2.0.0 orm layer (bot)"
     },
     {
       "label": "psycopg2-binary driver choice (bot)",
@@ -1582,10 +1065,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "psycopg2-binary driver choice (bot)",
       "id": "bot_requirements_psycopg2_binary",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "psycopg2-binary driver choice (bot)"
     },
     {
       "label": "psycopg2 source driver (parser)",
@@ -1596,10 +1078,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "psycopg2 source driver (parser)",
       "id": "parser_requirements_psycopg2",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "psycopg2 source driver (parser)"
     },
     {
       "label": "pyTelegramBotAPI 4.9.0 (sender)",
@@ -1610,10 +1091,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "pytelegrambotapi 4.9.0 (sender)",
       "id": "sender_requirements_pytelegrambotapi",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "pytelegrambotapi 4.9.0 (sender)"
     },
     {
       "label": "pyTelegramBotAPI 4.9.0 (bot)",
@@ -1624,10 +1104,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 1,
-      "norm_label": "pytelegrambotapi 4.9.0 (bot)",
       "id": "bot_requirements_pytelegrambotapi",
-      "community_name": "Bot Dependency Set"
+      "community": 1,
+      "norm_label": "pytelegrambotapi 4.9.0 (bot)"
     }
   ],
   "links": [
@@ -1635,7 +1114,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L300",
+      "source_location": "L316",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1646,7 +1125,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L86",
+      "source_location": "L102",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1657,7 +1136,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L98",
+      "source_location": "L114",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1668,7 +1147,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L51",
+      "source_location": "L67",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1679,7 +1158,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L69",
+      "source_location": "L85",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1690,7 +1169,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L108",
+      "source_location": "L124",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1701,7 +1180,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L154",
+      "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1712,7 +1191,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L137",
+      "source_location": "L153",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1723,7 +1202,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L289",
+      "source_location": "L305",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1734,7 +1213,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L424",
+      "source_location": "L440",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1745,7 +1224,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L174",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "bot_main",
+      "target": "bot_main_lambda_handler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "bot/main.py",
+      "source_location": "L190",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1756,7 +1246,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L338",
+      "source_location": "L354",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1767,7 +1257,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L45",
+      "source_location": "L52",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1778,7 +1268,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L314",
+      "source_location": "L330",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1790,7 +1280,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1802,7 +1292,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L12",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1814,7 +1304,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1826,7 +1316,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L11",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1838,7 +1328,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L10",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1850,7 +1340,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L10",
+      "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1862,7 +1352,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1874,7 +1364,7 @@
       "context": "import",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L13",
+      "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main",
@@ -1885,7 +1375,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L337",
+      "source_location": "L353",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -1897,7 +1387,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L44",
+      "source_location": "L51",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -1909,7 +1399,7 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L313",
+      "source_location": "L329",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
@@ -1922,7 +1412,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L186",
+      "source_location": "L202",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -1934,7 +1424,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L187",
+      "source_location": "L203",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -1946,7 +1436,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L188",
+      "source_location": "L204",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -1958,7 +1448,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L189",
+      "source_location": "L205",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -1970,7 +1460,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L190",
+      "source_location": "L206",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -1982,7 +1472,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L191",
+      "source_location": "L207",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -1994,7 +1484,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L192",
+      "source_location": "L208",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_msg",
@@ -2006,7 +1496,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L303",
+      "source_location": "L319",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_change_language",
@@ -2018,7 +1508,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L448",
+      "source_location": "L464",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_handle_callback_query",
@@ -2030,7 +1520,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L359",
+      "source_location": "L375",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_send_postcode",
@@ -2042,7 +1532,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L328",
+      "source_location": "L344",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_welcome_message",
@@ -2054,7 +1544,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L376",
+      "source_location": "L392",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_send_postcode",
@@ -2066,7 +1556,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L442",
+      "source_location": "L458",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_handle_callback_query",
@@ -2078,7 +1568,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L366",
+      "source_location": "L382",
       "weight": 1.0,
       "_origin": "ast",
       "source": "bot_main_send_postcode",
@@ -2089,68 +1579,12 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "source_file": "bot/main.py",
-      "source_location": "L423",
+      "source_location": "L439",
       "weight": 1.0,
       "context": "decorator",
       "_origin": "ast",
       "source": "bot_main_handle_callback_query",
       "target": "callback_query_handler",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/backup.sh",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_backup",
-      "target": "deploy_backup_sh__entry",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/restore.sh",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_restore",
-      "target": "deploy_restore_sh__entry",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "defines",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/run-job.sh",
-      "source_location": "L29",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_run_job",
-      "target": "deploy_run_job_notify_failure",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/run-job.sh",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_run_job",
-      "target": "deploy_run_job_sh__entry",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "calls",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/run-job.sh",
-      "source_location": "L47",
-      "weight": 1.0,
-      "context": "call",
-      "_origin": "ast",
-      "source": "deploy_run_job_sh__entry",
-      "target": "deploy_run_job_notify_failure",
       "confidence_score": 1.0
     },
     {
@@ -2479,7 +1913,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L343",
+      "source_location": "L340",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2490,7 +1924,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L244",
+      "source_location": "L241",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2512,7 +1946,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L111",
+      "source_location": "L108",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2523,7 +1957,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L356",
+      "source_location": "L353",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2534,7 +1968,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L114",
+      "source_location": "L111",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2545,7 +1979,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L380",
+      "source_location": "L377",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2556,7 +1990,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L365",
+      "source_location": "L362",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2567,7 +2001,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L207",
+      "source_location": "L204",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2578,7 +2012,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L164",
+      "source_location": "L161",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2589,7 +2023,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L148",
+      "source_location": "L145",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2600,7 +2034,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L137",
+      "source_location": "L134",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2611,7 +2045,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L143",
+      "source_location": "L140",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2622,7 +2056,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L155",
+      "source_location": "L152",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2644,7 +2078,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L312",
+      "source_location": "L309",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2655,7 +2089,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L322",
+      "source_location": "L319",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2666,7 +2100,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L255",
+      "source_location": "L252",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2677,7 +2111,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L275",
+      "source_location": "L272",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2688,7 +2122,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L300",
+      "source_location": "L297",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2699,7 +2133,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L286",
+      "source_location": "L283",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2710,7 +2144,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L132",
+      "source_location": "L129",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2721,7 +2155,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L336",
+      "source_location": "L333",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2732,7 +2166,7 @@
       "relation": "method",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L122",
+      "source_location": "L119",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb",
@@ -2779,7 +2213,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L350",
+      "source_location": "L347",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_addup_donations",
@@ -2791,7 +2225,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L320",
+      "source_location": "L317",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_feedback",
@@ -2803,7 +2237,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L333",
+      "source_location": "L330",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_reminder_days",
@@ -2815,7 +2249,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L273",
+      "source_location": "L270",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_termin",
@@ -2827,7 +2261,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L284",
+      "source_location": "L281",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_termin_postcodes",
@@ -2839,7 +2273,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L310",
+      "source_location": "L307",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_user_postcodes",
@@ -2851,7 +2285,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L298",
+      "source_location": "L295",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_users",
@@ -2863,7 +2297,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L341",
+      "source_location": "L338",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_update_user",
@@ -2875,7 +2309,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L357",
+      "source_location": "L354",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_delete_outdated_data",
@@ -2887,7 +2321,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L209",
+      "source_location": "L206",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_available_termine",
@@ -2899,7 +2333,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L168",
+      "source_location": "L165",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_postcodes_nearby",
@@ -2911,7 +2345,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L138",
+      "source_location": "L135",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_user",
@@ -2923,7 +2357,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L256",
+      "source_location": "L253",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_termin",
@@ -2935,7 +2369,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L276",
+      "source_location": "L273",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_termin_postcodes",
@@ -2947,7 +2381,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L287",
+      "source_location": "L284",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_users",
@@ -2959,7 +2393,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L345",
+      "source_location": "L342",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_addup_donations",
@@ -2971,7 +2405,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L245",
+      "source_location": "L242",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_check_if_remind",
@@ -2983,7 +2417,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L381",
+      "source_location": "L378",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_delete_user",
@@ -2995,7 +2429,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L366",
+      "source_location": "L363",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_delete_user_postcode",
@@ -3007,7 +2441,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L149",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_reminder_days",
@@ -3019,7 +2453,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L144",
+      "source_location": "L141",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_user_data",
@@ -3031,7 +2465,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L156",
+      "source_location": "L153",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_user_postcodes",
@@ -3043,7 +2477,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L313",
+      "source_location": "L310",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_feedback",
@@ -3055,7 +2489,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L323",
+      "source_location": "L320",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_reminder_days",
@@ -3067,7 +2501,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L301",
+      "source_location": "L298",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_insert_user_postcodes",
@@ -3079,7 +2513,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L337",
+      "source_location": "L334",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_update_user",
@@ -3091,7 +2525,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L217",
+      "source_location": "L214",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_available_termine",
@@ -3103,7 +2537,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "support/manage_db.py",
-      "source_location": "L224",
+      "source_location": "L221",
       "weight": 1.0,
       "_origin": "ast",
       "source": "support_manage_db_managedb_get_available_termine",
@@ -3163,281 +2597,6 @@
       "_origin": "ast",
       "source": "support_postcode_ranges_postcoderanges",
       "target": "support_postcode_ranges_postcoderanges_init",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "claude",
-      "target": "claude_blutspender",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L3",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "claude_blutspender",
-      "target": "claude_agent_skills",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L13",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "claude_agent_skills",
-      "target": "claude_domain_docs",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L5",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "claude_agent_skills",
-      "target": "claude_issue_tracker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "CLAUDE.md",
-      "source_location": "L9",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "claude_agent_skills",
-      "target": "claude_triage_labels",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme",
-      "target": "deploy_readme_vps_deployment",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L12",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_1_provision_and_harden",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L35",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_2_install_docker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L44",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_3_deploy",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L64",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_4_seed_the_database",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L82",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_5_schedule",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L124",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_backups",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L112",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_day_to_day",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "deploy/README.md",
-      "source_location": "L93",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "deploy_readme_vps_deployment",
-      "target": "deploy_readme_migrating_data_off_aws_rds",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_domain",
-      "target": "docs_agents_domain_domain_docs",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_domain_domain_docs",
-      "target": "docs_agents_domain_before_exploring_read_these",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L14",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_domain_domain_docs",
-      "target": "docs_agents_domain_file_structure",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L34",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_domain_domain_docs",
-      "target": "docs_agents_domain_flag_adr_conflicts",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/domain.md",
-      "source_location": "L28",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_domain_domain_docs",
-      "target": "docs_agents_domain_use_the_glossary_s_vocabulary",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_issue_tracker",
-      "target": "docs_agents_issue_tracker_issue_tracker_local_markdown",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_issue_tracker_issue_tracker_local_markdown",
-      "target": "docs_agents_issue_tracker_conventions",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L23",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_issue_tracker_issue_tracker_local_markdown",
-      "target": "docs_agents_issue_tracker_wayfinding_operations",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L19",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_issue_tracker_issue_tracker_local_markdown",
-      "target": "docs_agents_issue_tracker_when_a_skill_says_fetch_the_relevant_ticket",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/issue-tracker.md",
-      "source_location": "L15",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_issue_tracker_issue_tracker_local_markdown",
-      "target": "docs_agents_issue_tracker_when_a_skill_says_publish_to_the_issue_tracker",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "docs/agents/triage-labels.md",
-      "source_location": "L1",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "docs_agents_triage_labels",
-      "target": "docs_agents_triage_labels_triage_labels",
       "confidence_score": 1.0
     },
     {
@@ -3895,5 +3054,5 @@
       "source_file": "sender/requirements.txt"
     }
   ],
-  "built_at_commit": "6e7dd689ecf6536c87349c2c3a005bedef1a1aa8"
+  "built_at_commit": "810ff3214191321eddc153b8050aae50c2782fed"
 }

@@ -7,5 +7,14 @@ RUN pip install -r requirements.txt
 COPY ./bot .
 COPY ./support ./support
 COPY ./config.json .
+
+# Run unprivileged. pgeocode downloads its postal-code dataset on first use, so
+# the user needs a writable home for that cache; nothing else is written to disk.
+ENV HOME=/home/app PGEOCODE_DATA_DIR=/home/app/.cache/pgeocode
+RUN useradd --uid 10001 --home-dir /home/app --create-home app \
+    && mkdir -p "$PGEOCODE_DATA_DIR" \
+    && chown -R app:app /home/app /bot
+USER app
+
 CMD ["python", "./main.py"]
 

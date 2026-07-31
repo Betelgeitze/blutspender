@@ -1,1 +1,17 @@
-{"0": "Database Access Layer", "1": "Service Dependencies and Config", "2": "Parsing and Date Utilities", "3": "Telegram Bot Interface", "4": "AWS Deployment and Scheduling", "5": "Notification Formatting and Sending", "6": "Support Package Init"}
+{
+  "0": "ManageDB",
+  "1": "Bot Dependency Set",
+  "2": "DateManager",
+  "3": "main.py",
+  "4": "Container Deployment on AWS ECS",
+  "5": "sender.py",
+  "6": "__init__.py",
+  "7": "VPS deployment",
+  "8": "Agent skills",
+  "9": "Domain Docs",
+  "10": "Issue tracker: Local Markdown",
+  "11": "run-job.sh",
+  "12": "backup.sh",
+  "13": "restore.sh",
+  "14": "triage-labels.md"
+}

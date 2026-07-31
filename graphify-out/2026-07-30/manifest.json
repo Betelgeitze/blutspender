@@ -1,8 +1,8 @@
 {
   "bot/main.py": {
-    "mtime": 1785442552.0025122,
-    "ast_hash": "688c5bc54e6a4546b9345dd8b6095087",
-    "semantic_hash": ""
+    "mtime": 1730062504.4056737,
+    "ast_hash": "7c82a51a2d0f35b51b0e5b906c9bbd1b",
+    "semantic_hash": "7c82a51a2d0f35b51b0e5b906c9bbd1b"
   },
   "config.json": {
     "mtime": 1691838342.9977765,
@@ -35,9 +35,9 @@
     "semantic_hash": "d40cec9c0a0ec4c567c4db0dbf165588"
   },
   "support/manage_db.py": {
-    "mtime": 1785442652.153415,
-    "ast_hash": "6e898d80785824193e5aaef77cb1308b",
-    "semantic_hash": ""
+    "mtime": 1694272738.8455336,
+    "ast_hash": "59fd9948bc02760f85fb73befdc43e33",
+    "semantic_hash": "59fd9948bc02760f85fb73befdc43e33"
   },
   "support/postcode_ranges.py": {
     "mtime": 1729975999.9639966,
@@ -50,9 +50,9 @@
     "semantic_hash": "60b7d2a2014aaf422b167fac8129c831"
   },
   "README.md": {
-    "mtime": 1785442899.529474,
-    "ast_hash": "275d90bdcb29a049ea0a7ed18897b31b",
-    "semantic_hash": ""
+    "mtime": 1730026033.4406955,
+    "ast_hash": "434af9ca64b00d96db3d94744b5d8cd5",
+    "semantic_hash": "434af9ca64b00d96db3d94744b5d8cd5"
   },
   "bot/requirements.txt": {
     "mtime": 1730025533.1672797,
@@ -60,9 +60,9 @@
     "semantic_hash": "3c22ff2f17efc57132f0513a182b053b"
   },
   "docker-compose.yml": {
-    "mtime": 1785442697.4313438,
-    "ast_hash": "93387719efc4d86f1283c8b9753e8676",
-    "semantic_hash": ""
+    "mtime": 1681046651.992008,
+    "ast_hash": "a3524ab70385358fa862e2f5d951c460",
+    "semantic_hash": "a3524ab70385358fa862e2f5d951c460"
   },
   "parser/requirements.txt": {
     "mtime": 1730025533.1672797,
@@ -73,50 +73,5 @@
     "mtime": 1730025533.1672797,
     "ast_hash": "bfb1796ee177f969c1207e928429f2d6",
     "semantic_hash": "bfb1796ee177f969c1207e928429f2d6"
-  },
-  ".claude/settings.local.json": {
-    "mtime": 1785440688.400111,
-    "ast_hash": "1e8468ab3518954213269859193c168c",
-    "semantic_hash": ""
-  },
-  "deploy/backup.sh": {
-    "mtime": 1785442762.4243493,
-    "ast_hash": "f7682b8c1285b20e4ad1814f10e0d9d2",
-    "semantic_hash": ""
-  },
-  "deploy/restore.sh": {
-    "mtime": 1785442766.305817,
-    "ast_hash": "1b581f04ffbb49564d9df7217a5aecb5",
-    "semantic_hash": ""
-  },
-  "deploy/run-job.sh": {
-    "mtime": 1785442800.717435,
-    "ast_hash": "e88529455f209914c2db0f83980492e7",
-    "semantic_hash": ""
-  },
-  "CLAUDE.md": {
-    "mtime": 1785440886.7374935,
-    "ast_hash": "38427390f5bf7429eadfa0efec7dd10c",
-    "semantic_hash": ""
-  },
-  "deploy/README.md": {
-    "mtime": 1785442848.5705535,
-    "ast_hash": "d377e28e974cbf1e2b3882155d8a0069",
-    "semantic_hash": ""
-  },
-  "docs/agents/domain.md": {
-    "mtime": 1785440902.7132459,
-    "ast_hash": "c553efb1b295d2225f1c2a1d9b898ace",
-    "semantic_hash": ""
-  },
-  "docs/agents/issue-tracker.md": {
-    "mtime": 1785440888.9439006,
-    "ast_hash": "cc5cadca9ad6eba11a494ac9bd8b7395",
-    "semantic_hash": ""
-  },
-  "docs/agents/triage-labels.md": {
-    "mtime": 1785440893.4658668,
-    "ast_hash": "08315061cbad4a72f41b0bfb9204096e",
-    "semantic_hash": ""
   }
 }

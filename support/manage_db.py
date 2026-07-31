@@ -19,8 +19,11 @@ class ManageDB:
 
 # Managing tables
     def create_db_structure(self):
-        credentials = f'postgresql://{os.environ["POSTGRES_USER"]}:{os.environ["POSTGRES_PASSWORD"]}@{os.environ["HOSTNAME"]}:{os.environ["PORT_ID"]}/{os.environ["POSTGRES_DB"]}'
-        engine = create_engine(credentials)
+        # Docker sets HOSTNAME itself (to the container id), so prefer DB_HOST and
+        # keep HOSTNAME only as a fallback for existing deployments.
+        db_host = os.environ.get("DB_HOST") or os.environ["HOSTNAME"]
+        credentials = f'postgresql://{os.environ["POSTGRES_USER"]}:{os.environ["POSTGRES_PASSWORD"]}@{db_host}:{os.environ["PORT_ID"]}/{os.environ["POSTGRES_DB"]}'
+        engine = create_engine(credentials, pool_pre_ping=True)
 
         Base = declarative_base()
 

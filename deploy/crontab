@@ -1,0 +1,26 @@
+# blutspender cron schedule
+#
+# Install with:
+#   crontab deploy/crontab
+# Verify with:
+#   crontab -l
+#
+# Adjust PROJECT_DIR if you cloned somewhere other than /srv/blutspender.
+# Times are local; set the VPS clock with: timedatectl set-timezone Europe/Berlin
+
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+
+# Parse DRK appointments for the next `delta` days (config.json).
+# Runtime scales with the number of result pages — usually a few minutes.
+0 6 * * * cd /srv/blutspender && ./deploy/run-job.sh parser
+
+# Notify users about appointments near them. Runs after the parser so it sees
+# today's data; leave enough gap that a slow parse does not overlap it.
+30 7 * * * cd /srv/blutspender && ./deploy/run-job.sh sender
+
+# Nightly database dump, rotated locally and pushed offsite if RCLONE_REMOTE is set.
+0 3 * * * cd /srv/blutspender && ./deploy/run-job.sh backup
+
+# Reclaim space from old images/layers after rebuilds. Volumes are untouched.
+0 4 * * 0 docker image prune -af --filter "until=168h" > /dev/null 2>&1
