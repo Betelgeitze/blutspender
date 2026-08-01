@@ -99,7 +99,7 @@ def register_webhook(retries=6, delay=5):
     # set-webhook.sh fixes that without a redeploy.
     print(
         "WEBHOOK NOT REGISTERED after all retries. The bot will receive nothing "
-        "until you run ./deploy/set-webhook.sh — check that the certificate has "
+        "until you run bash deploy/set-webhook.sh — check that the certificate has "
         "been issued (docker compose logs caddy)."
     )
 

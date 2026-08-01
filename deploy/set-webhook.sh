@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Register, inspect, or remove the Telegram webhook by hand.
 #
-#   ./deploy/set-webhook.sh           register WEBHOOK_DOMAIN, keep queued updates
-#   ./deploy/set-webhook.sh --drop    same, but discard the backlog (cutover only)
-#   ./deploy/set-webhook.sh --status  what Telegram currently thinks
-#   ./deploy/set-webhook.sh --delete  remove it, so polling can take over
+#   bash deploy/set-webhook.sh           register WEBHOOK_DOMAIN, keep queued updates
+#   bash deploy/set-webhook.sh --drop    same, but discard the backlog (cutover only)
+#   bash deploy/set-webhook.sh --status  what Telegram currently thinks
+#   bash deploy/set-webhook.sh --delete  remove it, so polling can take over
 #
 # The bot registers itself on every start, so you rarely need this. It exists for
 # the two cases where that is not enough: diagnosing why updates stopped
