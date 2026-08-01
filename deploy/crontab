@@ -5,7 +5,11 @@
 # Verify with:
 #   crontab -l
 #
-# Adjust PROJECT_DIR if you cloned somewhere other than /srv/blutspender.
+# Installing REPLACES your whole user crontab — it does not append. Check what is
+# there first with "crontab -l".
+#
+# The clone path is hardcoded in the "cd" of every job below. If you cloned
+# somewhere other than /srv/blutspender, change all three.
 # Times are local; set the VPS clock with: timedatectl set-timezone Europe/Berlin
 
 SHELL=/bin/bash

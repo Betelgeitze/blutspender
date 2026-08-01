@@ -326,8 +326,6 @@ def welcome_message(message):
 
 @bot.message_handler()
 def send_postcode(message):
-    print("inside")
-    bot.reply_to(message, "echo")
     if not message.from_user.is_bot:
         account_id = message.from_user.id
         text = message.text.strip()
