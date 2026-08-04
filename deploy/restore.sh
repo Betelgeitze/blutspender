@@ -4,8 +4,10 @@
 #
 #   ./deploy/restore.sh backups/blutspender-20260730-030000.sql.gz
 #
-# Also the migration path off AWS RDS:
-#   pg_dump -h <rds-host> -U <user> -d <db> --clean --if-exists | gzip > aws.sql.gz
+# Also the migration path off AWS RDS. --no-owner --no-privileges are required:
+# RDS objects are owned by "postgres", which is not a role in our container.
+#   pg_dump -h <rds-host> -U <user> -d <db> --clean --if-exists \
+#       --no-owner --no-privileges | gzip > aws.sql.gz
 #   scp aws.sql.gz <vps>:/srv/blutspender/backups/
 #   ./deploy/restore.sh backups/aws.sql.gz
 set -Eeuo pipefail

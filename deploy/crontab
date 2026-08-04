@@ -15,12 +15,20 @@
 SHELL=/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
-# Parse DRK appointments for the next `delta` days (config.json).
-# Runtime scales with the number of result pages — usually a few minutes.
-0 6 * * * cd /srv/blutspender && ./deploy/run-job.sh parser
+# Parse DRK appointments for the day `offset` days out (config.json), then drop
+# everything with date <= today. Runtime scales with the number of result pages —
+# usually a few minutes.
+#
+# Late evening on purpose, and it MUST finish before midnight. The parser ends by
+# calling delete_outdated_data(), which deletes date <= today using the clock at
+# that moment — so a run that spilled past 00:00 would delete the new current day
+# instead of the old one. With offset=8 the parser only ever fetches the single
+# day 8 days out, so a day deleted that way is never re-fetched: it would just be
+# missing. 23:00 leaves an hour of headroom; do not move this closer to midnight.
+0 23 * * * cd /srv/blutspender && ./deploy/run-job.sh parser
 
-# Notify users about appointments near them. Runs after the parser so it sees
-# today's data; leave enough gap that a slow parse does not overlap it.
+# Notify users about appointments near them. Reads the window the parser left
+# behind last night, today included.
 30 7 * * * cd /srv/blutspender && ./deploy/run-job.sh sender
 
 # Nightly database dump, rotated locally and pushed offsite if RCLONE_REMOTE is set.
