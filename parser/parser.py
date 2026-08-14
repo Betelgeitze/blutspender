@@ -1,4 +1,5 @@
 from datetime import datetime
+import re
 import requests
 from bs4 import BeautifulSoup
 from time import sleep
@@ -28,6 +29,12 @@ BACKOFF_BASE = 3
 # A real 9-day window is a few dozen pages; 500 is far above anything legitimate.
 MAX_PAGES = 500
 
+# The date inside a card's "datum" block. Matched by shape rather than by tag:
+# in August 2026 DRK moved this text out of a <p> and into a plain <div>, and
+# card.find(name="p") took the whole run down with an AttributeError. The
+# dd.mm.yyyy string is the part of that block that does not move.
+DATE_PATTERN = re.compile(r"\b(\d{1,2}\.\d{1,2}\.\d{4})\b")
+
 
 def fetch_page(page_url):
     """GET one result page, retrying transient failures with backoff.
@@ -56,6 +63,53 @@ def fetch_page(page_url):
             sleep(wait)
 
 
+def parse_card(card):
+    """Read one result card, or return None if it does not look like one.
+
+    Returning None instead of raising keeps a single odd card — DRK does put
+    the occasional differently-shaped entry in the list — from discarding a
+    whole run's worth of appointments. parse_pages counts what it drops and
+    fails the run if the drops turn out to be everything, which is what a
+    markup change on their side looks like.
+    """
+    datum = card.find(class_="datum")
+    if datum is None:
+        return None
+    date_match = DATE_PATTERN.search(datum.get_text(" ", strip=True))
+    if date_match is None:
+        return None
+    normalized_date = datetime.strptime(date_match.group(1), "%d.%m.%Y").date()
+
+    full_address = card.find(class_="adresse")
+    if full_address is None:
+        return None
+
+    full_address_list = []
+    for line in full_address:
+        if line.string is not None:
+            full_address_list.append(line.string.strip().replace("\n", ""))
+    # The last line is the "Bitte Termin reservieren!" note, not an address.
+    full_address_list = [x for x in full_address_list if x][:-1]
+
+    times = full_address_list[3:]
+    full_address_list = full_address_list[:3]
+    if len(full_address_list) < 3:
+        return None
+
+    city_and_code = full_address_list[0].split()
+    postal_code = [code for code in city_and_code if code.isdigit()]
+    if not postal_code:
+        return None
+
+    call_to_action = card.find(class_="call-to-action")
+    link = None if call_to_action is None else call_to_action.find(name="a")
+    if link is None:
+        return None
+    full_link = f"https://www.drk-blutspende.de{link.get('href')}"
+
+    return postal_code, full_address_list, times, normalized_date, full_link
+
+
 def parse_pages(delta, start_date_offset):
     # Getting times
     offsetted_today, days_later = date_manager.get_time_range(delta, start_date_offset)
@@ -64,6 +118,8 @@ def parse_pages(delta, start_date_offset):
     # Parsing DRK
     next_page = True
     counter = 0
+    cards_seen = 0
+    cards_stored = 0
     while next_page:
         counter += 1
 
@@ -92,36 +148,33 @@ def parse_pages(delta, start_date_offset):
 
         all_cards = soup.find_all(class_="item")
         for card in all_cards:
-            # Get Date
-            date = card.find(class_="datum").find(name="p").string
-            normalized_date = datetime.strptime(date, '%d.%m.%Y').date()
-
-            # Get Address
-            full_address = card.find(class_="adresse")
-
-            full_address_list = []
-            for line in full_address:
-                if line.string is not None:
-                    full_address_list.append(line.string.strip().replace("\n", ""))
-            full_address_list = [x for x in full_address_list if x][:-1]
-
-            times = full_address_list[3:]
-            full_address_list = full_address_list[:3]
-
-            city_and_code = full_address_list[0].split()
-
-            postal_code = [code for code in city_and_code if code.isdigit()]
-
-            # Get Link
-            link = card.find(class_="call-to-action").find(name="a").get("href")
-            full_link = f"https://www.drk-blutspende.de{link}"
+            cards_seen += 1
+            parsed = parse_card(card)
+            if parsed is None:
+                print(f"Skipped an unreadable card on page {counter}")
+                continue
+            postal_code, full_address_list, times, normalized_date, full_link = parsed
 
             manage_db.insert_termin(postal_code, full_address_list, times, normalized_date, full_link)
             manage_db.insert_termin_postcodes(postal_code)
+            cards_stored += 1
         if counter % 5 == 0:
             print(f"{counter} pages are checked...")
 
     print(f"Total number of checked pages: {counter}")
+    print(f"Stored {cards_stored} of {cards_seen} cards")
+
+    # Every card unreadable means the card markup changed, not that DRK had a
+    # quiet day — and the difference matters, because delete_outdated_data()
+    # runs next and users would simply stop being told about appointments. Fail
+    # so run-job.sh alerts ADMIN_CHAT_ID. A genuinely empty search returns no
+    # cards at all and is left alone.
+    if cards_seen > 0 and cards_stored == 0:
+        raise RuntimeError(
+            f"Found {cards_seen} cards but could not read any of them — the DRK "
+            "card markup has most likely changed. Check parse_card() against a "
+            "live results page."
+        )
 
 
 manage_db.create_tables()

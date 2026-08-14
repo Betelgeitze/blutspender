@@ -10,9 +10,14 @@ COPY ./config.json .
 
 # Run unprivileged. This is the container that parses third-party HTML, so it is
 # the one that most wants to not be root if lxml ever goes wrong.
+#
+# The pgeocode postal-code dataset is baked in for the same reason as in
+# Dockerfile-sender: this runs as "docker compose run --rm", so a cache written
+# at run time is discarded and re-downloaded from geonames.org on every run.
 ENV HOME=/home/app PGEOCODE_DATA_DIR=/home/app/.cache/pgeocode
 RUN useradd --uid 10001 --home-dir /home/app --create-home app \
     && mkdir -p "$PGEOCODE_DATA_DIR" \
+    && python -c "import json, pgeocode; c = json.load(open('config.json'))['country_code']; pgeocode.Nominatim(c); pgeocode.GeoDistance(c)" \
     && chown -R app:app /home/app /parser
 USER app
 

@@ -9,11 +9,14 @@ COPY ./support ./support
 COPY ./config.json .
 RUN chmod +x ./entrypoint.sh
 
-# Run unprivileged. pgeocode downloads its postal-code dataset on first use, so
-# the user needs a writable home for that cache; nothing else is written to disk.
+# Run unprivileged, with the pgeocode postal-code dataset baked in rather than
+# downloaded from geonames.org on first use — a container that has to reach
+# geonames before it can answer anything is a container that restart-loops
+# whenever geonames is slow. Rebuild the image to refresh the data.
 ENV HOME=/home/app PGEOCODE_DATA_DIR=/home/app/.cache/pgeocode
 RUN useradd --uid 10001 --home-dir /home/app --create-home app \
     && mkdir -p "$PGEOCODE_DATA_DIR" \
+    && python -c "import json, pgeocode; c = json.load(open('config.json'))['country_code']; pgeocode.Nominatim(c); pgeocode.GeoDistance(c)" \
     && chown -R app:app /home/app /bot
 USER app
 
