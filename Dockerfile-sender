@@ -8,11 +8,19 @@ COPY ./sender .
 COPY ./support ./support
 COPY ./config.json .
 
-# Run unprivileged. pgeocode downloads its postal-code dataset on first use, so
-# the user needs a writable home for that cache; nothing else is written to disk.
+# Run unprivileged, with the pgeocode postal-code dataset baked in.
+#
+# pgeocode downloads that dataset on first use and caches it under HOME. This
+# container is started with "docker compose run --rm", so that cache is thrown
+# away after every run and re-downloaded from geonames.org on the next one —
+# and pgeocode's mirror fallback only catches HTTPError, so one slow night at
+# geonames (URLError, Errno 110) takes the whole send down before a single
+# message goes out. Fetching it at build time means nothing is fetched at run
+# time; rebuild the image to refresh the data.
 ENV HOME=/home/app PGEOCODE_DATA_DIR=/home/app/.cache/pgeocode
 RUN useradd --uid 10001 --home-dir /home/app --create-home app \
     && mkdir -p "$PGEOCODE_DATA_DIR" \
+    && python -c "import json, pgeocode; c = json.load(open('config.json'))['country_code']; pgeocode.Nominatim(c); pgeocode.GeoDistance(c)" \
     && chown -R app:app /home/app /sender
 USER app
 
